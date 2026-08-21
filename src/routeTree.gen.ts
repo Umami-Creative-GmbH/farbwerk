@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from "./routes/__root"
 import { Route as IndexRouteImport } from "./routes/index"
 import { Route as LocaleRouteRouteImport } from "./routes/$locale/route"
 import { Route as LocaleIndexRouteImport } from "./routes/$locale/index"
+import { Route as ApiColorNameRouteImport } from "./routes/api/color-name"
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
@@ -28,33 +29,42 @@ const LocaleIndexRoute = LocaleIndexRouteImport.update({
   path: "/",
   getParentRoute: () => LocaleRouteRoute,
 } as any)
+const ApiColorNameRoute = ApiColorNameRouteImport.update({
+  id: "/api/color-name",
+  path: "/api/color-name",
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
   "/$locale": typeof LocaleRouteRouteWithChildren
+  "/api/color-name": typeof ApiColorNameRoute
   "/$locale/": typeof LocaleIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/api/color-name": typeof ApiColorNameRoute
   "/$locale": typeof LocaleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
   "/$locale": typeof LocaleRouteRouteWithChildren
+  "/api/color-name": typeof ApiColorNameRoute
   "/$locale/": typeof LocaleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/" | "/$locale" | "/$locale/"
+  fullPaths: "/" | "/$locale" | "/api/color-name" | "/$locale/"
   fileRoutesByTo: FileRoutesByTo
-  to: "/" | "/$locale"
-  id: "__root__" | "/" | "/$locale" | "/$locale/"
+  to: "/" | "/api/color-name" | "/$locale"
+  id: "__root__" | "/" | "/$locale" | "/api/color-name" | "/$locale/"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRouteRoute: typeof LocaleRouteRouteWithChildren
+  ApiColorNameRoute: typeof ApiColorNameRoute
 }
 
 declare module "@tanstack/react-router" {
@@ -80,6 +90,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof LocaleIndexRouteImport
       parentRoute: typeof LocaleRouteRoute
     }
+    "/api/color-name": {
+      id: "/api/color-name"
+      path: "/api/color-name"
+      fullPath: "/api/color-name"
+      preLoaderRoute: typeof ApiColorNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -98,6 +115,7 @@ const LocaleRouteRouteWithChildren = LocaleRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRouteRoute: LocaleRouteRouteWithChildren,
+  ApiColorNameRoute: ApiColorNameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
