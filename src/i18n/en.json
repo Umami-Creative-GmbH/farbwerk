@@ -1,0 +1,10 @@
+{
+  "home.title": "Project ready!",
+  "home.description": "You may now add components and start building.",
+  "home.button-hint": "We've already added the button component for you.",
+  "home.button": "Button",
+  "home.meta-title": "Project ready!",
+  "not-found.title": "404",
+  "not-found.description": "The requested page could not be found.",
+  "language-switcher.label": "Language"
+}
