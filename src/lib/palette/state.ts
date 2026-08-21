@@ -1,0 +1,268 @@
+/**
+ * Palette state: three roles, the controls that shape each one, and the pure
+ * reducer behind them.
+ *
+ * Derivation is read-time on purpose. A linked role stores its own fields but
+ * its base is recomputed from primary every time it is read, so editing primary
+ * re-derives every linked role everywhere at once.
+ */
+import { normalizeHex, oklchToHex } from "@/lib/color/convert";
+import {
+  type HarmonySetting,
+  newRoleBase,
+  resolveRoleBase,
+} from "@/lib/color/harmony";
+import {
+  type AnchorSetting,
+  buildScale,
+  resolveAnchorStep,
+} from "@/lib/color/scale";
+import type { PaletteScales } from "@/lib/color/tokens";
+import type {
+  ColorScale,
+  LinkedRole,
+  ScaleKey,
+  ScaleRole,
+} from "@/lib/color/types";
+
+export interface RoleFields {
+  anchor: AnchorSetting;
+  base: string;
+  chroma: number;
+  harmony: HarmonySetting;
+  hueShift: number;
+  name: string;
+  overrides: Partial<Record<ScaleKey, string>>;
+  spread: number;
+}
+
+export interface PaletteState {
+  /** The role the sidebar controls are currently editing. */
+  active: ScaleRole;
+  roles: Record<ScaleRole, RoleFields | null> & { primary: RoleFields };
+}
+
+export const DEFAULT_BASE = "#0078d2";
+export const DEFAULT_NAME = "azure";
+
+/** Which sliders sit on a role, so the reducer can move one by name. */
+export type RampControl = "chroma" | "hueShift" | "spread";
+
+export type PaletteAction =
+  | { type: "setActive"; role: ScaleRole }
+  | { type: "setName"; name: string }
+  | { type: "setBase"; base: string }
+  | { type: "setControl"; control: RampControl; value: number }
+  | { type: "setAnchor"; anchor: AnchorSetting }
+  | { type: "setHarmony"; harmony: HarmonySetting }
+  | { type: "setOverride"; step: ScaleKey; hex: string | null }
+  | { type: "resetOverrides" }
+  | { type: "addRole"; role: LinkedRole }
+  | { type: "removeRole"; role: LinkedRole }
+  | { type: "makePrimary"; role: LinkedRole }
+  | { type: "randomize"; base: string };
+
+export function createRole(name: string, base: string): RoleFields {
+  return {
+    anchor: "auto",
+    base,
+    chroma: 1,
+    harmony: "auto",
+    hueShift: 0,
+    name,
+    overrides: {},
+    spread: 1,
+  };
+}
+
+export function initialPaletteState(
+  base: string = DEFAULT_BASE,
+  name: string = DEFAULT_NAME
+): PaletteState {
+  return {
+    active: "primary",
+    roles: { primary: createRole(name, base), secondary: null, tertiary: null },
+  };
+}
+
+const RANDOM_LIGHTNESS = 0.637;
+const RANDOM_MIN_CHROMA = 0.13;
+const RANDOM_CHROMA_RANGE = 0.12;
+const FULL_TURN = 360;
+
+/** A fresh, usably saturated base — what the Random button hands over. */
+export function randomBase(): string {
+  return oklchToHex({
+    c: RANDOM_MIN_CHROMA + Math.random() * RANDOM_CHROMA_RANGE,
+    h: Math.random() * FULL_TURN,
+    l: RANDOM_LIGHTNESS,
+  });
+}
+
+/** The fields a role renders with right now, after harmony derivation. */
+export function fieldsFor(
+  state: PaletteState,
+  role: ScaleRole
+): RoleFields | null {
+  const fields = state.roles[role];
+  if (!fields) {
+    return null;
+  }
+  return {
+    ...fields,
+    base: resolveRoleBase({
+      base: fields.base,
+      harmony: fields.harmony,
+      primaryBase: state.roles.primary.base,
+      role,
+    }),
+  };
+}
+
+export function scaleFor(
+  state: PaletteState,
+  role: ScaleRole
+): ColorScale | null {
+  const fields = fieldsFor(state, role);
+  return fields ? buildScale(fields) : null;
+}
+
+/** Every present role's ramp, ready for `galleryVars`. */
+export function paletteScales(state: PaletteState): PaletteScales {
+  return {
+    primary: scaleFor(state, "primary") as ColorScale,
+    secondary: scaleFor(state, "secondary"),
+    tertiary: scaleFor(state, "tertiary"),
+  };
+}
+
+export function anchorStepFor(
+  state: PaletteState,
+  role: ScaleRole
+): ScaleKey | null {
+  const fields = fieldsFor(state, role);
+  return fields ? resolveAnchorStep(fields.base, fields.anchor) : null;
+}
+
+function updateActive(
+  state: PaletteState,
+  change: Partial<RoleFields>
+): PaletteState {
+  const current = state.roles[state.active];
+  if (!current) {
+    return state;
+  }
+  return {
+    ...state,
+    roles: { ...state.roles, [state.active]: { ...current, ...change } },
+  };
+}
+
+function withRandomBase(state: PaletteState, base: string): PaletteState {
+  // Randomising re-rolls primary; linked roles follow through derivation.
+  return {
+    ...state,
+    active: "primary",
+    roles: {
+      ...state.roles,
+      primary: { ...state.roles.primary, base, harmony: "manual" },
+    },
+  };
+}
+
+function addRole(state: PaletteState, role: LinkedRole): PaletteState {
+  if (state.roles[role]) {
+    return { ...state, active: role };
+  }
+  const base = newRoleBase(state.roles.primary.base, role);
+  return {
+    ...state,
+    active: role,
+    roles: { ...state.roles, [role]: createRole(role, base) },
+  };
+}
+
+function removeRole(state: PaletteState, role: LinkedRole): PaletteState {
+  const roles = { ...state.roles, [role]: null };
+  // Dropping tertiary along with secondary would surprise; only the row goes.
+  return {
+    ...state,
+    active: state.active === role ? "primary" : state.active,
+    roles,
+  };
+}
+
+/**
+ * Swap a role with primary. Both become manual, because after the swap neither
+ * base is derivable from the other any more.
+ */
+function makePrimary(state: PaletteState, role: LinkedRole): PaletteState {
+  const promoted = fieldsFor(state, role);
+  if (!promoted) {
+    return state;
+  }
+  return {
+    ...state,
+    active: "primary",
+    roles: {
+      ...state.roles,
+      primary: { ...promoted, harmony: "manual" },
+      [role]: { ...state.roles.primary, harmony: "manual" },
+    },
+  };
+}
+
+function setOverride(
+  state: PaletteState,
+  step: ScaleKey,
+  hex: string | null
+): PaletteState {
+  const current = state.roles[state.active];
+  if (!current) {
+    return state;
+  }
+  const overrides = { ...current.overrides };
+  if (hex === null) {
+    delete overrides[step];
+  } else {
+    overrides[step] = normalizeHex(hex) ?? hex;
+  }
+  return updateActive(state, { overrides });
+}
+
+export function paletteReducer(
+  state: PaletteState,
+  action: PaletteAction
+): PaletteState {
+  switch (action.type) {
+    case "setActive":
+      return state.roles[action.role]
+        ? { ...state, active: action.role }
+        : state;
+    case "setName":
+      return updateActive(state, { name: action.name });
+    case "setBase":
+      // Typing a hex breaks the link to primary — the role is now the user's.
+      return updateActive(state, { base: action.base, harmony: "manual" });
+    case "setControl":
+      return updateActive(state, { [action.control]: action.value });
+    case "setAnchor":
+      return updateActive(state, { anchor: action.anchor });
+    case "setHarmony":
+      return updateActive(state, { harmony: action.harmony });
+    case "setOverride":
+      return setOverride(state, action.step, action.hex);
+    case "resetOverrides":
+      return updateActive(state, { overrides: {} });
+    case "addRole":
+      return addRole(state, action.role);
+    case "removeRole":
+      return removeRole(state, action.role);
+    case "makePrimary":
+      return makePrimary(state, action.role);
+    case "randomize":
+      return withRandomBase(state, action.base);
+    default:
+      return state;
+  }
+}
