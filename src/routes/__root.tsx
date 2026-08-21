@@ -1,8 +1,13 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { TanStackDevtools } from "@tanstack/react-devtools"
+import { TanStackDevtools } from "@tanstack/react-devtools";
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { TolgeeProvider, useTranslate } from "@tolgee/react";
+import { useState } from "react";
+import { getTolgee } from "@/i18n/tolgee";
+import { staticData } from "@/i18n/translations";
+import { useLocale } from "@/i18n/use-locale";
 
-import appCss from "../styles.css?url"
+import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -25,23 +30,40 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  notFoundComponent: () => (
-    <main className="container mx-auto p-4 pt-16">
-      <h1>404</h1>
-      <p>The requested page could not be found.</p>
-    </main>
-  ),
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
-})
+});
+
+function NotFound() {
+  const { t } = useTranslate();
+
+  return (
+    <main className="container mx-auto p-4 pt-16">
+      <h1>{t("not-found.title")}</h1>
+      <p>{t("not-found.description")}</p>
+    </main>
+  );
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
+  // One instance per browser session, one per server render — see getTolgee.
+  const [tolgee] = useState(getTolgee);
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        {/*
+          `ssr` hands Tolgee the locale and translations before the first
+          render, so the server and the client produce identical markup. It
+          also drives language changes on later client-side navigations.
+        */}
+        <TolgeeProvider ssr={{ language: locale, staticData }} tolgee={tolgee}>
+          {children}
+        </TolgeeProvider>
         <TanStackDevtools
           config={{
             position: "bottom-right",
@@ -56,5 +78,5 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }
