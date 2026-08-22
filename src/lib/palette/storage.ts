@@ -10,7 +10,12 @@
  */
 import type { PaletteState } from "./state";
 
-const STORAGE_KEY = "farbwerk-palettes";
+const STORAGE_KEY = "farbwerk-palettes:v1";
+/**
+ * The key used before the store was versioned. Read once so saved work survives
+ * the upgrade, then retired.
+ */
+const LEGACY_STORAGE_KEY = "farbwerk-palettes";
 const ID_RADIX = 36;
 const ID_LENGTH = 9;
 
@@ -22,14 +27,30 @@ export interface SavedPalette {
   state: PaletteState;
 }
 
+function parseStore(raw: string | null): SavedPalette[] {
+  if (!raw) {
+    return [];
+  }
+  const parsed: unknown = JSON.parse(raw);
+  return Array.isArray(parsed) ? (parsed as SavedPalette[]) : [];
+}
+
 function readStore(): SavedPalette[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      return [];
+    if (raw) {
+      return parseStore(raw);
     }
-    const parsed: unknown = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as SavedPalette[]) : [];
+    // v1 stores the same shape the unversioned key did, so entries written
+    // before versioning move across untouched. A later shape change bumps the
+    // suffix instead, and those entries are then skipped rather than parsed
+    // into a shape the app no longer understands.
+    const legacy = parseStore(localStorage.getItem(LEGACY_STORAGE_KEY));
+    if (legacy.length > 0) {
+      writeStore(legacy);
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+    }
+    return legacy;
   } catch {
     // A corrupt or unavailable store should never take the app down with it.
     return [];

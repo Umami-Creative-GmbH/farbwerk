@@ -389,3 +389,24 @@ export function paletteReducer(
       return state;
   }
 }
+
+/**
+ * A value signature of everything the ramps are built from.
+ *
+ * Inverted on purpose: it takes each resolved role and drops only `name`, the
+ * one field no color depends on. A field added to `RoleFields` later counts
+ * towards the ramps by default, so this can never go stale by omission.
+ */
+export function rampSignature(state: PaletteState): string {
+  const parts: string[] = [];
+  for (const role of SCALE_ROLES) {
+    const fields = fieldsFor(state, role);
+    if (!fields) {
+      parts.push("");
+      continue;
+    }
+    const { name: _name, ...ramp } = fields;
+    parts.push(JSON.stringify(ramp));
+  }
+  return parts.join("|");
+}

@@ -3,8 +3,10 @@ import { exportPalette } from "@/lib/color/export";
 import {
   exportRoles,
   initialPaletteState,
+  type PaletteAction,
   type PaletteState,
   paletteReducer,
+  rampSignature,
 } from "./state";
 
 function withSecondary(): PaletteState {
@@ -162,5 +164,51 @@ describe("applyExtracted", () => {
 
     expect(state.roles.secondary?.harmony).toBe("triadic");
     expect(state.roles.tertiary?.harmony).toBe("triadic");
+  });
+});
+
+describe("rampSignature", () => {
+  it("ignores the fields no color is built from", () => {
+    const state = withSecondary();
+    const renamed = paletteReducer(state, {
+      name: "Markenblau",
+      type: "setName",
+    });
+    const reselected = paletteReducer(renamed, {
+      role: "secondary",
+      type: "setActive",
+    });
+
+    expect(rampSignature(renamed)).toBe(rampSignature(state));
+    expect(rampSignature(reselected)).toBe(rampSignature(state));
+  });
+
+  it("changes for every field a ramp is built from", () => {
+    const state = withSecondary();
+    const changes: PaletteAction[] = [
+      { base: "#ff8900", type: "setBase" },
+      { control: "chroma", type: "setControl", value: 1.4 },
+      { control: "hueShift", type: "setControl", value: 12 },
+      { control: "spread", type: "setControl", value: 0.8 },
+      { anchor: 600, type: "setAnchor" },
+      { harmony: "triadic", type: "setHarmony" },
+      { hex: "#123456", step: 300, type: "setOverride" },
+    ];
+
+    for (const change of changes) {
+      expect(rampSignature(paletteReducer(state, change))).not.toBe(
+        rampSignature(state)
+      );
+    }
+  });
+
+  it("re-derives linked roles when primary moves", () => {
+    const linked = paletteReducer(initialPaletteState(), {
+      rule: "triadic",
+      type: "generate",
+    });
+    const moved = paletteReducer(linked, { base: "#ff8900", type: "setBase" });
+
+    expect(rampSignature(moved)).not.toBe(rampSignature(linked));
   });
 });

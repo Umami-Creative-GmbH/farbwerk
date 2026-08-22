@@ -209,9 +209,14 @@ function refine(points: LabPoint[], seeds: LabPoint[]): Cluster[] {
     counts = sums.map((sum) => sum[3]);
   }
 
-  return centers
-    .map((center, index) => ({ center, count: counts[index] }))
-    .filter((cluster) => cluster.count > 0);
+  const clusters: Cluster[] = [];
+  for (const [index, center] of centers.entries()) {
+    const count = counts[index];
+    if (count > 0) {
+      clusters.push({ center, count });
+    }
+  }
+  return clusters;
 }
 
 function toCandidate(cluster: Cluster): Candidate {
