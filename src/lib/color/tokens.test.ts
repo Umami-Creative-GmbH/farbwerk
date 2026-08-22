@@ -32,11 +32,33 @@ describe("themeVars", () => {
     expect(vars["--chart-2"]).toBe("var(--s-500)");
   });
 
+  it("gives all three ramps a role, not just primary", () => {
+    const vars = themeVars({ primary, secondary });
+    // secondary owns the quiet surfaces, tertiary owns the accent ones.
+    expect(vars["--secondary"]).toBe("var(--s-100)");
+    expect(vars["--sidebar-accent"]).toBe("var(--s-200)");
+    expect(vars["--accent"]).toBe("var(--t-100)");
+    expect(vars["--accent-foreground"]).toBe("var(--t-900)");
+    const charts = [1, 2, 3, 4, 5].map((n) => vars[`--chart-${n}`]);
+    expect(charts.some((v) => v.includes("--p-"))).toBe(true);
+    expect(charts.some((v) => v.includes("--s-"))).toBe(true);
+    expect(charts.some((v) => v.includes("--t-"))).toBe(true);
+  });
+
   it("picks readable ink for the primary surface", () => {
     const vars = themeVars({ primary, secondary });
     expect(
       wcagContrast(vars["--primary-foreground"], primary[600])
     ).toBeGreaterThan(3);
+  });
+
+  it("flips card text to the other end of the ramp in dark", () => {
+    const light = themeVars({ primary }, "light");
+    const dark = themeVars({ primary }, "dark");
+    expect(light["--fw-card-title"]).toBe("var(--p-950)");
+    expect(dark["--fw-card-title"]).toBe("var(--p-50)");
+    expect(light["--fw-accent-ink"]).toBe("var(--t-600)");
+    expect(dark["--fw-accent-ink"]).toBe("var(--t-400)");
   });
 
   it("moves surfaces and accents when the mode flips", () => {

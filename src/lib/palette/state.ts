@@ -7,7 +7,9 @@
  * re-derives every linked role everywhere at once.
  */
 import { normalizeHex, oklchToHex } from "@/lib/color/convert";
+import type { ExportRole } from "@/lib/color/export";
 import {
+  type HarmonyRule,
   type HarmonySetting,
   newRoleBase,
   resolveRoleBase,
@@ -43,7 +45,11 @@ export interface PaletteState {
 }
 
 export const DEFAULT_BASE = "#0078d2";
-export const DEFAULT_NAME = "azure";
+/**
+ * Roles start unnamed. Anything that displays or exports a name falls back to
+ * the nearest catalogue name for the base — see `useRoleNames`.
+ */
+export const DEFAULT_NAME = "";
 
 /** Which sliders sit on a role, so the reducer can move one by name. */
 export type RampControl = "chroma" | "hueShift" | "spread";
@@ -60,7 +66,9 @@ export type PaletteAction =
   | { type: "addRole"; role: LinkedRole }
   | { type: "removeRole"; role: LinkedRole }
   | { type: "makePrimary"; role: LinkedRole }
-  | { type: "randomize"; base: string };
+  | { type: "randomize"; base: string }
+  | { type: "loadState"; state: PaletteState }
+  | { type: "generate"; rule: HarmonyRule };
 
 export function createRole(name: string, base: string): RoleFields {
   return {
@@ -136,6 +144,34 @@ export function paletteScales(state: PaletteState): PaletteScales {
   };
 }
 
+/** The three roles in display order. */
+export const SCALE_ROLES: readonly ScaleRole[] = [
+  "primary",
+  "secondary",
+  "tertiary",
+];
+
+/**
+ * Present roles, named and rendered — what every export format consumes.
+ *
+ * `names` carries the resolved display name per role (typed, else the nearest
+ * catalogue name); anything missing falls back to the role itself.
+ */
+export function exportRoles(
+  state: PaletteState,
+  names?: Partial<Record<ScaleRole, string | null>>
+): ExportRole[] {
+  const roles: ExportRole[] = [];
+  for (const role of SCALE_ROLES) {
+    const fields = fieldsFor(state, role);
+    const scale = scaleFor(state, role);
+    if (fields && scale) {
+      roles.push({ name: names?.[role] || fields.name || role, scale });
+    }
+  }
+  return roles;
+}
+
 export function anchorStepFor(
   state: PaletteState,
   role: ScaleRole
@@ -170,6 +206,28 @@ function withRandomBase(state: PaletteState, base: string): PaletteState {
   };
 }
 
+/**
+ * Apply one harmony rule to the whole palette: both linked roles are created if
+ * missing and pointed at the rule, so a single click turns one base into three
+ * related scales.
+ */
+function generate(state: PaletteState, rule: HarmonyRule): PaletteState {
+  const link = (role: LinkedRole): RoleFields => ({
+    ...(state.roles[role] ??
+      createRole("", newRoleBase(state.roles.primary.base, role))),
+    harmony: rule,
+  });
+
+  return {
+    ...state,
+    roles: {
+      ...state.roles,
+      secondary: link("secondary"),
+      tertiary: link("tertiary"),
+    },
+  };
+}
+
 function addRole(state: PaletteState, role: LinkedRole): PaletteState {
   if (state.roles[role]) {
     return { ...state, active: role };
@@ -178,7 +236,7 @@ function addRole(state: PaletteState, role: LinkedRole): PaletteState {
   return {
     ...state,
     active: role,
-    roles: { ...state.roles, [role]: createRole(role, base) },
+    roles: { ...state.roles, [role]: createRole("", base) },
   };
 }
 
@@ -262,6 +320,10 @@ export function paletteReducer(
       return makePrimary(state, action.role);
     case "randomize":
       return withRandomBase(state, action.base);
+    case "loadState":
+      return action.state;
+    case "generate":
+      return generate(state, action.rule);
     default:
       return state;
   }

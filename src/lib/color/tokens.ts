@@ -59,8 +59,8 @@ export function paletteVars(scales: PaletteScales): Record<string, string> {
  */
 const TOKEN_STEPS: Record<ThemeMode, Record<string, string>> = {
   dark: {
-    "--accent": "var(--s-800)",
-    "--accent-foreground": "var(--s-50)",
+    "--accent": "var(--t-800)",
+    "--accent-foreground": "var(--t-50)",
     "--background": "var(--p-950)",
     "--border": "var(--p-800)",
     "--card": "var(--p-900)",
@@ -68,9 +68,14 @@ const TOKEN_STEPS: Record<ThemeMode, Record<string, string>> = {
     "--chart-1": "var(--p-400)",
     "--chart-2": "var(--s-400)",
     "--chart-3": "var(--t-400)",
-    "--chart-4": "var(--p-200)",
+    "--chart-4": "var(--t-300)",
     "--chart-5": "var(--s-600)",
     "--foreground": "var(--p-50)",
+    // Gallery card text comes off the ramp itself — you read step 50 as a
+    // heading here — so it has to flip ends with the mode.
+    "--fw-accent-ink": "var(--t-400)",
+    "--fw-card-desc": "var(--p-300)",
+    "--fw-card-title": "var(--p-50)",
     "--input": "var(--p-800)",
     "--muted": "var(--p-800)",
     "--muted-foreground": "var(--p-300)",
@@ -81,7 +86,7 @@ const TOKEN_STEPS: Record<ThemeMode, Record<string, string>> = {
     "--secondary": "var(--s-800)",
     "--secondary-foreground": "var(--s-50)",
     "--sidebar": "var(--p-900)",
-    "--sidebar-accent": "var(--p-800)",
+    "--sidebar-accent": "var(--s-800)",
     "--sidebar-accent-foreground": "var(--p-100)",
     "--sidebar-border": "var(--p-800)",
     "--sidebar-foreground": "var(--p-50)",
@@ -89,20 +94,27 @@ const TOKEN_STEPS: Record<ThemeMode, Record<string, string>> = {
     "--sidebar-ring": "var(--p-600)",
   },
   light: {
-    "--accent": "var(--s-100)",
-    "--accent-foreground": "var(--s-900)",
+    "--accent": "var(--t-100)",
+    "--accent-foreground": "var(--t-900)",
     "--background": "var(--p-50)",
     "--border": "var(--p-200)",
     "--card": WHITE,
     "--card-foreground": "var(--p-950)",
-    // Charts read these five. Spreading them across all three roles is what
-    // makes a multi-scale palette legible in a stacked area or a donut.
+    // All three ramps carry weight, not just primary: secondary owns the
+    // `secondary` surfaces and the sidebar accent, tertiary owns `accent` —
+    // which is what every ghost hover, dropdown highlight and toggle selection
+    // reads — and the chart set draws from all three.
     "--chart-1": "var(--p-500)",
     "--chart-2": "var(--s-500)",
     "--chart-3": "var(--t-500)",
-    "--chart-4": "var(--p-300)",
+    "--chart-4": "var(--t-300)",
     "--chart-5": "var(--s-700)",
     "--foreground": "var(--p-950)",
+    // A tertiary-ramp label sitting on an app surface rather than on artwork:
+    // step 600 has the contrast on paper, but needs to lighten on a dark card.
+    "--fw-accent-ink": "var(--t-600)",
+    "--fw-card-desc": "var(--p-600)",
+    "--fw-card-title": "var(--p-950)",
     "--input": "var(--p-200)",
     "--muted": "var(--p-100)",
     "--muted-foreground": "var(--p-700)",
@@ -113,7 +125,7 @@ const TOKEN_STEPS: Record<ThemeMode, Record<string, string>> = {
     "--secondary": "var(--s-100)",
     "--secondary-foreground": "var(--s-900)",
     "--sidebar": "var(--p-100)",
-    "--sidebar-accent": "var(--p-200)",
+    "--sidebar-accent": "var(--s-200)",
     "--sidebar-accent-foreground": "var(--p-900)",
     "--sidebar-border": "var(--p-200)",
     "--sidebar-foreground": "var(--p-950)",

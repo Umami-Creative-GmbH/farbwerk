@@ -94,6 +94,15 @@ export function newRoleBase(primaryBase: string, role: LinkedRole): string {
   return oklchToHex({ ...base, h: rotate(base.h, NEW_ROLE_HUE_OFFSET[role]) });
 }
 
+/**
+ * Hue offsets for the wheel diagram, primary first. `mono` returns three zeros
+ * because it desaturates rather than rotating — the diagram shows that as three
+ * concentric dots on one spoke.
+ */
+export function harmonyAngles(rule: HarmonyRule): [number, number, number] {
+  return [0, HARMONY_OFFSETS[rule].secondary, HARMONY_OFFSETS[rule].tertiary];
+}
+
 /** The three swatches a harmony option shows in the dropdown. */
 export function harmonyPreview(
   primaryBase: string,
@@ -104,9 +113,4 @@ export function harmonyPreview(
     secondary: harmonizeBase(primaryBase, "secondary", rule),
     tertiary: harmonizeBase(primaryBase, "tertiary", rule),
   };
-}
-
-/** Hue angles for the small wheel diagram, primary first. */
-export function harmonyAngles(rule: HarmonyRule): [number, number, number] {
-  return [0, HARMONY_OFFSETS[rule].secondary, HARMONY_OFFSETS[rule].tertiary];
 }
