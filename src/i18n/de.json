@@ -224,6 +224,9 @@
   "matrix.note-wcag-7": "Fließtext ⦁ AAA",
   "matrix.text-step": "Textstufe",
   "matrix.threshold": "Schwellenwert",
+  "mobile.body": "Farbwerk zeigt Editor, elfstufige Skala und die Komponenten-Galerie nebeneinander — dafür braucht es einen breiten Bildschirm. Sie können hier weiterarbeiten, aber alles steht gestapelt und eng.",
+  "mobile.dismiss": "Trotzdem fortfahren",
+  "mobile.title": "Am besten am Desktop",
   "not-found.description": "Die angeforderte Seite konnte nicht gefunden werden.",
   "not-found.title": "404",
   "role.add-secondary": "Sekundärskala hinzufügen",
@@ -273,8 +276,5 @@
   "toast.export-copied": "Export kopiert",
   "toast.opened": "„{name}“ geöffnet",
   "toast.saved": "„{name}“ gespeichert",
-  "toolbar.steps": "{count} Stufen",
-  "mobile.title": "Am besten am Desktop",
-  "mobile.body": "Farbwerk zeigt Editor, elfstufige Skala und die Komponenten-Galerie nebeneinander — dafür braucht es einen breiten Bildschirm. Sie können hier weiterarbeiten, aber alles steht gestapelt und eng.",
-  "mobile.dismiss": "Trotzdem fortfahren"
+  "toolbar.steps": "{count} Stufen"
 }

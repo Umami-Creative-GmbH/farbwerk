@@ -224,6 +224,9 @@
   "matrix.note-wcag-7": "Body text ⦁ AAA",
   "matrix.text-step": "Text step",
   "matrix.threshold": "Threshold",
+  "mobile.body": "Farbwerk puts the editor, the eleven-step scale and a live component gallery side by side, which needs a wide screen. You can carry on here, but everything is stacked and cramped.",
+  "mobile.dismiss": "Continue anyway",
+  "mobile.title": "Best on a desktop",
   "not-found.description": "The requested page could not be found.",
   "not-found.title": "404",
   "role.add-secondary": "Add secondary scale",
@@ -273,8 +276,5 @@
   "toast.export-copied": "Export copied",
   "toast.opened": "Opened “{name}”",
   "toast.saved": "Saved “{name}”",
-  "toolbar.steps": "{count} steps",
-  "mobile.title": "Best on a desktop",
-  "mobile.body": "Farbwerk puts the editor, the eleven-step scale and a live component gallery side by side, which needs a wide screen. You can carry on here, but everything is stacked and cramped.",
-  "mobile.dismiss": "Continue anyway"
+  "toolbar.steps": "{count} steps"
 }
