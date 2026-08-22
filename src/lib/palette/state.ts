@@ -68,7 +68,19 @@ export type PaletteAction =
   | { type: "makePrimary"; role: LinkedRole }
   | { type: "randomize"; base: string }
   | { type: "loadState"; state: PaletteState }
-  | { type: "generate"; rule: HarmonyRule };
+  | { type: "generate"; rule: HarmonyRule }
+  | { type: "applyExtracted"; picks: ExtractedPicks };
+
+/**
+ * Bases lifted off an image, one per role. Primary is what makes the whole
+ * thing worth applying; the other two are there when the image had more to
+ * give, and stay untouched when they are absent.
+ */
+export interface ExtractedPicks {
+  primary: string;
+  secondary?: string | null;
+  tertiary?: string | null;
+}
 
 export function createRole(name: string, base: string): RoleFields {
   return {
@@ -270,6 +282,53 @@ function makePrimary(state: PaletteState, role: LinkedRole): PaletteState {
   };
 }
 
+/**
+ * Point one role at a color taken from an image.
+ *
+ * The base is the user's choice now, so the role goes manual and its per-step
+ * edits are dropped — they were tuned against the old ramp and would fight the
+ * new one. A role with no pick is returned untouched.
+ */
+function withExtractedBase(
+  fields: RoleFields | null,
+  pick: string | null | undefined
+): RoleFields | null {
+  const base = pick ? normalizeHex(pick) : null;
+  if (!base) {
+    return fields;
+  }
+  return {
+    ...(fields ?? createRole(DEFAULT_NAME, base)),
+    base,
+    harmony: "manual",
+    overrides: {},
+  };
+}
+
+/**
+ * Apply an extraction to the palette. Secondary and tertiary are created when
+ * the picker assigned them and left alone when it did not, so lifting a single
+ * brand color out of a logo never quietly discards the rest of the palette.
+ */
+function applyExtracted(
+  state: PaletteState,
+  picks: ExtractedPicks
+): PaletteState {
+  const primary =
+    withExtractedBase(state.roles.primary, picks.primary) ??
+    state.roles.primary;
+
+  return {
+    ...state,
+    active: "primary",
+    roles: {
+      primary,
+      secondary: withExtractedBase(state.roles.secondary, picks.secondary),
+      tertiary: withExtractedBase(state.roles.tertiary, picks.tertiary),
+    },
+  };
+}
+
 function setOverride(
   state: PaletteState,
   step: ScaleKey,
@@ -324,6 +383,8 @@ export function paletteReducer(
       return action.state;
     case "generate":
       return generate(state, action.rule);
+    case "applyExtracted":
+      return applyExtracted(state, action.picks);
     default:
       return state;
   }

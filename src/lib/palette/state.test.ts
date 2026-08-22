@@ -110,3 +110,57 @@ describe("exported token names", () => {
     expect(out).toContain("/* My Brand Blue! */");
   });
 });
+
+describe("applyExtracted", () => {
+  it("applies primary alone and leaves the other roles absent", () => {
+    const state = paletteReducer(initialPaletteState(), {
+      picks: { primary: "#E60096" },
+      type: "applyExtracted",
+    });
+
+    expect(state.roles.primary.base).toBe("#e60096");
+    expect(state.roles.primary.harmony).toBe("manual");
+    expect(state.roles.secondary).toBeNull();
+    expect(state.roles.tertiary).toBeNull();
+    expect(state.active).toBe("primary");
+  });
+
+  it("creates the optional roles only for the colors that were assigned", () => {
+    const state = paletteReducer(initialPaletteState(), {
+      picks: { primary: "#0078d2", tertiary: "#00d4a8" },
+      type: "applyExtracted",
+    });
+
+    expect(state.roles.secondary).toBeNull();
+    expect(state.roles.tertiary?.base).toBe("#00d4a8");
+  });
+
+  it("keeps an existing role's name and drops its per-step edits", () => {
+    const named = paletteReducer(
+      paletteReducer(withSecondary(), { name: "Brand", type: "setName" }),
+      { hex: "#123456", step: 500, type: "setOverride" }
+    );
+    const state = paletteReducer(named, {
+      picks: { primary: "#0078d2", secondary: "#ff8900" },
+      type: "applyExtracted",
+    });
+
+    expect(state.roles.secondary?.name).toBe("Brand");
+    expect(state.roles.secondary?.base).toBe("#ff8900");
+    expect(state.roles.secondary?.overrides).toEqual({});
+  });
+
+  it("leaves a role untouched when the picker had nothing for it", () => {
+    const linked = paletteReducer(initialPaletteState(), {
+      rule: "triadic",
+      type: "generate",
+    });
+    const state = paletteReducer(linked, {
+      picks: { primary: "#e60096", secondary: null },
+      type: "applyExtracted",
+    });
+
+    expect(state.roles.secondary?.harmony).toBe("triadic");
+    expect(state.roles.tertiary?.harmony).toBe("triadic");
+  });
+});

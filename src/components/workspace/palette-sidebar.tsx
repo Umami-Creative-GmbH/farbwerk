@@ -32,6 +32,7 @@ import {
   SECTION_LABEL,
 } from "./chrome-styles";
 import { ColorPickerField } from "./color-picker-field";
+import { ExtractDialog } from "./extract-dialog";
 import { HarmonyGenerator } from "./harmony-generator";
 import { HarmonyPicker } from "./harmony-picker";
 import { RoleList } from "./role-list";
@@ -187,6 +188,7 @@ export function PaletteSidebar() {
             />
           ))}
         </div>
+        <ExtractDialog />
       </div>
 
       <HarmonyGenerator />
