@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build",
     "check": "ultracite check",
-    "dev": "vite dev --port 3000",
+    "dev": "vite dev",
     "fix": "ultracite fix",
     "i18n:compare": "tolgee compare",
     "i18n:pull": "tolgee pull",

@@ -4,6 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+const DEFAULT_DEV_PORT = 3000;
+
 const config = defineConfig({
   // Lets the app read the same TOLGEE_* vars from .env.local that
   // tolgee.config.cjs uses, instead of keeping a duplicate VITE_ set.
@@ -23,6 +25,10 @@ const config = defineConfig({
     viteReact({ compiler: true }),
   ],
   resolve: { tsconfigPaths: true },
+  // 3000 by default, so `bun run dev` behaves as it always has. Honouring PORT
+  // lets a harness that assigns its own port take one when 3000 is occupied —
+  // the flag this replaces was hardcoded and could not.
+  server: { port: Number(process.env.PORT) || DEFAULT_DEV_PORT },
 });
 
 export default config;
