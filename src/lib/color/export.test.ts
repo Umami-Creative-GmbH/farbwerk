@@ -10,6 +10,8 @@ const ROLES: ExportRole[] = [
 
 const SINGLE = ROLES.slice(0, 1);
 const EMPTY_PALETTE = /no scales/;
+const TRAILING_BLANK_LINE = /\n\n\s*$/;
+const CSS_COMMENT_CLOSE = /\*\//g;
 
 describe("exportPalette", () => {
   it("defaults to a Tailwind 4 theme block in hex", () => {
@@ -64,5 +66,60 @@ describe("exportPalette", () => {
 
   it("refuses to export an empty palette", () => {
     expect(() => exportPalette([])).toThrow(EMPTY_PALETTE);
+  });
+
+  it("heads each ramp with its name in the commentable formats", () => {
+    expect(exportPalette(ROLES, "tw4")).toContain("/* Azure */");
+    expect(exportPalette(ROLES, "css")).toContain("/* Hot Pink! */");
+    expect(exportPalette(ROLES, "scss")).toContain("// Azure");
+    expect(exportPalette(ROLES, "tw3")).toContain("// Hot Pink!");
+  });
+
+  it("separates ramps with a blank line in every text format", () => {
+    for (const { value } of EXPORT_FORMATS) {
+      if (value === "svg") {
+        continue;
+      }
+      expect(exportPalette(ROLES, value), value).toContain("\n\n");
+    }
+  });
+
+  it("keeps a one-ramp export free of trailing blank lines", () => {
+    for (const { value } of EXPORT_FORMATS) {
+      expect(exportPalette(SINGLE, value), value).not.toMatch(
+        TRAILING_BLANK_LINE
+      );
+    }
+  });
+
+  it("quotes the Tailwind 3 colour key so a two-word name stays valid JS", () => {
+    const out = exportPalette(ROLES, "tw3");
+    expect(out).toContain("'hot-pink': {");
+    // An unquoted `hot-pink:` key is a syntax error, so the emitted config
+    // has to be evaluable to be worth anything.
+    const evaluate = new Function(
+      `const module = { exports: {} }; ${out}; return module.exports;`
+    );
+    expect(evaluate().theme.extend.colors["hot-pink"][500]).toBe(
+      ROLES[1].scale[500]
+    );
+  });
+
+  it("neutralises a name that would break out of its comment", () => {
+    const hostile: ExportRole[] = [
+      { name: "*/ oops", scale: ROLES[0].scale },
+      { name: "two\nlines", scale: ROLES[1].scale },
+    ];
+    const css = exportPalette(hostile, "css");
+    // One `*/` per comment opened, and no stray newline inside one.
+    expect(css.match(CSS_COMMENT_CLOSE)).toHaveLength(2);
+    expect(css).toContain("/* two lines */");
+  });
+
+  it("still produces parseable JSON once ramps are spaced apart", () => {
+    expect(() =>
+      JSON.parse(exportPalette(ROLES, "tokens-studio"))
+    ).not.toThrow();
+    expect(() => JSON.parse(exportPalette(ROLES, "w3c"))).not.toThrow();
   });
 });

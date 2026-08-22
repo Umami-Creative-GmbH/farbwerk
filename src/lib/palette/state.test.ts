@@ -86,6 +86,9 @@ describe("exportRoles", () => {
   });
 });
 
+/** A custom-property name that kept punctuation it should have lost. */
+const PUNCTUATED_TOKEN_NAME = /--[^\s:]*!/;
+
 describe("exported token names", () => {
   it("slugifies the resolved name to lowercase and dashes", () => {
     const out = exportPalette(
@@ -101,6 +104,9 @@ describe("exported token names", () => {
       "css"
     );
     expect(out).toContain("--my-brand-blue-500:");
-    expect(out).not.toContain("!");
+    // Punctuation is stripped from the token name, not from the whole file:
+    // the ramp's comment deliberately shows the name as it was typed.
+    expect(out).not.toMatch(PUNCTUATED_TOKEN_NAME);
+    expect(out).toContain("/* My Brand Blue! */");
   });
 });

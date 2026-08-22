@@ -40,19 +40,50 @@ const SWATCH_HEIGHT = 120;
 
 type Emitter = (roles: readonly NamedRole[]) => string;
 interface NamedRole {
+  /** The role's human-readable name, used to head its block with a comment. */
+  name: string;
   scale: ColorScale;
   slug: string;
   value: (key: number) => string;
 }
 
+/**
+ * One ramp is eleven near-identical lines, so two or three of them run together
+ * into a wall. Every format that has comments heads each ramp with its colour
+ * name; the blank line between ramps is what actually makes the seam visible.
+ *
+ * `BLOCK_SEPARATOR` is used even by the JSON formats, which cannot carry a
+ * comment — a blank line between entries is still valid JSON.
+ */
+const BLOCK_SEPARATOR = "\n\n";
+
+/** Runs of whitespace, including the newlines that would end a `//` comment. */
+const WHITESPACE_RUN = /\s+/g;
+/** The sequence that closes a CSS block comment. */
+const CSS_COMMENT_CLOSE = /\*\//g;
+
+/**
+ * Names are typed by hand, so they can contain anything. Flattening whitespace
+ * keeps a pasted multi-line name from ending a `//` comment on its first line,
+ * and dropping the CSS block-comment terminator keeps it from closing one
+ * early.
+ */
+function commentSafe(name: string): string {
+  return name
+    .replace(WHITESPACE_RUN, " ")
+    .replace(CSS_COMMENT_CLOSE, "")
+    .trim();
+}
+
 function tailwind4(roles: readonly NamedRole[]): string {
   const body = roles
-    .map((role) =>
-      SCALE_KEYS.map(
+    .map((role) => {
+      const steps = SCALE_KEYS.map(
         (key) => `  --color-${role.slug}-${key}: ${role.value(key)};`
-      ).join("\n")
-    )
-    .join("\n");
+      ).join("\n");
+      return `  /* ${role.name} */\n${steps}`;
+    })
+    .join(BLOCK_SEPARATOR);
   return `@import "tailwindcss";\n\n@theme {\n${body}\n}`;
 }
 
@@ -62,31 +93,36 @@ function tailwind3(roles: readonly NamedRole[]): string {
       const steps = SCALE_KEYS.map(
         (key) => `          ${key}: '${role.value(key)}',`
       ).join("\n");
-      return `        ${role.slug}: {\n${steps}\n        },`;
+      // The slug is quoted because it is not always a valid identifier: a
+      // two-word name slugifies to `hot-pink`, and an unquoted `hot-pink:` key
+      // is a syntax error in the config this emits.
+      return `        // ${role.name}\n        '${role.slug}': {\n${steps}\n        },`;
     })
-    .join("\n");
+    .join(BLOCK_SEPARATOR);
   return `// tailwind.config.js\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: {\n${body}\n      },\n    },\n  },\n};`;
 }
 
 function cssVars(roles: readonly NamedRole[]): string {
   const body = roles
-    .map((role) =>
-      SCALE_KEYS.map(
+    .map((role) => {
+      const steps = SCALE_KEYS.map(
         (key) => `  --${role.slug}-${key}: ${role.value(key)};`
-      ).join("\n")
-    )
-    .join("\n");
+      ).join("\n");
+      return `  /* ${role.name} */\n${steps}`;
+    })
+    .join(BLOCK_SEPARATOR);
   return `:root {\n${body}\n}`;
 }
 
 function scssVars(roles: readonly NamedRole[]): string {
   return roles
-    .map((role) =>
-      SCALE_KEYS.map((key) => `$${role.slug}-${key}: ${role.value(key)};`).join(
-        "\n"
-      )
-    )
-    .join("\n");
+    .map((role) => {
+      const steps = SCALE_KEYS.map(
+        (key) => `$${role.slug}-${key}: ${role.value(key)};`
+      ).join("\n");
+      return `// ${role.name}\n${steps}`;
+    })
+    .join(BLOCK_SEPARATOR);
 }
 
 /** SVG shows the first role only — it is a picture of one ramp. */
@@ -109,7 +145,9 @@ function tokensStudio(roles: readonly NamedRole[]): string {
       ).join(",\n");
       return `  "${role.slug}": {\n${steps}\n  }`;
     })
-    .join(",\n");
+    // No comment: JSON has none. The blank line is the only separation
+    // available that keeps the output parseable.
+    .join(`,${BLOCK_SEPARATOR}`);
   return `{\n${body}\n}`;
 }
 
@@ -121,7 +159,7 @@ function w3cTokens(roles: readonly NamedRole[]): string {
       ).join(",\n");
       return `  "${role.slug}": {\n    "$type": "color",\n${steps}\n  }`;
     })
-    .join(",\n");
+    .join(`,${BLOCK_SEPARATOR}`);
   return `{\n${body}\n}`;
 }
 
@@ -159,11 +197,18 @@ export function exportPalette(
     throw new Error("Nothing to export: the palette has no scales");
   }
 
-  const named: NamedRole[] = roles.map((role, index) => ({
-    scale: role.scale,
-    slug: slugifyColorName(role.name) || `scale-${index + 1}`,
-    value: (key) => formatColor(role.scale[key as never], notation),
-  }));
+  const named: NamedRole[] = roles.map((role, index) => {
+    const slug = slugifyColorName(role.name) || `scale-${index + 1}`;
+
+    return {
+      // The comment shows the name as typed — "Hot Pink!", not "hot-pink".
+      // An unnamed role has nothing to show, so it falls back to its slug.
+      name: commentSafe(role.name) || slug,
+      scale: role.scale,
+      slug,
+      value: (key: number) => formatColor(role.scale[key as never], notation),
+    };
+  });
 
   return EMITTERS[format](named);
 }
