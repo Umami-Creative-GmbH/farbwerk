@@ -10,31 +10,6 @@
  */
 import { useTranslate } from "@tolgee/react";
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  ComposedChart,
-  Label,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  PolarAngleAxis,
-  PolarGrid,
-  Radar,
-  RadarChart,
-  RadialBar,
-  RadialBarChart,
-  Scatter,
-  ScatterChart,
-  XAxis,
-  YAxis,
-  ZAxis,
-} from "recharts";
-import {
   Card,
   CardContent,
   CardDescription,
@@ -44,11 +19,10 @@ import {
 import {
   type ChartConfig,
   ChartContainer,
-  ChartLegend,
   ChartLegendContent,
-  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useRecharts } from "@/components/ui/recharts";
 
 const CHART_BOX = "min-h-48 w-full";
 
@@ -231,6 +205,14 @@ function ChartCard({
 }
 
 function TrafficChart() {
+  const {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Legend: ChartLegend,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     signups: { color: "var(--chart-2)", label: t("gallery.charts.signups") },
@@ -252,6 +234,13 @@ function TrafficChart() {
 }
 
 function StackedBarChart() {
+  const {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     signups: { color: "var(--chart-3)", label: t("gallery.charts.signups") },
@@ -277,6 +266,14 @@ function StackedBarChart() {
 }
 
 function SourcesChart() {
+  const {
+    Cell,
+    Label,
+    Legend: ChartLegend,
+    Pie,
+    PieChart,
+    Tooltip: ChartTooltip,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     direct: { color: "var(--chart-1)", label: t("gallery.charts.direct") },
@@ -322,6 +319,13 @@ function SourcesChart() {
 }
 
 function PlanMixChart() {
+  const {
+    Cell,
+    Legend: ChartLegend,
+    Pie,
+    PieChart,
+    Tooltip: ChartTooltip,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     Agency: { color: "var(--chart-3)", label: "Agency" },
@@ -356,6 +360,14 @@ function PlanMixChart() {
 }
 
 function RetentionChart() {
+  const {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Tooltip: ChartTooltip,
+    XAxis,
+    YAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     returning: {
@@ -385,6 +397,13 @@ function RetentionChart() {
 }
 
 function SignupTrendChart() {
+  const {
+    CartesianGrid,
+    Line,
+    LineChart,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     signups: { color: "var(--chart-2)", label: t("gallery.charts.signups") },
@@ -409,6 +428,14 @@ function SignupTrendChart() {
 }
 
 function MultiLineChart() {
+  const {
+    CartesianGrid,
+    Legend: ChartLegend,
+    Line,
+    LineChart,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     signups: { color: "var(--chart-2)", label: t("gallery.charts.signups") },
@@ -442,6 +469,14 @@ function MultiLineChart() {
 }
 
 function DeviceAreaChart() {
+  const {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    Legend: ChartLegend,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     desktop: { color: "var(--chart-1)", label: t("gallery.charts.desktop") },
@@ -491,6 +526,15 @@ function DeviceAreaChart() {
 }
 
 function LedgerChart() {
+  const {
+    Bar,
+    CartesianGrid,
+    ComposedChart,
+    Legend: ChartLegend,
+    Line,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     cost: { color: "var(--chart-4)", label: t("gallery.charts.cost") },
@@ -523,6 +567,13 @@ function LedgerChart() {
 }
 
 function CoverageChart() {
+  const {
+    PolarAngleAxis,
+    PolarGrid,
+    Radar,
+    RadarChart,
+    Tooltip: ChartTooltip,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     score: { color: "var(--chart-3)", label: t("gallery.charts.score") },
@@ -546,6 +597,7 @@ function CoverageChart() {
 }
 
 function GoalChart() {
+  const { Label, PolarGrid, RadialBar, RadialBarChart } = useRecharts();
   const { t } = useTranslate();
   const config = {
     completed: {
@@ -580,6 +632,15 @@ function GoalChart() {
 }
 
 function LatencyChart() {
+  const {
+    CartesianGrid,
+    Scatter,
+    ScatterChart,
+    Tooltip: ChartTooltip,
+    XAxis,
+    YAxis,
+    ZAxis,
+  } = useRecharts();
   const { t } = useTranslate();
   const config = {
     latency: { color: "var(--chart-2)", label: t("gallery.charts.latency") },

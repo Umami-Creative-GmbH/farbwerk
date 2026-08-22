@@ -37,9 +37,3 @@ export type LinkedRole = Exclude<ScaleRole, "primary">;
 
 /** Output notations offered by the export modal and the color info table. */
 export type ColorNotation = "hex" | "oklch" | "hsl" | "rgb";
-
-const SCALE_KEY_SET: ReadonlySet<number> = new Set(SCALE_KEYS);
-
-export function isScaleKey(value: number): value is ScaleKey {
-  return SCALE_KEY_SET.has(value);
-}

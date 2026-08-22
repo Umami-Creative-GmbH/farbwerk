@@ -50,7 +50,6 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
@@ -58,7 +57,6 @@ import { Button } from "@/components/ui/button";
 import {
   type ChartConfig,
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -82,6 +80,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRecharts } from "@/components/ui/recharts";
 import {
   Select,
   SelectContent,
@@ -120,7 +119,7 @@ const columnHelper = createColumnHelper<
   z.infer<typeof schema>
 >();
 
-export const schema = z.object({
+const schema = z.object({
   header: z.string(),
   id: z.number(),
   limit: z.string(),
@@ -679,6 +678,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
+  const {
+    Area,
+    AreaChart,
+    CartesianGrid,
+    Tooltip: ChartTooltip,
+    XAxis,
+  } = useRecharts();
   const isMobile = useIsMobile();
   return (
     <Drawer swipeDirection={isMobile ? "down" : "right"}>

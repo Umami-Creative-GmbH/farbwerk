@@ -11,8 +11,15 @@
  * surface competing with the cards it contains.
  */
 import { useTranslate } from "@tolgee/react";
-import { type CSSProperties, useCallback, useMemo, useState } from "react";
+import {
+  type CSSProperties,
+  Suspense,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { usePalette } from "@/components/palette/palette-context";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   PILL,
   PILL_ACTIVE,
@@ -152,10 +159,19 @@ export function PaletteGallery({ mode, className }: PaletteGalleryProps) {
           CARD_CHROME
         )}
       >
-        {view === "components" ? <ComponentsView /> : null}
-        {view === "dashboard" ? <DashboardView /> : null}
-        {view === "charts" ? <ChartsView /> : null}
-        {view === "marketing" ? <MarketingView /> : null}
+        {/*
+          The dashboard and the charts pull recharts in on demand, so the first
+          switch to either one suspends while that chunk downloads. Everything
+          after it is served from the resolved module and renders straight away.
+        */}
+        <Suspense
+          fallback={<Skeleton className="h-64 w-full rounded-[20px]" />}
+        >
+          {view === "components" ? <ComponentsView /> : null}
+          {view === "dashboard" ? <DashboardView /> : null}
+          {view === "charts" ? <ChartsView /> : null}
+          {view === "marketing" ? <MarketingView /> : null}
+        </Suspense>
       </div>
     </section>
   );

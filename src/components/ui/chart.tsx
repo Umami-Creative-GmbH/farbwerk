@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import type { TooltipValueType } from "recharts";
-import * as RechartsPrimitive from "recharts";
+import type * as RechartsPrimitive from "recharts";
+
+import { useRecharts } from "@/components/ui/recharts";
 
 import { cn } from "@/lib/utils";
 
@@ -56,6 +57,7 @@ function ChartContainer({
     height: number;
   };
 }) {
+  const { ResponsiveContainer } = useRecharts();
   const uniqueId = React.useId();
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
@@ -71,11 +73,9 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle config={config} id={chartId} />
-        <RechartsPrimitive.ResponsiveContainer
-          initialDimension={initialDimension}
-        >
+        <ResponsiveContainer initialDimension={initialDimension}>
           {children}
-        </RechartsPrimitive.ResponsiveContainer>
+        </ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   );
@@ -114,8 +114,6 @@ ${colorConfig
   );
 };
 
-const ChartTooltip = RechartsPrimitive.Tooltip;
-
 function ChartTooltipContent({
   active,
   payload,
@@ -139,7 +137,7 @@ function ChartTooltipContent({
     labelKey?: string;
   } & Omit<
     RechartsPrimitive.DefaultTooltipContentProps<
-      TooltipValueType,
+      RechartsPrimitive.TooltipValueType,
       TooltipNameType
     >,
     "accessibilityLayer"
@@ -270,8 +268,6 @@ function ChartTooltipContent({
   );
 }
 
-const ChartLegend = RechartsPrimitive.Legend;
-
 function ChartLegendContent({
   className,
   hideIcon = false,
@@ -363,11 +359,4 @@ function getPayloadConfigFromPayload(
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
-export {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartStyle,
-  ChartTooltip,
-  ChartTooltipContent,
-};
+export { ChartContainer, ChartLegendContent, ChartStyle, ChartTooltipContent };
