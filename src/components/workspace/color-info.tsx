@@ -118,6 +118,7 @@ export function ColorInfoTab() {
         {rows.map((row) => (
           <div className="col-span-full grid grid-cols-subgrid" key={row.step}>
             <button
+              aria-label={t("info.swatch")}
               className={cn(CELL, ROW_HEIGHT)}
               data-label={t("info.step")}
               data-value={row.hex}

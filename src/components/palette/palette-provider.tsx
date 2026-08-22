@@ -9,6 +9,7 @@ import {
   initialPaletteState,
   paletteReducer,
   paletteScales,
+  rampSignature,
 } from "@/lib/palette/state";
 import { PaletteContext, type PaletteContextValue } from "./palette-context";
 
@@ -28,6 +29,18 @@ export function PaletteProvider({
     initialPaletteState(base, name)
   );
 
+  /**
+   * The ramps are memoised on what builds them, not on the state object.
+   *
+   * `setName` and `setActive` replace that object without touching a color, and
+   * handing out a fresh `scales` there repaints the whole gallery — recharts
+   * included — for nothing. Keyed on the signature instead, typing a role name
+   * leaves scale identity alone and the gallery's own memos hold.
+   */
+  const rampKey = rampSignature(state);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: rampKey is a value signature of every field the ramps read.
+  const scales = useMemo(() => paletteScales(state), [rampKey]);
+
   const value = useMemo<PaletteContextValue>(() => {
     const active = deriveFields(state, state.active) ?? state.roles.primary;
     return {
@@ -37,10 +50,10 @@ export function PaletteProvider({
       fieldsFor: (role) => deriveFields(state, role),
       scale: deriveScale(state, state.active) as ColorScale,
       scaleFor: (role) => deriveScale(state, role),
-      scales: paletteScales(state),
+      scales,
       state,
     };
-  }, [state]);
+  }, [state, scales]);
 
   return <PaletteContext value={value}>{children}</PaletteContext>;
 }
