@@ -40,7 +40,7 @@ function parseAcceptLanguage(header: string | undefined): string[] {
  * First supported locale in `preferred`, falling back to {@link defaultLocale}.
  * Tolgee's `detectLanguage` handles region subtags, so `de-AT` matches `de`.
  */
-function matchLocale(preferred: Array<string>): Locale {
+function matchLocale(preferred: string[]): Locale {
   for (const tag of preferred) {
     const match = detectLanguage(tag, [...locales]);
     if (isLocale(match)) {
