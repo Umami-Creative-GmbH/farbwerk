@@ -28,6 +28,31 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export const description = "An interactive area chart";
 
+const SHORT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
+  day: "numeric",
+  month: "short",
+};
+
+/**
+ * The axis ticks and the tooltip label render the same date the same way.
+ *
+ * Recharts types the tooltip label as `ReactNode`, which is wider than what
+ * this chart actually feeds it (the `date` string off each row), so narrow
+ * before parsing rather than asserting, and fall back to the raw value
+ * instead of letting an unparseable one render as "Invalid Date".
+ */
+const formatShortDate = (value: unknown) => {
+  if (typeof value !== "string" && typeof value !== "number") {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime())
+    ? String(value)
+    : date.toLocaleDateString("en-US", SHORT_DATE_OPTIONS);
+};
+
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
   { date: "2024-04-02", desktop: 97, mobile: 180 },
@@ -289,13 +314,7 @@ export function ChartAreaInteractive({
               axisLine={false}
               dataKey="date"
               minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  day: "numeric",
-                  month: "short",
-                });
-              }}
+              tickFormatter={formatShortDate}
               tickLine={false}
               tickMargin={8}
             />
@@ -303,12 +322,7 @@ export function ChartAreaInteractive({
               content={
                 <ChartTooltipContent
                   indicator="dot"
-                  labelFormatter={(value) =>
-                    new Date(value).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                    })
-                  }
+                  labelFormatter={formatShortDate}
                 />
               }
               cursor={false}

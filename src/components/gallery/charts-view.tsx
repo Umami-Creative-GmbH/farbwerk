@@ -309,8 +309,12 @@ function SourcesChart() {
           />
         </Pie>
         <ChartLegend
-          className="-translate-y-2 flex-wrap gap-2"
-          content={<ChartLegendContent nameKey="source" />}
+          content={
+            <ChartLegendContent
+              className="-translate-y-2 flex-wrap gap-2"
+              nameKey="source"
+            />
+          }
         />
       </PieChart>
     </ChartCard>
@@ -339,8 +343,12 @@ function PlanMixChart() {
           ))}
         </Pie>
         <ChartLegend
-          className="-translate-y-2 flex-wrap gap-2"
-          content={<ChartLegendContent nameKey="plan" />}
+          content={
+            <ChartLegendContent
+              className="-translate-y-2 flex-wrap gap-2"
+              nameKey="plan"
+            />
+          }
         />
       </PieChart>
     </ChartCard>

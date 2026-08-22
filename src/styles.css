@@ -144,6 +144,12 @@
   --fw-pink-ink: var(--pink-700);
   --fw-header-height: 84px;
 
+  /* Scrollbars — the thumb is the only painted part; the track stays clear so
+     a scroller never cuts a visible channel through a card. */
+  --scrollbar-size: 12px;
+  --scrollbar-thumb: var(--slate-300);
+  --scrollbar-thumb-hover: var(--slate-400);
+
   /* ---- shadcn tokens, mapped onto the system ---- */
   --background: var(--surface-subtle);
   --foreground: var(--text-body);
@@ -206,6 +212,11 @@
   --fw-pink-ink: #ff9ad3;
   --fw-active-bg: #eaf0fa;
   --fw-active-fg: #0b1428;
+
+  /* --scrollbar-thumb needs no override: it reads --slate-300, which the ramp
+     above already inverts. --slate-400 is not part of that inversion, so the
+     hover step is the one value that has to be re-aimed by hand. */
+  --scrollbar-thumb-hover: var(--slate-500);
 
   --background: var(--surface-subtle);
   --foreground: var(--text-body);
@@ -274,6 +285,57 @@
   input[type="color"]::-webkit-color-swatch {
     border: 1px solid var(--border-strong);
     border-radius: 12px;
+  }
+
+  /*
+   * Scrollbars.
+   *
+   * Two implementations of one look. Chromium and Safari take the
+   * ::-webkit-scrollbar pseudo-elements, which are what allow the inset pill.
+   * Firefox only understands the standard scrollbar-* properties.
+   *
+   * They have to be kept apart: once `scrollbar-color` is set, Chromium
+   * switches to the standard path and ignores the pseudo-elements entirely,
+   * which would cost us the pill. So the standard block sits behind a support
+   * test that engines with ::-webkit-scrollbar fail.
+   */
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    /* The transparent border plus content-box clipping insets the pill without
+       narrowing the hit area — the full 12px stays grabbable. */
+    background-color: var(--scrollbar-thumb);
+    background-clip: content-box;
+    border: 3px solid transparent;
+    border-radius: var(--radius-pill);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  /* The filler square where a vertical and horizontal bar meet. */
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+      scrollbar-width: thin;
+    }
+  }
+}
+
+/* Referenced by SidebarContent, which scrolls but should not show it. Tailwind
+   has no built-in for this, and without the definition the class was inert. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 

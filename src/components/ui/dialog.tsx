@@ -2,6 +2,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 import { cn } from "@/lib/utils";
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
@@ -27,20 +28,28 @@ function DialogOverlay({
   return (
     <DialogPrimitive.Backdrop
       className={cn(
-        // `inset-0` alone sizes against the initial containing block, which is
-        // the *document* — so on a page wide enough to scroll sideways (this
-        // app on a phone overflows by ~170px) the backdrop stopped short and
-        // read as cut off. Pinning the viewport explicitly fixes that. The
-        // dynamic units are deliberate: `100vh` is the tallest the viewport
-        // ever gets, so a mobile URL bar would push the backdrop past the
-        // fold, while `dvh`/`dvw` track what is actually on screen.
-        "data-open:fade-in-0 data-closed:fade-out-0 fixed inset-0 isolate z-50 h-dvh w-dvw bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
+        // Sized in viewport units, never percentages. On a page that overflows
+        // sideways — this app does, by ~170px on a phone — the initial
+        // containing block a fixed element resolves `%` against stretches to
+        // the content width, so `inset-0` produced a backdrop wider than the
+        // screen. `100vw` measures the screen itself.
+        //
+        // Height is `dvh` rather than `vh` because `vh` is the *largest* the
+        // viewport ever gets: with a mobile URL bar on screen it would push
+        // the backdrop past the fold. `dvh` tracks what is actually visible.
+        "data-open:fade-in-0 data-closed:fade-out-0 fixed top-0 left-0 isolate z-50 h-[100dvh] w-[100vw] bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
         className
       )}
       data-slot="dialog-overlay"
       {...props}
     />
   );
+}
+
+/** Holds the document scroll lock for exactly as long as it is mounted. */
+function ScrollLock() {
+  useScrollLock();
+  return null;
 }
 
 function DialogContent({
@@ -53,10 +62,23 @@ function DialogContent({
 }) {
   return (
     <DialogPortal>
+      {/*
+        Inside the portal, not in DialogContent's own body: DialogContent is
+        rendered by its parent whether the dialog is open or not, so a lock
+        taken there would engage on first mount and never lift. DialogPortal
+        defaults to keepMounted={false}, so anything in here mounts exactly
+        when the dialog opens and unmounts when it closes — which makes the
+        effect cleanup the release, however the dialog was dismissed.
+      */}
+      <ScrollLock />
       <DialogOverlay />
       <DialogPrimitive.Popup
         className={cn(
-          "data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground text-sm outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in sm:max-w-sm",
+          // Viewport units for the same reason as the backdrop: `max-w-
+          // [calc(100%-2rem)]` measured the overflowing content, not the
+          // screen, which made the popup 511px wide and centred it on the
+          // document — 139px of it hung off the right of a 375px phone.
+          "data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-[50dvh] left-[50vw] z-50 grid w-[100vw] max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground text-sm outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in sm:max-w-sm",
           className
         )}
         data-slot="dialog-content"
