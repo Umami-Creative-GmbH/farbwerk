@@ -27,7 +27,14 @@ function DialogOverlay({
   return (
     <DialogPrimitive.Backdrop
       className={cn(
-        "data-open:fade-in-0 data-closed:fade-out-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
+        // `inset-0` alone sizes against the initial containing block, which is
+        // the *document* — so on a page wide enough to scroll sideways (this
+        // app on a phone overflows by ~170px) the backdrop stopped short and
+        // read as cut off. Pinning the viewport explicitly fixes that. The
+        // dynamic units are deliberate: `100vh` is the tallest the viewport
+        // ever gets, so a mobile URL bar would push the backdrop past the
+        // fold, while `dvh`/`dvw` track what is actually on screen.
+        "data-open:fade-in-0 data-closed:fade-out-0 fixed inset-0 isolate z-50 h-dvh w-dvw bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
         className
       )}
       data-slot="dialog-overlay"

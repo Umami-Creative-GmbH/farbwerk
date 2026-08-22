@@ -1,13 +1,18 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: "Inter Variable", sans-serif;
+  /* Umami Creative: Outfit for display and UI, Manrope for body,
+     JetBrains Mono for every color value, hex code and scale key. */
+  --font-heading: "Outfit Variable", system-ui, sans-serif;
+  --font-sans: "Manrope Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,6 +44,12 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --radius-xs: 4px;
+  --radius-input: 8px;
+  --radius-control: 999px;
+  --radius-card: 20px;
+  --radius-dialog: 28px;
+  --radius-pill: 999px;
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -48,73 +59,186 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * Umami Creative design system.
+ *
+ * Straight from the attached token stylesheets: navy carries the chrome, four
+ * saturated accents form the rainbow set, and the neutrals are blue-cast slate
+ * — never pure grey, never pure black. Shadows are navy-tinted.
+ *
+ * The shadcn tokens below are mapped onto these, so every stock component
+ * inherits the brand without being rewritten.
+ */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Primary navy */
+  --navy-900: #0b1428;
+  --navy-800: #122143;
+  --navy-700: #14294c;
+  --navy-600: #1d3765;
+  --navy-500: #2b4c86;
+
+  /* Neutrals — blue-cast slate */
+  --slate-700: #3c4762;
+  --slate-600: #545f7a;
+  --slate-500: #6e7a94;
+  --slate-400: #96a0b5;
+  --slate-300: #c2c9d6;
+  --slate-200: #dfe4ec;
+  --slate-100: #eff2f7;
+  --slate-050: #f7f9fc;
+
+  /* Accents — the rainbow set */
+  --pink-500: #e60096;
+  --green-500: #00d4a8;
+  --orange-500: #ff8900;
+  --blue-500: #0078d2;
+
+  --pink-100: #fbdcef;
+  --green-100: #d3f7ee;
+  --orange-100: #ffebd1;
+  --blue-100: #d6eafa;
+
+  --pink-700: #b00074;
+  --green-700: #009d7c;
+  --orange-700: #c96b00;
+  --blue-700: #005ca3;
+
+  /* Semantic surfaces and ink */
+  --surface-page: #ffffff;
+  --surface-subtle: var(--slate-050);
+  --surface-muted: var(--slate-100);
+  --surface-card: #ffffff;
+  --surface-inverse: var(--navy-800);
+  --text-heading: var(--navy-800);
+  --text-body: var(--slate-700);
+  --text-muted: var(--slate-500);
+  --text-on-inverse-muted: #a8b4cc;
+  --border-subtle: var(--slate-200);
+  --border-strong: var(--slate-300);
+  --border-inverse: rgba(255, 255, 255, 0.16);
+
+  /* The one place all four accents appear together */
+  --gradient-rainbow: linear-gradient(
+    90deg,
+    var(--pink-500) 0%,
+    var(--orange-500) 33%,
+    var(--green-500) 66%,
+    var(--blue-500) 100%
+  );
+
+  /* Elevation — navy-tinted, never neutral black */
+  --shadow-xs: 0 1px 2px rgba(18, 33, 67, 0.06);
+  --shadow-sm: 0 2px 6px rgba(18, 33, 67, 0.07);
+  --shadow-md: 0 6px 18px rgba(18, 33, 67, 0.09);
+  --shadow-lg: 0 16px 40px rgba(18, 33, 67, 0.12);
+  --shadow-accent: 0 6px 20px rgba(230, 0, 150, 0.28);
+
+  /* Motion — confident and quick, no bounce */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+
+  /* Farbwerk-local */
+  --fw-active-bg: var(--navy-800);
+  --fw-active-fg: #ffffff;
+  --fw-pink-ink: var(--pink-700);
+  --fw-header-height: 84px;
+
+  /* ---- shadcn tokens, mapped onto the system ---- */
+  --background: var(--surface-subtle);
+  --foreground: var(--text-body);
+  --card: var(--surface-card);
+  --card-foreground: var(--text-heading);
+  --popover: var(--surface-card);
+  --popover-foreground: var(--text-heading);
+  --primary: var(--navy-800);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--text-heading);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--surface-muted);
+  --accent-foreground: var(--text-heading);
+  --destructive: var(--pink-700);
+  --border: var(--border-subtle);
+  --input: var(--border-strong);
+  --ring: var(--blue-500);
+  --chart-1: var(--blue-500);
+  --chart-2: var(--pink-500);
+  --chart-3: var(--green-500);
+  --chart-4: var(--orange-500);
+  --chart-5: var(--navy-800);
+  --radius: 0.875rem;
+  --sidebar: var(--surface-card);
+  --sidebar-foreground: var(--text-body);
+  --sidebar-primary: var(--navy-800);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-muted);
+  --sidebar-accent-foreground: var(--text-heading);
+  --sidebar-border: var(--border-subtle);
+  --sidebar-ring: var(--blue-500);
 }
 
+/*
+ * Dark: the surfaces the prototype settled on. The slate ramp inverts so
+ * anything reading a neutral token lands the right way up.
+ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --surface-page: #0b1428;
+  --surface-subtle: #0d1730;
+  --surface-muted: #1b2745;
+  --surface-card: #111d38;
+  --text-heading: #edf1f8;
+  --text-body: #c4cee1;
+  --text-muted: #8b99b7;
+  --border-subtle: #263352;
+  --border-strong: #35446a;
+
+  --slate-050: #0d1730;
+  --slate-100: #1b2745;
+  --slate-200: #263352;
+  --slate-300: #35446a;
+  --slate-500: #8b99b7;
+  --slate-600: #c4cee1;
+  --slate-700: #d6deec;
+
+  --pink-100: #3a0e2b;
+  --fw-pink-ink: #ff9ad3;
+  --fw-active-bg: #eaf0fa;
+  --fw-active-fg: #0b1428;
+
+  --background: var(--surface-subtle);
+  --foreground: var(--text-body);
+  --card: var(--surface-card);
+  --card-foreground: var(--text-heading);
+  --popover: var(--surface-card);
+  --popover-foreground: var(--text-heading);
+  --primary: #eaf0fa;
+  --primary-foreground: #0b1428;
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--text-heading);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--surface-muted);
+  --accent-foreground: var(--text-heading);
+  --destructive: #ff5fb8;
+  --border: var(--border-subtle);
+  --input: var(--border-strong);
+  --ring: #4aa3e8;
+  --chart-1: #4aa3e8;
+  --chart-2: #ff4fb8;
+  --chart-3: #2ee0bd;
+  --chart-4: #ffab4a;
+  --chart-5: #8b99b7;
+  --sidebar: var(--surface-card);
+  --sidebar-foreground: var(--text-body);
+  --sidebar-primary: #eaf0fa;
+  --sidebar-primary-foreground: #0b1428;
+  --sidebar-accent: var(--surface-muted);
+  --sidebar-accent-foreground: var(--text-heading);
+  --sidebar-border: var(--border-subtle);
+  --sidebar-ring: #4aa3e8;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -131,4 +255,56 @@
   html {
     @apply font-sans;
   }
+  /* The range thumb is the one place pink repeats — it reads as a value, not
+     as a second call to action. */
+  input[type="range"] {
+    accent-color: var(--pink-500);
+  }
+  input[type="color"] {
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+  }
+}
+
+/* Gallery preview overrides for the vendored dashboard-01 blocks.
+   Both live here rather than in Tailwind utilities because an arbitrary
+   property whose value is a var() — `[--color-mobile:var(--chart-2)]` — is
+   silently dropped by the class scanner. */
+/* Deliberately unlayered: ChartStyle injects its `[data-chart=…]` rule as a
+   plain <style> tag, and an unlayered declaration outranks anything inside
+   @layer no matter how specific. These have to sit on the same footing to win
+   on specificity. */
+
+/* dashboard-01 points both chart series at --primary, so the area chart reads
+   as one hue however many scales a palette carries. Re-aiming the second
+   series puts the secondary ramp on the view's largest colour surface. */
+.fw-chart-ramps [data-chart] {
+  --color-desktop: var(--chart-1);
+  --color-mobile: var(--chart-2);
+  /* Only painted when the palette has a tertiary scale — see showTertiary. */
+  --color-tablet: var(--chart-3);
+}
+
+/* Each stat card tints itself `from-primary/5`, so all four match. Spread them
+   across the ramps — with a single-scale palette the secondary and tertiary
+   resolve back to primary, so nothing changes. */
+.fw-stat-ramps > div > :nth-child(2) {
+  --primary: var(--s-600);
+}
+.fw-stat-ramps > div > :nth-child(3) {
+  --primary: var(--t-600);
+}
+.fw-stat-ramps > div > :nth-child(4) {
+  --primary: var(--s-700);
 }

@@ -1,0 +1,124 @@
+/**
+ * Header and footer — the Umami Creative chrome around the workspace.
+ *
+ * The header is the design system's inverse panel: navy, 84px, sticky, with the
+ * 3px rainbow hairline along its base. That hairline is the one place all four
+ * brand accents appear together; everywhere else a single accent punctuates at
+ * a time. The square pink dot beside the wordmark echoes the logo's one
+ * intentionally sharp shape.
+ */
+import { useTranslate } from "@tolgee/react";
+import { HeartIcon } from "lucide-react";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
+
+/** The agency site the wordmark and the footer byline both point at. */
+const AGENCY_URL = "https://umami-creative.de/";
+
+/** Intrinsic size of the wordmark, so the header reserves the right box. */
+const WORDMARK_WIDTH = 504;
+const WORDMARK_HEIGHT = 176;
+
+export function AppHeader() {
+  const { t } = useTranslate();
+
+  return (
+    <header className="sticky top-0 z-50 h-[var(--fw-header-height)] bg-[var(--navy-800)]">
+      <div className="mx-auto flex h-full min-w-0 items-center justify-between gap-6 px-8">
+        <div className="flex min-w-0 items-center gap-5">
+          {/* The wordmark ships as a flat white SVG, so it needs no dark-mode
+              variant — the header is navy in both themes. Its alt text is the
+              link's accessible name, so the anchor needs no label of its own. */}
+          <a
+            className="block shrink-0 transition-opacity hover:opacity-80"
+            href={AGENCY_URL}
+            rel="noopener"
+            target="_blank"
+          >
+            <img
+              alt="Umami Creative"
+              className="block h-8 w-auto"
+              height={WORDMARK_HEIGHT}
+              src="/umami-wordmark-white.svg"
+              width={WORDMARK_WIDTH}
+            />
+          </a>
+          <span
+            aria-hidden="true"
+            className="block h-[34px] w-px bg-white/22"
+          />
+          <span className="flex min-w-0 items-baseline gap-2">
+            <span className="font-heading font-semibold text-[21px] text-white tracking-[-0.02em]">
+              {t("app.brand")}
+            </span>
+            <span
+              aria-hidden="true"
+              className="inline-block size-[7px] rounded-[2px] bg-[var(--pink-500)]"
+            />
+            <span className="ml-2 whitespace-nowrap font-heading text-[11px] text-[var(--text-on-inverse-muted)] uppercase tracking-[0.16em]">
+              {t("home.eyebrow")}
+            </span>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="absolute right-0 bottom-0 left-0 h-[3px]"
+        style={{ background: "var(--gradient-rainbow)" }}
+      />
+    </header>
+  );
+}
+
+export function AppFooter() {
+  const { t } = useTranslate();
+
+  return (
+    <footer className="relative bg-[var(--navy-800)] px-8 py-7 text-[13px] text-[var(--text-on-inverse-muted)]">
+      {/* The rainbow hairline bookends the page: base of the header, top of
+          the footer. */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 right-0 left-0 h-[3px]"
+        style={{ background: "var(--gradient-rainbow)" }}
+      />
+      <div className="flex flex-wrap items-center justify-between gap-6">
+        <span className="inline-flex items-center gap-[7px]">
+          <span>{t("app.footer.tag")}</span>
+          <HeartIcon
+            aria-hidden="true"
+            className="size-[15px] fill-[var(--pink-500)] text-[var(--pink-500)]"
+          />
+          <a
+            className="text-inherit hover:text-white"
+            href={AGENCY_URL}
+            rel="noopener"
+            target="_blank"
+          >
+            {t("app.footer.by")}
+          </a>
+        </span>
+        <span className="flex gap-6 font-heading text-[11px] uppercase tracking-[0.16em]">
+          {/* The legal pages live on the agency site, not in this app. */}
+          <a
+            className="text-inherit hover:text-white"
+            href="https://umami-creative.de/impressum"
+          >
+            {t("app.footer.imprint")}
+          </a>
+          <a
+            className="text-inherit hover:text-white"
+            href="https://umami-creative.de/datenschutz"
+          >
+            {t("app.footer.privacy")}
+          </a>
+        </span>
+      </div>
+    </footer>
+  );
+}

@@ -131,12 +131,30 @@ const chartConfig = {
     color: "var(--primary)",
     label: "Mobile",
   },
+  tablet: {
+    color: "var(--primary)",
+    label: "Tablet",
+  },
   visitors: {
     label: "Visitors",
   },
 } satisfies ChartConfig;
 
-export function ChartAreaInteractive() {
+/** Third series relative to the two the fixture ships. */
+const TABLET_SHARE = 4;
+
+export interface ChartAreaInteractiveProps {
+  /**
+   * Renders a third, stacked series. The gallery turns this on only for a
+   * palette that actually has a tertiary scale, so the chart never invents a
+   * band that would just repeat the primary hue.
+   */
+  showTertiary?: boolean;
+}
+
+export function ChartAreaInteractive({
+  showTertiary = false,
+}: ChartAreaInteractiveProps = {}) {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = React.useState("90d");
 
@@ -159,6 +177,13 @@ export function ChartAreaInteractive() {
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   });
+
+  // The fixture only carries two series. Deriving the third keeps one source
+  // of truth for the data and makes the band track the shape of the others.
+  const seriesData = filteredData.map((item) => ({
+    ...item,
+    tablet: Math.round((item.desktop + item.mobile) / TABLET_SHARE),
+  }));
 
   return (
     <Card className="@container/card">
@@ -218,8 +243,22 @@ export function ChartAreaInteractive() {
           className="aspect-auto h-[250px] w-full"
           config={chartConfig}
         >
-          <AreaChart data={filteredData}>
+          <AreaChart data={seriesData}>
             <defs>
+              {showTertiary ? (
+                <linearGradient id="fillTablet" x1="0" x2="0" y1="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="var(--color-tablet)"
+                    stopOpacity={0.8}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="var(--color-tablet)"
+                    stopOpacity={0.1}
+                  />
+                </linearGradient>
+              ) : null}
               <linearGradient id="fillDesktop" x1="0" x2="0" y1="0" y2="1">
                 <stop
                   offset="5%"
@@ -274,6 +313,15 @@ export function ChartAreaInteractive() {
               }
               cursor={false}
             />
+            {showTertiary ? (
+              <Area
+                dataKey="tablet"
+                fill="url(#fillTablet)"
+                stackId="a"
+                stroke="var(--color-tablet)"
+                type="natural"
+              />
+            ) : null}
             <Area
               dataKey="mobile"
               fill="url(#fillMobile)"

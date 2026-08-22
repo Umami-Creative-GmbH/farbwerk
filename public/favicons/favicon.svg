@@ -1,0 +1,21 @@
+<svg
+  aria-label="Farbwerk"
+  height="512"
+  role="img"
+  viewBox="0 0 512 512"
+  width="512"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id="fw-rainbow" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#E60096"></stop>
+      <stop offset="0.34" stop-color="#FF8900"></stop>
+      <stop offset="0.67" stop-color="#00D4A8"></stop>
+      <stop offset="1" stop-color="#0078D2"></stop>
+    </linearGradient>
+  </defs>
+  <rect fill="#122143" height="512" width="512"></rect>
+  <path d="M154 146h151v37H198v55h106v33H198v99h-44z" fill="#FFFFFF"></path>
+  <rect fill="#E60096" height="52" rx="11" width="52" x="328" y="300"></rect>
+  <rect fill="url(#fw-rainbow)" height="28" width="512" y="484"></rect>
+</svg>
