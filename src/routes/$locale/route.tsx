@@ -1,5 +1,4 @@
 import { createFileRoute, notFound, Outlet } from "@tanstack/react-router";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { isLocale } from "@/i18n/config";
 
 export const Route = createFileRoute("/$locale")({
@@ -16,12 +15,5 @@ export const Route = createFileRoute("/$locale")({
 });
 
 function LocaleLayout() {
-  return (
-    <>
-      <div className="fixed top-4 right-4 z-50">
-        <LanguageSwitcher />
-      </div>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }

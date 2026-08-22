@@ -1,101 +1,81 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslate } from "@tolgee/react";
-import { type ChangeEvent, useCallback, useState } from "react";
-import { PaletteGallery } from "@/components/gallery/palette-gallery";
-import { usePalette } from "@/components/palette/palette-context";
+import { MobileNotice } from "@/components/mobile-notice";
 import { PaletteProvider } from "@/components/palette/palette-provider";
-import { ScaleStrip } from "@/components/palette/scale-strip";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { defaultLocale, isLocale } from "@/i18n/config";
+import { AppFooter, AppHeader } from "@/components/workspace/app-chrome";
+import { PaletteSidebar } from "@/components/workspace/palette-sidebar";
+import { Workspace } from "@/components/workspace/workspace";
+import { defaultLocale, isLocale, locales } from "@/i18n/config";
 import { translateStatic } from "@/i18n/static-translation";
-import { normalizeHex } from "@/lib/color/convert";
-import { randomBase } from "@/lib/palette/state";
+import { absoluteUrl, ogCard, ogLocale, xCard } from "@/lib/site";
 
 export const Route = createFileRoute("/$locale/")({
   head: ({ params }) => {
     const locale = isLocale(params.locale) ? params.locale : defaultLocale;
 
+    // translateStatic is invisible to the Tolgee extractor, so declare the
+    // keys here — otherwise `i18n:sync` would treat them as unused.
+    // @tolgee-key home.meta-title
+    // @tolgee-key home.description
+    const title = translateStatic(locale, "home.meta-title");
+    const description = translateStatic(locale, "home.description");
+    const url = absoluteUrl(`/${locale}`);
+    const og = ogCard(locale);
+    const x = xCard(locale);
+
     return {
-      // translateStatic is invisible to the Tolgee extractor, so declare the
-      // key here — otherwise `i18n:sync` would treat it as unused.
-      // @tolgee-key home.meta-title
-      meta: [{ title: translateStatic(locale, "home.meta-title") }],
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        { property: "og:image", content: og.url },
+        { property: "og:image:width", content: og.width },
+        { property: "og:image:height", content: og.height },
+        { property: "og:image:alt", content: title },
+        { property: "og:locale", content: ogLocale(locale) },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: x.url },
+        { name: "twitter:image:alt", content: title },
+      ],
+      links: [
+        { rel: "canonical", href: url },
+        // One alternate per language plus x-default, so a search engine ranks
+        // the seven translations as one page rather than as duplicates.
+        ...locales.map((alternate) => ({
+          rel: "alternate",
+          hrefLang: alternate,
+          href: absoluteUrl(`/${alternate}`),
+        })),
+        {
+          rel: "alternate",
+          hrefLang: "x-default",
+          href: absoluteUrl(`/${defaultLocale}`),
+        },
+      ],
     };
   },
   component: App,
 });
 
-/**
- * Placeholder for the sidebar from SPEC §4 — just enough control to drive the
- * palette until the real one is built.
- */
-function BaseControls() {
-  const { state, dispatch } = usePalette();
-  const [text, setText] = useState(state.roles.primary.base);
-
-  const commit = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const { value } = event.target;
-      setText(value);
-      const hex = normalizeHex(value);
-      if (hex) {
-        dispatch({ type: "setBase", base: hex });
-      }
-    },
-    [dispatch]
-  );
-
-  const roll = useCallback(() => {
-    const base = randomBase();
-    setText(base);
-    dispatch({ type: "randomize", base });
-  }, [dispatch]);
-
-  return (
-    <div className="flex flex-wrap items-end gap-3">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="base-hex">Base color</Label>
-        <div className="flex gap-2">
-          <Input
-            className="w-32 font-mono"
-            id="base-hex"
-            onChange={commit}
-            value={text}
-          />
-          <Input
-            aria-label="Pick base color"
-            className="w-14 p-1"
-            onChange={commit}
-            type="color"
-            value={state.roles.primary.base}
-          />
-        </div>
-      </div>
-      <Button onClick={roll} variant="outline">
-        Random
-      </Button>
-    </div>
-  );
-}
-
 function App() {
-  const { t } = useTranslate();
-
   return (
     <PaletteProvider>
-      <main className="mx-auto flex max-w-6xl flex-col gap-6 p-6">
-        <header className="flex flex-col gap-1">
-          <h1 className="font-medium text-2xl">{t("home.title")}</h1>
-          <p className="text-muted-foreground text-sm">
-            {t("home.description")}
-          </p>
-        </header>
-        <BaseControls />
-        <ScaleStrip />
-        <PaletteGallery />
-      </main>
+      <div className="min-h-svh bg-[var(--surface-subtle)] text-[var(--text-body)]">
+        <AppHeader />
+        {/*
+          Full-bleed app shell rather than a centred page: the sidebar is a
+          fixed 340px panel and the workspace takes whatever is left, so the
+          swatch strip and the gallery get the full width of the display.
+        */}
+        <div className="grid items-start lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+          <PaletteSidebar />
+          <Workspace />
+        </div>
+        <AppFooter />
+        <MobileNotice />
+      </div>
     </PaletteProvider>
   );
 }

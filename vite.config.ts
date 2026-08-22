@@ -17,7 +17,10 @@ const config = defineConfig({
     // Generate routeTree.gen.ts in the project's Prettier style, so
     // regenerating it does not fail `bun run check`.
     tanstackStart({ router: { quoteStyle: "double" } }),
-    viteReact(),
+    // React Compiler, via plugin-react's own option rather than a babel
+    // plugin — v6 runs the oxc transform and ignores a `babel` key entirely.
+    // React 19 ships the compiler runtime, so nothing else is needed.
+    viteReact({ compiler: true }),
   ],
   resolve: { tsconfigPaths: true },
 });
