@@ -24,14 +24,14 @@ export function ThemeToggle() {
   return (
     <button
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className={cn(HEADER_CONTROL, "size-[38px]")}
+      className={cn(HEADER_CONTROL, "size-9.5")}
       onClick={toggle}
       type="button"
     >
       {isDark ? (
-        <SunIcon className="size-[17px]" />
+        <SunIcon className="size-4.25" />
       ) : (
-        <MoonIcon className="size-[17px]" />
+        <MoonIcon className="size-4.25" />
       )}
     </button>
   );

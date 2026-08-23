@@ -24,9 +24,12 @@ function cachedNames(hexes: readonly string[]): Record<string, string> {
   return known;
 }
 
-async function fetchNames(hexes: readonly string[]): Promise<void> {
+async function fetchNames(
+  hexes: readonly string[],
+  signal: AbortSignal
+): Promise<void> {
   const query = hexes.map((hex) => `hex=${encodeURIComponent(hex)}`).join("&");
-  const response = await fetch(`/api/color-name?${query}`);
+  const response = await fetch(`/api/color-name?${query}`, { signal });
   if (!response.ok) {
     throw new Error(`Color name lookup failed: ${response.status}`);
   }
@@ -61,21 +64,24 @@ export function useColorNames(
       return;
     }
 
-    let cancelled = false;
+    // Supersedes the in-flight request as well as the pending timer, so a
+    // fast scrub cannot pile up overlapping lookups. The signal doubles as the
+    // "is this effect still current?" check before touching state.
+    const controller = new AbortController();
     const timer = setTimeout(() => {
-      fetchNames(missing)
+      fetchNames(missing, controller.signal)
         .then(() => {
-          if (!cancelled) {
+          if (!controller.signal.aborted) {
             setNames(cachedNames(list));
           }
         })
         .catch(() => {
-          // Naming is decoration; a failed lookup just leaves the label blank.
+          // Naming is decoration; a failed or aborted lookup leaves it blank.
         });
     }, SETTLE_MS);
 
     return () => {
-      cancelled = true;
+      controller.abort();
       clearTimeout(timer);
     };
   }, [wanted]);

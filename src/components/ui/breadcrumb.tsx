@@ -95,7 +95,7 @@ function BreadcrumbEllipsis({
     <span
       aria-hidden="true"
       className={cn(
-        "flex size-5 items-center justify-center [&>svg]:size-4",
+        "flex size-5 items-center justify-center",
         className
       )}
       data-slot="breadcrumb-ellipsis"

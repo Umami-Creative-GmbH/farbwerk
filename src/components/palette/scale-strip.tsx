@@ -55,8 +55,8 @@ export function ScaleStrip({ selected, onSelect, className }: ScaleStripProps) {
           <button
             aria-current={isSelected}
             className={cn(
-              "flex min-h-[94px] cursor-pointer flex-col items-start justify-between rounded-[14px] p-2.5 text-left",
-              "transition-transform duration-150 ease-[var(--ease-out)] hover:-translate-y-0.5"
+              "flex min-h-23.5 cursor-pointer flex-col items-start justify-between rounded-[14px] p-2.5 text-left",
+              "transition-transform duration-150 ease-out hover:-translate-y-0.5"
             )}
             data-step={key}
             key={key}
@@ -73,13 +73,13 @@ export function ScaleStrip({ selected, onSelect, className }: ScaleStripProps) {
           >
             <span
               aria-hidden="true"
-              className="size-[7px] rounded-[2px]"
+              className="size-1.75 rounded-[2px]"
               style={{
                 background: isAnchor ? "var(--pink-500)" : ink,
                 opacity: isAnchor ? 1 : 0.45,
               }}
             />
-            <span className="grid w-full gap-[3px]">
+            <span className="grid w-full gap-0.75">
               <span className="font-heading font-semibold text-[12px] tracking-[0.04em]">
                 {key}
               </span>

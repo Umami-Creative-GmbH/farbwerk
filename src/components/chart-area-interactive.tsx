@@ -248,7 +248,7 @@ export function ChartAreaInteractive({
           >
             <SelectTrigger
               aria-label="Select a value"
-              className="flex @[767px]/card:hidden w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate"
+              className="flex @[767px]/card:hidden w-40 **:data-[slot=select-value]:truncate"
               size="sm"
             >
               <SelectValue placeholder="Last 3 months" />
@@ -269,7 +269,7 @@ export function ChartAreaInteractive({
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-auto h-62.5 w-full"
           config={chartConfig}
         >
           <AreaChart data={seriesData}>

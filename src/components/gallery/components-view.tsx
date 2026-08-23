@@ -196,10 +196,10 @@ const CALENDAR_PARTS = {
   button_next:
     "flex size-[26px] select-none items-center justify-center rounded-full bg-[var(--p-500)] p-0 text-white transition-colors duration-150 hover:bg-[var(--p-600)] aria-disabled:opacity-50",
   button_previous:
-    "flex size-[26px] select-none items-center justify-center rounded-full bg-[var(--p-50)] p-0 text-[var(--p-700)] transition-colors duration-150 hover:bg-[var(--p-100)] aria-disabled:opacity-50",
+    "flex size-6.5 select-none items-center justify-center rounded-full bg-(--p-50) p-0 text-(--p-700) transition-colors duration-150 hover:bg-(--p-100) aria-disabled:opacity-50",
   caption_label:
-    "select-none font-heading text-[15px] text-[var(--fw-card-title)]",
-  weekday: "flex-1 select-none font-mono text-[10px] text-[var(--p-500)]",
+    "select-none font-heading text-[15px] text-(--fw-card-title)",
+  weekday: "flex-1 select-none font-mono text-[10px] text-(--p-500)",
 };
 
 function CalendarCard() {

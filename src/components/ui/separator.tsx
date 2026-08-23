@@ -10,7 +10,7 @@ function Separator({
   return (
     <SeparatorPrimitive
       className={cn(
-        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:self-stretch",
         className
       )}
       data-slot="separator"

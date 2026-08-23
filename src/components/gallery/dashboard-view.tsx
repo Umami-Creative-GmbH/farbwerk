@@ -80,10 +80,10 @@ const CARD_ALIGNED =
 /**
  * The table's toolbar is decoration here, not a control surface.
  *
- * Its tabs, column menu and "Add Section" all drive a table that exists only to
- * show the palette on a real data grid — clicking a tab swapped the rows out
+ * Its tabs, column menu and "Add Section"all drive a table that exists only to
+ * show the palette on a real data — clicking a tab swapped the rows out
  * for an empty placeholder panel, which reads as a broken preview. Switching it
- * off from the outside leaves `DataTable` stock, the same way the palette
+ * off from the outside leaves`DataTable` stock, the same way the palette
  * reaches it through tokens rather than through edits.
  */
 const OPTICAL_TOOLBAR =

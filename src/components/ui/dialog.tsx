@@ -37,7 +37,7 @@ function DialogOverlay({
         // Height is `dvh` rather than `vh` because `vh` is the *largest* the
         // viewport ever gets: with a mobile URL bar on screen it would push
         // the backdrop past the fold. `dvh` tracks what is actually visible.
-        "data-open:fade-in-0 data-closed:fade-out-0 fixed top-0 left-0 isolate z-50 h-[100dvh] w-[100vw] bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
+        "data-open:fade-in-0 data-closed:fade-out-0 fixed top-0 left-0 isolate z-50 h-dvh w-screen bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
         className
       )}
       data-slot="dialog-overlay"
@@ -78,7 +78,7 @@ function DialogContent({
           // [calc(100%-2rem)]` measured the overflowing content, not the
           // screen, which made the popup 511px wide and centred it on the
           // document — 139px of it hung off the right of a 375px phone.
-          "data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-[50dvh] left-[50vw] z-50 grid w-[100vw] max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground text-sm outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in sm:max-w-sm",
+          "data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-[50dvh] left-[50vw] z-50 grid w-screen max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground text-sm outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in sm:max-w-sm",
           className
         )}
         data-slot="dialog-content"

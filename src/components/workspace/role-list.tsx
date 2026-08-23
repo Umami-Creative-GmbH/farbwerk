@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { SECTION_LABEL } from "./chrome-styles";
 
 const HEADER_ACTION =
-  "cursor-pointer border-none bg-none p-0 font-heading text-[11px] uppercase tracking-[0.1em]";
+  "cursor-pointer border-none bg-none p-0 font-heading text-[11px] uppercase tracking-widest";
 
 export function RoleList() {
   const { t } = useTranslate();
@@ -65,7 +65,7 @@ export function RoleList() {
         <span className={SECTION_LABEL}>{t("sidebar.scales")}</span>
         {state.active === "primary" ? null : (
           <button
-            className={cn(HEADER_ACTION, "text-[var(--blue-500)]")}
+            className={cn(HEADER_ACTION, "text-(--blue-500)")}
             onClick={handlePromote}
             type="button"
           >
@@ -89,10 +89,10 @@ export function RoleList() {
               <button
                 aria-current={isActive}
                 className={cn(
-                  "grid cursor-pointer grid-cols-[16px_1fr_auto] items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left font-heading text-[13px] transition-[color,background-color,border-color] duration-150 ease-[var(--ease-out)]",
+                  "grid cursor-pointer grid-cols-[16px_1fr_auto] items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left font-heading text-[13px] transition-[color,background-color,border-color] duration-150 ease-out",
                   isActive
-                    ? "border-[var(--fw-active-bg)] bg-[var(--fw-active-bg)] text-[var(--fw-active-fg)]"
-                    : "border-[var(--border-subtle)] bg-[var(--surface-card)] text-[var(--text-body)] hover:border-[var(--border-strong)]"
+                    ? "border-(--fw-active-bg) bg-(--fw-active-bg) text-(--fw-active-fg)"
+                    : "border-(--border-subtle) bg-(--surface-card) text-(--text-body) hover:border-(--border-strong)"
                 )}
                 data-role={role}
                 onClick={handleSelect}
@@ -123,7 +123,7 @@ export function RoleList() {
               {role === "primary" ? null : (
                 <button
                   aria-label={t("role.remove")}
-                  className="flex size-[26px] cursor-pointer items-center justify-center rounded-full border border-[var(--border-subtle)] bg-[var(--surface-card)] font-heading text-[14px] text-[var(--slate-500)] leading-none transition-colors duration-150 ease-[var(--ease-out)] hover:border-[var(--pink-500)] hover:text-[var(--pink-500)]"
+                  className="flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-card) font-heading text-[14px] text-(--slate-500) leading-none transition-colors duration-150 ease-out hover:border-(--pink-500) hover:text-(--pink-500)"
                   data-role={role}
                   onClick={handleRemove}
                   type="button"
@@ -140,7 +140,7 @@ export function RoleList() {
         <button
           className={cn(
             HEADER_ACTION,
-            "mt-2.5 text-[var(--text-muted)] hover:text-[var(--text-heading)]"
+            "mt-2.5 text-(--text-muted) hover:text-(--text-heading)"
           )}
           data-role={nextRole}
           onClick={handleAdd}

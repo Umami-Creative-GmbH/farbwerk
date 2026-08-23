@@ -52,7 +52,7 @@ function chipTone(score: number): string {
   if (magnitude >= LARGE_TEXT_LC) {
     return "bg-[var(--orange-100)] text-[var(--orange-700)]";
   }
-  return "bg-[var(--surface-muted)] text-[var(--text-muted)]";
+  return "bg-(--surface-muted) text-(--text-muted)";
 }
 
 const HEADERS = ["swatch", "step", "hex", "oklch", "rgb", "apca"] as const;
@@ -107,7 +107,7 @@ export function ColorInfoTab() {
         >
           {HEADERS.map((header) => (
             <span
-              className="border-[var(--border-subtle)] border-b px-3 py-2"
+              className="border-(--border-subtle) border-b px-3 py-2"
               key={header}
             >
               {headerLabels[header]}

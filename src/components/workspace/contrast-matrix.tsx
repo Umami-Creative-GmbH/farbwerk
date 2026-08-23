@@ -45,9 +45,9 @@ const WCAG_DIGITS = 1;
  */
 const OPTION_ROW = [
   "flex cursor-pointer items-center rounded-[10px] px-3 text-left",
-  "text-[var(--text-body)] transition-colors duration-150 ease-[var(--ease-out)]",
-  "hover:bg-[var(--surface-muted)]",
-  "has-[[data-checked]]:bg-[var(--fw-active-bg)] has-[[data-checked]]:text-[var(--fw-active-fg)]",
+  "text-(--text-body) transition-colors duration-150 ease-out",
+  "hover:bg-(--surface-muted)",
+  "has-data-checked:bg-(--fw-active-bg) has-data-checked:text-(--fw-active-fg)",
   // The radio is hidden, so the row carries the focus ring for keyboard users.
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--ring)]",
 ].join(" ");
@@ -135,11 +135,11 @@ export function ContrastMatrixTab() {
 
   return (
     <div className="grid items-start lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)]">
-      <aside className="grid min-w-0 content-start gap-6 py-6 lg:border-[var(--border-subtle)] lg:border-r lg:pr-5">
+      <aside className="grid min-w-0 content-start gap-6 py-6 lg:border-(--border-subtle) lg:border-r lg:pr-5">
         <fieldset>
           <legend className={SECTION_LABEL}>{t("matrix.guidelines")}</legend>
           <RadioGroup
-            className="mt-2.5 grid gap-[3px]"
+            className="mt-2.5 grid gap-0.75"
             onValueChange={changeAlgorithm}
             value={algorithm}
           >
@@ -194,25 +194,25 @@ export function ContrastMatrixTab() {
           </RadioGroup>
         </fieldset>
 
-        <p className="border-[var(--border-subtle)] border-t pt-4 text-[12.5px] text-[var(--text-muted)] leading-[1.55]">
+        <p className="border-(--border-subtle) border-t pt-4 text-[12.5px] text-(--text-muted) leading-[1.55]">
           {note}
         </p>
       </aside>
 
       <div className="min-w-0 overflow-x-auto py-6 lg:pl-6">
-        <table className="w-full min-w-[500px] border-separate border-spacing-[3px] text-center font-mono">
+        <table className="w-full min-w-125 border-separate border-spacing-0.75 text-center font-mono">
           <caption className="sr-only">{t("matrix.caption")}</caption>
           <thead>
             <tr>
               <th
-                className="w-[42px] font-normal text-[10px] text-[var(--text-muted)]"
+                className="w-10.5 font-normal text-[10px] text-(--text-muted)"
                 scope="col"
               >
                 <span className="sr-only">{t("matrix.text-step")}</span>
               </th>
               {SCALE_KEYS.map((key) => (
                 <th
-                  className="pb-1.5 font-normal text-[10px] text-[var(--text-muted)]"
+                  className="pb-1.5 font-normal text-[10px] text-(--text-muted)"
                   key={key}
                   scope="col"
                 >
@@ -225,7 +225,7 @@ export function ContrastMatrixTab() {
             {cells.map((row, index) => (
               <tr key={SCALE_KEYS[index]}>
                 <th
-                  className="text-left font-normal text-[10px] text-[var(--text-muted)]"
+                  className="text-left font-normal text-[10px] text-(--text-muted)"
                   scope="row"
                 >
                   {SCALE_KEYS[index]}
@@ -238,7 +238,7 @@ export function ContrastMatrixTab() {
                   if (!cell.passes) {
                     return (
                       <td
-                        className="h-9 rounded-[9px] bg-[var(--surface-muted)] text-[10.5px] text-[var(--text-muted)] opacity-60"
+                        className="h-9 rounded-[9px] bg-(--surface-muted) text-[10.5px] text-(--text-muted) opacity-60"
                         key={cell.background}
                       >
                         ·
@@ -254,7 +254,7 @@ export function ContrastMatrixTab() {
                       <button
                         className={cn(
                           "flex h-9 w-full cursor-pointer items-center justify-center rounded-[9px] text-[10.5px] tabular-nums",
-                          "transition-transform duration-150 ease-[var(--ease-out)] hover:scale-105"
+                          "transition-transform duration-150 ease-out hover:scale-105"
                         )}
                         data-label={`${cell.text} on ${cell.background}`}
                         data-pair={`${cell.textHex} on ${cell.backgroundHex}`}

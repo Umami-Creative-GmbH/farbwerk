@@ -46,7 +46,7 @@ const ROW_LABEL =
 
 const LABEL_COLUMN = "104px";
 
-const OPTION_PILL = "px-4 py-2 uppercase tracking-[0.1em]";
+const OPTION_PILL = "px-4 py-2 uppercase tracking-widest";
 
 export function ExportDialog() {
   const { t } = useTranslate();
@@ -111,18 +111,18 @@ export function ExportDialog() {
 
       {/* sm:max-w-[860px], not max-w-: DialogContent ships an sm:max-w-sm that
           would otherwise win inside the breakpoint. */}
-      <DialogContent className="gap-0 rounded-[var(--radius-dialog)] p-0 sm:max-w-[860px]">
+      <DialogContent className="gap-0 rounded-dialog p-0 sm:max-w-215">
         <DialogHeader className="flex-row items-baseline gap-3 px-6 pt-6">
-          <DialogTitle className="font-heading text-[20px] text-[var(--text-heading)] tracking-[-0.02em]">
+          <DialogTitle className="font-heading text-[20px] text-(--text-heading) tracking-[-0.02em]">
             {t("export.title")}
           </DialogTitle>
-          <DialogDescription className="font-mono text-[12.5px] text-[var(--text-muted)]">
+          <DialogDescription className="font-mono text-[12.5px] text-(--text-muted)">
             {t("export.description", { count: roles.length })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="p-6">
-          <div className="mb-[18px] grid gap-3">
+          <div className="mb-4.5 grid gap-3">
             <div
               className="grid items-start gap-3"
               style={{
@@ -160,7 +160,7 @@ export function ExportDialog() {
                   className={cn(
                     PILL,
                     PILL_ACTIVE,
-                    "flex h-9 items-center gap-2 px-[18px] uppercase tracking-[0.12em]"
+                    "flex h-9 items-center gap-2 px-4.5 uppercase tracking-[0.12em]"
                   )}
                   onClick={handleCopy}
                   type="button"
@@ -172,7 +172,7 @@ export function ExportDialog() {
             </div>
 
             <div
-              className="grid items-start gap-3 border-[var(--border-subtle)] border-t pt-3"
+              className="grid items-start gap-3 border-(--border-subtle) border-t pt-3"
               style={{ gridTemplateColumns: `${LABEL_COLUMN} minmax(0,1fr)` }}
             >
               <span className={ROW_LABEL}>{t("export.notation")}</span>
@@ -196,7 +196,7 @@ export function ExportDialog() {
             </div>
           </div>
 
-          <pre className="max-h-[440px] overflow-auto rounded-2xl bg-[var(--navy-900)] p-[22px] font-mono text-[#dce4f2] text-[12.5px] leading-[1.7]">
+          <pre className="max-h-110 overflow-auto rounded-2xl bg-(--navy-900) p-5.5 font-mono text-[#dce4f2] text-[12.5px] leading-[1.7]">
             <code>{code}</code>
           </pre>
         </div>

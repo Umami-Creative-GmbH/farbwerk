@@ -65,7 +65,7 @@ export function HarmonyPicker() {
             <button
               className={cn(
                 PILL,
-                "flex items-center gap-2 px-3 py-[7px]",
+                "flex items-center gap-2 px-3 py-1.75",
                 isActive ? PILL_ACTIVE : PILL_IDLE
               )}
               data-harmony={option}
@@ -84,7 +84,7 @@ export function HarmonyPicker() {
           );
         })}
       </div>
-      <p className="mt-2.5 text-[12.5px] text-[var(--text-muted)] leading-[1.55]">
+      <p className="mt-2.5 text-[12.5px] text-(--text-muted) leading-[1.55]">
         {harmonyCopy[active.harmony].hint}
       </p>
     </div>

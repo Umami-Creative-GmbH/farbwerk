@@ -143,7 +143,7 @@ export function PaletteSidebar() {
     : t("sidebar.anchor-pinned");
 
   return (
-    <aside className="grid content-start gap-6 border-[var(--border-subtle)] bg-[var(--surface-card)] px-6 pt-[26px] pb-8 [scrollbar-gutter:stable] lg:sticky lg:top-[var(--fw-header-height)] lg:h-[calc(100vh-var(--fw-header-height))] lg:overflow-y-auto lg:border-r">
+    <aside className="grid content-start gap-6 border-(--border-subtle) bg-(--surface-card) px-6 pt-6.5 pb-8 scrollbar-gutter-stable lg:sticky lg:top-(--fw-header-height) lg:h-[calc(100vh-var(--fw-header-height))] lg:overflow-y-auto lg:border-r">
       <RoleList />
 
       <div>
@@ -163,7 +163,7 @@ export function PaletteSidebar() {
           The name lookup is debounced and asynchronous, so unmounting this
           while it resolves made every control below it jump on each new color.
         */}
-        <p className="mt-2 min-h-[1.5em] text-[12.5px] text-[var(--text-muted)] leading-[1.5]">
+        <p className="mt-2 min-h-[1.5em] text-[12.5px] text-(--text-muted) leading-normal">
           {active.name.trim()
             ? null
             : t("sidebar.nearest-name", { name: resolvedName ?? "" })}
@@ -179,7 +179,7 @@ export function PaletteSidebar() {
           {PRESETS.map((hex) => (
             <button
               aria-label={hex}
-              className="size-[26px] cursor-pointer rounded-full border border-[rgba(18,33,67,.14)] transition-transform duration-150 ease-[var(--ease-out)] hover:-translate-y-0.5"
+              className="size-6.5 cursor-pointer rounded-full border border-[rgba(18,33,67,.14)] transition-transform duration-150 ease-out hover:-translate-y-0.5"
               data-hex={hex}
               key={hex}
               onClick={handlePreset}
@@ -199,7 +199,7 @@ export function PaletteSidebar() {
           <span className={SECTION_LABEL}>{t("sidebar.anchor-step")}</span>
           {/* fw-pink-ink, not pink-500: the accent needs to lift off the dark
               surface as well as sit on the light one. */}
-          <span className="font-mono text-[11px] text-[var(--fw-pink-ink)]">
+          <span className="font-mono text-[11px] text-(--fw-pink-ink)">
             {anchorLabel} {anchorStep}
           </span>
         </div>
@@ -207,7 +207,7 @@ export function PaletteSidebar() {
           <button
             className={cn(
               PILL,
-              "h-[30px] min-w-[38px] px-2.5",
+              "h-7.5 min-w-9.5 px-2.5",
               isAuto ? PILL_ACTIVE : PILL_IDLE
             )}
             data-anchor="auto"
@@ -220,7 +220,7 @@ export function PaletteSidebar() {
             <button
               className={cn(
                 PILL,
-                "h-[30px] min-w-[38px] px-2.5",
+                "h-7.5 min-w-9.5 px-2.5",
                 !isAuto && active.anchor === key ? PILL_ACTIVE : PILL_IDLE
               )}
               data-anchor={key}
@@ -232,12 +232,12 @@ export function PaletteSidebar() {
             </button>
           ))}
         </div>
-        <p className="mt-2.5 text-[12.5px] text-[var(--text-muted)] leading-[1.55]">
+        <p className="mt-2.5 text-[12.5px] text-(--text-muted) leading-[1.55]">
           {t("sidebar.anchor-auto", { step: detectedStep })}
         </p>
       </div>
 
-      <div className="grid gap-[18px]">
+      <div className="grid gap-4.5">
         {SLIDERS.map((slider) => (
           <SliderRow
             key={slider.control}
@@ -248,9 +248,9 @@ export function PaletteSidebar() {
         ))}
       </div>
 
-      <div className="grid gap-3 border-[var(--border-subtle)] border-t pt-5">
+      <div className="grid gap-3 border-(--border-subtle) border-t pt-5">
         <button
-          className="h-11 cursor-pointer rounded-full border border-transparent bg-[var(--surface-muted)] font-heading text-[12px] text-[var(--slate-600)] uppercase tracking-[0.12em] transition-colors duration-150 ease-[var(--ease-out)] hover:text-[var(--navy-800)] disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-11 cursor-pointer rounded-full border border-transparent bg-(--surface-muted) font-heading text-[12px] text-(--slate-600) uppercase tracking-[0.12em] transition-colors duration-150 ease-out hover:text-(--navy-800) disabled:opacity-50"
           disabled={editedCount === 0}
           onClick={handleResetEdits}
           type="button"
@@ -289,7 +289,7 @@ function SliderRow({ slider, value, onChange }: SliderRowProps) {
         <label className={SECTION_LABEL} htmlFor={`slider-${slider.control}`}>
           {copy.label}
         </label>
-        <span className="font-mono text-[11px] text-[var(--text-heading)] tabular-nums">
+        <span className="font-mono text-[11px] text-(--text-heading) tabular-nums">
           {isHue
             ? `${value > 0 ? "+" : ""}${value.toFixed(HUE_DIGITS)}°`
             : value.toFixed(RATIO_DIGITS)}
@@ -305,7 +305,7 @@ function SliderRow({ slider, value, onChange }: SliderRowProps) {
         type="range"
         value={value}
       />
-      <p className="mt-2 text-[12.5px] text-[var(--text-muted)] leading-[1.55]">
+      <p className="mt-2 text-[12.5px] text-(--text-muted) leading-[1.55]">
         {copy.hint}
       </p>
     </div>

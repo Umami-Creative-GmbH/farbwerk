@@ -51,7 +51,7 @@ export function ColorSwatchPicker({
       <PopoverTrigger
         aria-label={label}
         className={cn(
-          "shrink-0 cursor-pointer border border-[var(--border-strong)] transition-transform duration-150 ease-[var(--ease-out)] hover:-translate-y-0.5",
+          "shrink-0 cursor-pointer border border-(--border-strong) transition-transform duration-150 ease-out hover:-translate-y-0.5",
           className
         )}
         style={{ background: value }}
@@ -91,7 +91,7 @@ export function ColorPickerField({ value, onChange }: ColorPickerFieldProps) {
     <div className="flex items-center gap-2.5">
       {/* Radius matches FIELD_INPUT beside it, so the pair reads as one control. */}
       <ColorSwatchPicker
-        className="h-11 w-[52px] rounded-[8px]"
+        className="h-11 w-13 rounded-input"
         label={t("sidebar.pick-base")}
         onChange={onChange}
         value={value}

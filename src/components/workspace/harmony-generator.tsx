@@ -86,24 +86,24 @@ export function HarmonyGenerator() {
     <div>
       <button
         aria-expanded={open}
-        className="flex h-[42px] w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-card)] font-heading text-[11px] text-[var(--text-heading)] uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-[var(--ease-out)] hover:border-[var(--fw-active-bg)] hover:bg-[var(--fw-active-bg)] hover:text-[var(--fw-active-fg)]"
+        className="flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-[11px] text-(--text-heading) uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)"
         onClick={toggle}
         type="button"
       >
         {t("harmony.generate")}
         <ChevronDownIcon
           className={cn(
-            "size-3.5 transition-transform duration-150 ease-[var(--ease-out)]",
+            "size-3.5 transition-transform duration-150 ease-out",
             open && "rotate-180"
           )}
         />
       </button>
 
       {open ? (
-        <div className="mt-2.5 grid gap-0.5 rounded-[14px] border border-[var(--border-subtle)] p-2 shadow-[0_8px_24px_rgba(18,33,67,.10)]">
+        <div className="mt-2.5 grid gap-0.5 rounded-[14px] border border-(--border-subtle) p-2 shadow-[0_8px_24px_rgba(18,33,67,.10)]">
           {HARMONY_RULES.map((rule) => (
             <button
-              className="grid cursor-pointer grid-cols-[30px_minmax(0,1fr)] items-center gap-3 rounded-[10px] px-2.5 py-2 text-left transition-colors duration-150 ease-[var(--ease-out)] hover:bg-[var(--surface-muted)]"
+              className="grid cursor-pointer grid-cols-[30px_minmax(0,1fr)] items-center gap-3 rounded-[10px] px-2.5 py-2 text-left transition-colors duration-150 ease-out hover:bg-(--surface-muted)"
               data-rule={rule}
               key={rule}
               onClick={apply}
@@ -111,7 +111,7 @@ export function HarmonyGenerator() {
             >
               <span
                 aria-hidden="true"
-                className="relative block size-[30px] rounded-full border border-[var(--border-subtle)] bg-[var(--surface-card)]"
+                className="relative block size-7.5 rounded-full border border-(--border-subtle) bg-(--surface-card)"
               >
                 {wheelDots(rule, primaryBase).map((dot) => (
                   <span
@@ -129,10 +129,10 @@ export function HarmonyGenerator() {
                 ))}
               </span>
               <span className="grid min-w-0 gap-0.5">
-                <span className="font-heading text-[12.5px] text-[var(--text-heading)]">
+                <span className="font-heading text-[12.5px] text-(--text-heading)">
                   {harmonyCopy[rule].name}
                 </span>
-                <span className="text-[11.5px] text-[var(--text-muted)] leading-[1.35]">
+                <span className="text-[11.5px] text-(--text-muted) leading-[1.35]">
                   {harmonyCopy[rule].hint}
                 </span>
               </span>

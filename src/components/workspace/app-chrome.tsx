@@ -23,7 +23,7 @@ export function AppHeader() {
   const { t } = useTranslate();
 
   return (
-    <header className="sticky top-0 z-50 h-[var(--fw-header-height)] bg-[var(--navy-800)]">
+    <header className="sticky top-0 z-50 h-(--fw-header-height) bg-(--navy-800)">
       <div className="mx-auto flex h-full min-w-0 items-center justify-between gap-6 px-8">
         <div className="flex min-w-0 items-center gap-5">
           {/* The wordmark ships as a flat white SVG, so it needs no dark-mode
@@ -45,7 +45,7 @@ export function AppHeader() {
           </a>
           <span
             aria-hidden="true"
-            className="block h-[34px] w-px bg-white/22"
+            className="block h-8.5 w-px bg-white/22"
           />
           <span className="flex min-w-0 items-baseline gap-2">
             <span className="font-heading font-semibold text-[21px] text-white tracking-[-0.02em]">
@@ -53,9 +53,9 @@ export function AppHeader() {
             </span>
             <span
               aria-hidden="true"
-              className="inline-block size-[7px] rounded-[2px] bg-[var(--pink-500)]"
+              className="inline-block size-1.75 rounded-[2px] bg-(--pink-500)"
             />
-            <span className="ml-2 whitespace-nowrap font-heading text-[11px] text-[var(--text-on-inverse-muted)] uppercase tracking-[0.16em]">
+            <span className="ml-2 whitespace-nowrap font-heading text-[11px] text-(--text-on-inverse-muted) uppercase tracking-[0.16em]">
               {t("home.eyebrow")}
             </span>
           </span>
@@ -68,7 +68,7 @@ export function AppHeader() {
       </div>
       <div
         aria-hidden="true"
-        className="absolute right-0 bottom-0 left-0 h-[3px]"
+        className="absolute right-0 bottom-0 left-0 h-0.75"
         style={{ background: "var(--gradient-rainbow)" }}
       />
     </header>
@@ -79,20 +79,20 @@ export function AppFooter() {
   const { t } = useTranslate();
 
   return (
-    <footer className="relative bg-[var(--navy-800)] px-8 py-7 text-[13px] text-[var(--text-on-inverse-muted)]">
+    <footer className="relative bg-(--navy-800) px-8 py-7 text-[13px] text-(--text-on-inverse-muted)">
       {/* The rainbow hairline bookends the page: base of the header, top of
           the footer. */}
       <div
         aria-hidden="true"
-        className="absolute top-0 right-0 left-0 h-[3px]"
+        className="absolute top-0 right-0 left-0 h-0.75"
         style={{ background: "var(--gradient-rainbow)" }}
       />
       <div className="flex flex-wrap items-center justify-between gap-6">
-        <span className="inline-flex items-center gap-[7px]">
+        <span className="inline-flex items-center gap-1.75">
           <span>{t("app.footer.tag")}</span>
           <HeartIcon
             aria-hidden="true"
-            className="size-[15px] fill-[var(--pink-500)] text-[var(--pink-500)]"
+            className="size-3.75 fill-(--pink-500) text-(--pink-500)"
           />
           <a
             className="text-inherit hover:text-white"

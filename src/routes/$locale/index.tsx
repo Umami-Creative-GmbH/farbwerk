@@ -62,7 +62,7 @@ export const Route = createFileRoute("/$locale/")({
 function App() {
   return (
     <PaletteProvider>
-      <div className="min-h-svh bg-[var(--surface-subtle)] text-[var(--text-body)]">
+      <div className="min-h-svh bg-(--surface-subtle) text-(--text-body)">
         <AppHeader />
         {/*
           Full-bleed app shell rather than a centred page: the sidebar is a

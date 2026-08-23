@@ -54,13 +54,13 @@ function useSubViewLabels(): Record<SubView, string> {
  *
  * SPEC §4 calls for a grid and warns off multi-column ("pushes cards into
  * off-canvas columns and clips them"), but a grid cannot close the gaps under
- * short cards — that needs masonry, which CSS grid still does not ship. The
+ * short cards — that needs masonry, which CSS still does not ship. The
  * prototype's clipping came from a height-constrained container; this one is
  * auto-height inside the page scroll, and each card is break-inside: avoid.
  * Verified: no clipping, no horizontal overflow.
  */
 const CARD_GRID =
-  "columns-[268px] gap-5 [&>*]:mb-5 [&>*]:block [&>*]:w-full [&>*]:break-inside-avoid";
+  "columns-[268px] gap-5 *:mb-5 *:block *:w-full *:break-inside-avoid";
 /**
  * Dashboard blocks are full-bleed by nature, so they stack instead of tiling.
  * Marketing stacks too, but for the opposite reason: it brings its own wider
@@ -79,20 +79,20 @@ const STACKED: readonly SubView[] = ["dashboard", "marketing"];
  */
 const CARD_CHROME = [
   "[&_[data-slot=card]]:[--card-spacing:20px]",
-  "[&_[data-slot=card]]:rounded-[20px]",
-  "[&_[data-slot=card]]:border",
-  "[&_[data-slot=card]]:border-[var(--border-subtle)]",
-  "[&_[data-slot=card]]:bg-[var(--surface-card)]",
-  "[&_[data-slot=card]]:shadow-[var(--shadow-xs)]",
+  "**:data-[slot=card]:rounded-card",
+  "**:data-[slot=card]:border",
+  "**:data-[slot=card]:border-(--border-subtle)",
+  "**:data-[slot=card]:bg-(--surface-card)",
+  "**:data-[slot=card]:shadow-(--shadow-xs)",
   "[&_[data-slot=card]]:ring-0",
-  "[&_[data-slot=card-title]]:font-normal",
-  "[&_[data-slot=card-title]]:text-[15px]",
-  "[&_[data-slot=card-title]]:text-[var(--fw-card-title)]",
-  "[&_[data-slot=card-description]]:text-[12px]",
-  "[&_[data-slot=card-description]]:text-[var(--fw-card-desc)]",
+  "**:data-[slot=card-title]:font-normal",
+  "**:data-[slot=card-title]:text-[15px]",
+  "**:data-[slot=card-title]:text-(--fw-card-title)",
+  "**:data-[slot=card-description]:text-[12px]",
+  "**:data-[slot=card-description]:text-(--fw-card-desc)",
   // The reference has no tinted footer band; the action just sits in the card.
-  "[&_[data-slot=card-footer]]:border-t-0",
-  "[&_[data-slot=card-footer]]:bg-transparent",
+  "**:data-[slot=card-footer]:border-t-0",
+  "**:data-[slot=card-footer]:bg-transparent",
 ].join(" ");
 
 export interface PaletteGalleryProps {
@@ -165,7 +165,7 @@ export function PaletteGallery({ mode, className }: PaletteGalleryProps) {
           after it is served from the resolved module and renders straight away.
         */}
         <Suspense
-          fallback={<Skeleton className="h-64 w-full rounded-[20px]" />}
+          fallback={<Skeleton className="h-64 w-full rounded-card" />}
         >
           {view === "components" ? <ComponentsView /> : null}
           {view === "dashboard" ? <DashboardView /> : null}

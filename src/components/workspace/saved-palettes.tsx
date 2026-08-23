@@ -94,7 +94,7 @@ export function SavedPalettes() {
       </span>
 
       {palettes.length === 0 ? (
-        <p className="text-[13px] text-[var(--text-muted)]">
+        <p className="text-[13px] text-(--text-muted)">
           {t("sidebar.saved-empty")}
         </p>
       ) : (
@@ -117,7 +117,7 @@ export function SavedPalettes() {
             }
             return (
               <div
-                className="group grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-1 rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-card)] p-2 transition-colors duration-150 ease-[var(--ease-out)] hover:border-[var(--border-strong)]"
+                className="group grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-1 rounded-xl border border-(--border-subtle) bg-(--surface-card) p-2 transition-colors duration-150 ease-out hover:border-(--border-strong)"
                 key={entry.id}
               >
                 <button
@@ -126,7 +126,7 @@ export function SavedPalettes() {
                   onClick={handleOpen}
                   type="button"
                 >
-                  <span className="truncate font-mono text-[12px] text-[var(--text-heading)]">
+                  <span className="truncate font-mono text-[12px] text-(--text-heading)">
                     {entry.name}
                   </span>
                   <span className="flex overflow-hidden rounded-full">
@@ -141,7 +141,7 @@ export function SavedPalettes() {
                 </button>
                 <button
                   aria-label={t("sidebar.rename")}
-                  className={cn(ROW_ACTION, "hover:text-[var(--blue-500)]")}
+                  className={cn(ROW_ACTION, "hover:text-(--blue-500)")}
                   data-id={entry.id}
                   data-name={entry.name}
                   onClick={startRename}
@@ -151,7 +151,7 @@ export function SavedPalettes() {
                 </button>
                 <button
                   aria-label={t("sidebar.delete")}
-                  className={cn(ROW_ACTION, "hover:text-[var(--pink-500)]")}
+                  className={cn(ROW_ACTION, "hover:text-(--pink-500)")}
                   data-id={entry.id}
                   onClick={handleDelete}
                   type="button"

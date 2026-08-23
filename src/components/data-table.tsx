@@ -199,7 +199,7 @@ const columns = columnHelper.columns([
     cell: ({ row }) => (
       <Badge className="px-1.5 text-muted-foreground" variant="outline">
         {row.original.status === "Done" ? (
-          <CircleCheckIcon className="fill-green-500 dark:fill-green-400" />
+          <CircleCheckIcon className="fill-green-500" />
         ) : (
           <LoaderIcon />
         )}
@@ -224,7 +224,7 @@ const columns = columnHelper.columns([
           Target
         </Label>
         <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:focus-visible:bg-input/30 dark:hover:bg-input/30"
+          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
           defaultValue={row.original.target}
           id={`${row.original.id}-target`}
         />
@@ -248,7 +248,7 @@ const columns = columnHelper.columns([
           Limit
         </Label>
         <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border focus-visible:bg-background dark:bg-transparent dark:focus-visible:bg-input/30 dark:hover:bg-input/30"
+          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
           defaultValue={row.original.limit}
           id={`${row.original.id}-limit`}
         />
@@ -331,7 +331,7 @@ function DraggableRow({
   });
   return (
     <TableRow
-      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+      className="relative z-0 data-[dragging=true]:opacity-80"
       data-dragging={isDragging}
       data-state={row.getIsSelected() && "selected"}
       ref={setNodeRef}

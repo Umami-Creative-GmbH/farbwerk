@@ -24,7 +24,7 @@ function LocaleFlag({ locale }: { locale: Locale }) {
 
   if (!src) {
     return (
-      <span aria-hidden="true" className="w-[18px] text-center text-[15px]">
+      <span aria-hidden="true" className="w-4.5 text-center text-[15px]">
         {localeEmoji[locale]}
       </span>
     );
@@ -33,7 +33,7 @@ function LocaleFlag({ locale }: { locale: Locale }) {
   return (
     <img
       alt=""
-      className="h-[13.5px] w-[18px] rounded-[2px] object-cover"
+      className="h-[13.5px] w-4.5 rounded-[2px] object-cover"
       height={FLAG_HEIGHT}
       src={src}
       width={FLAG_WIDTH}
@@ -64,7 +64,7 @@ export function LanguageSwitcher() {
         aria-label={t("language-switcher.label")}
         className={cn(
           HEADER_CONTROL,
-          "h-[38px] gap-2.5 px-3.5 font-heading text-[12px] uppercase tracking-[0.1em]"
+          "h-9.5 gap-2.5 px-3.5 font-heading text-[12px] uppercase tracking-widest"
         )}
       >
         <LocaleFlag locale={activeLocale} />
@@ -76,7 +76,7 @@ export function LanguageSwitcher() {
         align="end"
         // rounded-[16px], not rounded-2xl: the theme scales its radius steps
         // off --radius, which lands 2xl at 25px rather than the design's 16.
-        className="min-w-[190px] gap-0.5 rounded-[16px] p-2 shadow-[0_16px_40px_rgba(18,33,67,.22)]"
+        className="min-w-47.5 gap-0.5 rounded-[16px] p-2 shadow-[0_16px_40px_rgba(18,33,67,.22)]"
       >
         {locales.map((locale) => {
           const isActive = locale === activeLocale;
@@ -90,7 +90,7 @@ export function LanguageSwitcher() {
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
                   "grid w-full grid-cols-[22px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-2.5 py-2.5 font-heading text-[13px]",
-                  isActive && "bg-[var(--surface-muted)] font-medium"
+                  isActive && "bg-(--surface-muted) font-medium"
                 )}
                 hrefLang={locale}
                 // biome-ignore lint/performance/noJsxPropsBind: TanStack types the param reducer against the matched route, so hoisting it costs more in casts than seven closures cost at runtime.

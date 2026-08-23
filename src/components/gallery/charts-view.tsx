@@ -622,7 +622,7 @@ function GoalChart() {
         />
         <RadialBar background cornerRadius={8} dataKey="completed" />
         <Label
-          className="fill-[var(--fw-card-title)] font-mono text-xl"
+          className="fill-(--fw-card-title) font-mono text-xl"
           position="center"
           value={`${GOAL_PERCENT}%`}
         />

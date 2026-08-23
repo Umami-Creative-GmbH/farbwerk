@@ -54,10 +54,10 @@ function useTabLabels(): Record<WorkspaceTab, string> {
 const TAB_TRIGGER = [
   "flex-none rounded-none px-3.5 pt-2.5 pb-3.5",
   "font-heading text-[12px] uppercase tracking-[0.12em]",
-  "text-[var(--text-muted)] data-active:text-[var(--text-heading)]",
+  "text-(--text-muted)",
   "group-data-horizontal/tabs:after:bottom-[-1px]",
   "group-data-horizontal/tabs:after:h-[3px]",
-  "after:bg-[var(--pink-500)]",
+  "after:bg-(--pink-500)",
 ].join(" ");
 
 /** Same story: the list is pinned to h-8 by a variant class. */
@@ -84,17 +84,17 @@ export function Workspace() {
   return (
     <div className="flex min-w-0 flex-col">
       <Tabs className="gap-0" defaultValue="preview" onValueChange={undefined}>
-        <div className="sticky top-[var(--fw-header-height)] z-30 border-[var(--border-subtle)] border-b bg-[var(--surface-subtle)] px-8 pt-6">
+        <div className="sticky top-(--fw-header-height) z-30 border-(--border-subtle) border-b bg-(--surface-subtle) px-8 pt-6">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-5">
             <div className="flex min-w-0 flex-wrap items-center gap-3">
-              <span className="font-heading text-[23px] text-[var(--text-heading)] tracking-[-0.02em]">
+              <span className="font-heading text-[23px] text-(--text-heading) tracking-[-0.02em]">
                 {roleNames[state.active] ?? roleLabels[state.active]}
               </span>
-              <span className="rounded-full bg-[var(--pink-100)] px-3 py-1.5 font-heading text-[11px] text-[var(--fw-pink-ink)] uppercase tracking-[0.14em]">
+              <span className="rounded-full bg-(--pink-100) px-3 py-1.5 font-heading text-[11px] text-(--fw-pink-ink) uppercase tracking-[0.14em]">
                 {t("toolbar.steps", { count: SCALE_KEYS.length })}
               </span>
               {active ? (
-                <span className="font-mono text-[12px] text-[var(--text-muted)]">
+                <span className="font-mono text-[12px] text-(--text-muted)">
                   {formatColor(active.base, "oklch")}
                 </span>
               ) : null}
