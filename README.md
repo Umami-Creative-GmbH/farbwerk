@@ -82,4 +82,33 @@ wird und wie sich die Galerie neu einfärbt: [docs/internals.md](docs/internals.
 
 ---
 
+## Lizenz
+
+Farbwerk ist freie und Open-Source-Software unter der **GNU Affero General
+Public License v3.0**.
+
+Sie dürfen Farbwerk nach den Bedingungen der AGPLv3 nutzen, untersuchen,
+verändern, verbreiten und kommerziell einsetzen.
+
+Wenn Sie eine veränderte Version von Farbwerk verbreiten oder eine veränderte
+Version betreiben, mit der Nutzende über ein Netzwerk interagieren können,
+müssen Sie diesen Nutzenden den entsprechenden Quellcode unter der AGPLv3
+bereitstellen.
+
+Die vollständigen Lizenzbedingungen finden Sie in [LICENSE.md](LICENSE.md).
+
+Copyright (C) 2026 Umami Creative GmbH. Alle Rechte vorbehalten, soweit sie
+nicht durch die AGPLv3 eingeräumt werden.
+
+### Markenrecht
+
+Der Name Farbwerk, das Logo und andere Projektkennzeichen sind nicht unter der
+AGPLv3 lizenziert.
+
+Weitere Details enthält die [Markenrichtlinie](TRADEMARKS.md).
+
+Forks und veränderte Versionen dürfen angeben, auf Farbwerk zu basieren. Sie
+dürfen jedoch nicht den Eindruck erwecken, das offizielle Farbwerk-Projekt zu
+sein oder von den Farbwerk-Verantwortlichen unterstützt zu werden.
+
 Ein Projekt der [Umami Creative GmbH](https://umami-creative.de).
