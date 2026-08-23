@@ -71,8 +71,104 @@
         // reads nothing outside `state.roles`. The real fix is to move `name` out of
         // RoleFields into a separate `names` record, which would make `[state.roles]`
         // an honest, complete dependency array and let this entry be deleted.
+        //
+        // It is NOT free, though — measured 2026-08-23 from the dev-server console:
+        //   react-compiler(PreserveManualMemo): Existing memoization could not be
+        //   preserved. The inferred dependency was `state`, but the source
+        //   dependencies were [rampKey]. React Compiler skipped optimizing this
+        //   component or hook.
+        // So the hand-written narrowing costs PaletteProvider all React Compiler
+        // optimization. It still cannot serve stale colors, but the RoleFields
+        // refactor above would buy the whole component back. Worth doing.
         "files": ["src/components/palette/palette-provider.tsx"],
         "rules": ["react-doctor/exhaustive-deps"]
+      },
+      {
+        // jsx-no-constructed-context-values — chart.tsx:65 `value={{ config }}` and
+        // toggle-group.tsx:48 `value={{ orientation, size, spacing, variant }}`.
+        //
+        // The rule's own metadata says "Disabled when: react-compiler". This project
+        // runs React Compiler via `viteReact({ compiler: true })` in vite.config.ts,
+        // but react-doctor only detects `babel-plugin-react-compiler` or
+        // `reactCompilerPreset` (see its isCompilerTransformModule check), so it
+        // misses plugin-react v6's oxc-based `compiler` option and the rule fires
+        // when it should have been switched off.
+        //
+        // Verified by running the real transform (oxc-transform-react) over both
+        // files: compiler-runtime is imported, cache slots are allocated, zero
+        // bailout errors, and the context objects are memoized exactly as the fix
+        // prompt asks. ToggleGroup compiles to:
+        //   if ($[12] !== orientation || $[13] !== size ||
+        //       $[14] !== spacing   || $[15] !== variant) {
+        //     t6 = { orientation, size, spacing, variant }; $[16] = t6;
+        //   } else { t6 = $[16]; }          // same identity reused
+        //   ... _jsx(ToggleGroupContext.Provider, { value: t6, ... })
+        // chart.tsx compiles to the equivalent `t3 = { config }` cached on `config`.
+        //
+        // Adding a manual useMemo would be redundant, would diverge these vendored
+        // shadcn files from upstream, and would risk tripping react-doctor's own
+        // react-compiler-no-manual-memoization rule.
+        "files": [
+          "src/components/ui/chart.tsx",
+          "src/components/ui/toggle-group.tsx"
+        ],
+        "rules": ["react-doctor/jsx-no-constructed-context-values"]
+      },
+      {
+        // rerender-memo-before-early-return — chart.tsx:147, the `tooltipLabel`
+        // useMemo in ChartTooltipContent sitting above `if (!(active && payload?.length))`.
+        //
+        // The rule page calls this "a profiling lead, not proof of wasted JSX work",
+        // and its fix prompt says: "Keep the code unless profiling shows that
+        // dependency changes frequently recompute expensive JSX on a path that
+        // usually returns early. Do not add a child/memo wrapper solely to move this
+        // hook below a branch." No profile shows that, and the memo's own first line
+        // is `if (hideLabel || !payload?.length) return null` — so on exactly the
+        // renders that take the early return, the callback bails immediately rather
+        // than building JSX. It is P3/unranked and tagged test-noise.
+        //
+        // React Compiler also compiles this file cleanly (4 cache regions, 0 bailouts),
+        // so the memo is preserved rather than skipped.
+        "files": ["src/components/ui/chart.tsx"],
+        "rules": ["react-doctor/rerender-memo-before-early-return"]
+      },
+      {
+        // no-fetch-in-effect — the debounced `/api/color-name` lookup.
+        //
+        // The rule page documents the exception directly: "Suppress when: a
+        // one-shot fetch with proper AbortController cleanup in a small project
+        // that has not adopted a data-fetching library." All three now hold —
+        // an AbortController was added alongside this entry, and neither
+        // @tanstack/react-query nor swr is a dependency.
+        //
+        // Its prescribed fix does not fit either. A route loader or server
+        // function is the wrong shape: this resolves names for whatever hexes
+        // the user is dragging *right now*, not for a navigation. And the fetch
+        // exists precisely so the ~1.3 MB name catalogue never enters a client
+        // bundle — see the module header.
+        //
+        // The hook already does by hand what a fetching library would: debounce
+        // (SETTLE_MS), a per-hex cache, batching (MAX_BATCH), abort-on-supersede,
+        // and an aborted-signal check before any setState. The detector is purely
+        // syntactic — it matches `fetch` anywhere inside useEffect — so no amount
+        // of correctness here clears it.
+        "files": ["src/hooks/use-color-names.ts"],
+        "rules": ["react-doctor/no-fetch-in-effect"]
+      },
+      {
+        // deslop/unused-file — tolgee.config.cjs is NOT unreachable; deleting it
+        // would break `bun run i18n:pull` / `push` / `sync` / `compare`.
+        //
+        // The Tolgee CLI loads it through `cosmiconfig('tolgee')` (see
+        // node_modules/@tolgee/cli/dist/config/tolgeerc.js), which discovers
+        // `tolgee.config.cjs` by filename at runtime. Dead-code analysis only
+        // walks the bundler's import graph, so a config found by convention has
+        // no edge pointing at it and reads as orphaned.
+        //
+        // The file also loads .env.local for the CLI, which `bun run` does not
+        // forward on its own — so it carries behaviour, not just settings.
+        "files": ["tolgee.config.cjs"],
+        "rules": ["deslop/unused-file"]
       }
     ]
   }
