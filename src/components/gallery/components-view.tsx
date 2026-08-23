@@ -197,8 +197,7 @@ const CALENDAR_PARTS = {
     "flex size-[26px] select-none items-center justify-center rounded-full bg-[var(--p-500)] p-0 text-white transition-colors duration-150 hover:bg-[var(--p-600)] aria-disabled:opacity-50",
   button_previous:
     "flex size-6.5 select-none items-center justify-center rounded-full bg-(--p-50) p-0 text-(--p-700) transition-colors duration-150 hover:bg-(--p-100) aria-disabled:opacity-50",
-  caption_label:
-    "select-none font-heading text-[15px] text-(--fw-card-title)",
+  caption_label: "select-none font-heading text-[15px] text-(--fw-card-title)",
   weekday: "flex-1 select-none font-mono text-[10px] text-(--p-500)",
 };
 
@@ -220,7 +219,7 @@ function CalendarCard() {
           two CSS variables the default day classes already read.
         */}
         <Calendar
-          className="w-full p-0 [--cell-radius:9px] [--cell-size:34px]"
+          className="w-full bg-transparent p-0 [--cell-radius:9px] [--cell-size:34px]"
           classNames={CALENDAR_PARTS}
           locale={dateLocale(locale)}
           mode="single"
@@ -439,7 +438,11 @@ function TableCard() {
         <CardTitle>{t("gallery.table.title")}</CardTitle>
         <CardDescription>{t("gallery.table.desc")}</CardDescription>
       </CardHeader>
-      <CardContent className="px-0">
+      {/*
+        px-0 so the row rules run edge to edge; the outer cells take the card's
+        own spacing back so the text still lines up with the title above it.
+      */}
+      <CardContent className="px-0 [&_:is(td,th):first-child]:pl-(--card-spacing) [&_:is(td,th):last-child]:pr-(--card-spacing)">
         <Table>
           <TableHeader>
             <TableRow>

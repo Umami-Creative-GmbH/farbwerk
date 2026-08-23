@@ -58,9 +58,17 @@ function useSubViewLabels(): Record<SubView, string> {
  * prototype's clipping came from a height-constrained container; this one is
  * auto-height inside the page scroll, and each card is break-inside: avoid.
  * Verified: no clipping, no horizontal overflow.
+ *
+ * `*:block` is what multi-column needs, but it also flattens each card out of
+ * `flex flex-col`, which silently kills the card's own `gap-(--card-spacing)`
+ * — the subline ended up sitting flush on the content. Margin reinstates that
+ * rhythm for exactly the cards the variant flattened (direct children only),
+ * so it cannot double up on the stacked views, where cards keep their flex gap.
  */
-const CARD_GRID =
-  "columns-[268px] gap-5 *:mb-5 *:block *:w-full *:break-inside-avoid";
+const CARD_GRID = [
+  "columns-[268px] gap-5 *:mb-5 *:block *:w-full *:break-inside-avoid",
+  "[&>[data-slot=card]>*+*]:mt-(--card-spacing)",
+].join(" ");
 /**
  * Dashboard blocks are full-bleed by nature, so they stack instead of tiling.
  * Marketing stacks too, but for the opposite reason: it brings its own wider
@@ -164,9 +172,7 @@ export function PaletteGallery({ mode, className }: PaletteGalleryProps) {
           switch to either one suspends while that chunk downloads. Everything
           after it is served from the resolved module and renders straight away.
         */}
-        <Suspense
-          fallback={<Skeleton className="h-64 w-full rounded-card" />}
-        >
+        <Suspense fallback={<Skeleton className="h-64 w-full rounded-card" />}>
           {view === "components" ? <ComponentsView /> : null}
           {view === "dashboard" ? <DashboardView /> : null}
           {view === "charts" ? <ChartsView /> : null}

@@ -43,10 +43,7 @@ export function AppHeader() {
               width={WORDMARK_WIDTH}
             />
           </a>
-          <span
-            aria-hidden="true"
-            className="block h-8.5 w-px bg-white/22"
-          />
+          <span aria-hidden="true" className="block h-8.5 w-px bg-white/22" />
           <span className="flex min-w-0 items-baseline gap-2">
             <span className="font-heading font-semibold text-[21px] text-white tracking-[-0.02em]">
               {t("app.brand")}
@@ -55,7 +52,7 @@ export function AppHeader() {
               aria-hidden="true"
               className="inline-block size-1.75 rounded-[2px] bg-(--pink-500)"
             />
-            <span className="ml-2 whitespace-nowrap font-heading text-[11px] text-(--text-on-inverse-muted) uppercase tracking-[0.16em]">
+            <span className="ml-2 whitespace-nowrap font-heading text-(--text-on-inverse-muted) text-[11px] uppercase tracking-[0.16em]">
               {t("home.eyebrow")}
             </span>
           </span>
@@ -79,7 +76,7 @@ export function AppFooter() {
   const { t } = useTranslate();
 
   return (
-    <footer className="relative bg-(--navy-800) px-8 py-7 text-[13px] text-(--text-on-inverse-muted)">
+    <footer className="relative bg-(--navy-800) px-8 py-7 text-(--text-on-inverse-muted) text-[13px]">
       {/* The rainbow hairline bookends the page: base of the header, top of
           the footer. */}
       <div

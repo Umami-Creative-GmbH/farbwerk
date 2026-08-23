@@ -86,7 +86,7 @@ export function HarmonyGenerator() {
     <div>
       <button
         aria-expanded={open}
-        className="flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-[11px] text-(--text-heading) uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)"
+        className="flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-(--text-heading) text-[11px] uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)"
         onClick={toggle}
         type="button"
       >
@@ -129,10 +129,10 @@ export function HarmonyGenerator() {
                 ))}
               </span>
               <span className="grid min-w-0 gap-0.5">
-                <span className="font-heading text-[12.5px] text-(--text-heading)">
+                <span className="font-heading text-(--text-heading) text-[12.5px]">
                   {harmonyCopy[rule].name}
                 </span>
-                <span className="text-[11.5px] text-(--text-muted) leading-[1.35]">
+                <span className="text-(--text-muted) text-[11.5px] leading-[1.35]">
                   {harmonyCopy[rule].hint}
                 </span>
               </span>

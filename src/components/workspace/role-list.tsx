@@ -123,7 +123,7 @@ export function RoleList() {
               {role === "primary" ? null : (
                 <button
                   aria-label={t("role.remove")}
-                  className="flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-card) font-heading text-[14px] text-(--slate-500) leading-none transition-colors duration-150 ease-out hover:border-(--pink-500) hover:text-(--pink-500)"
+                  className="flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-card) font-heading text-(--slate-500) text-[14px] leading-none transition-colors duration-150 ease-out hover:border-(--pink-500) hover:text-(--pink-500)"
                   data-role={role}
                   onClick={handleRemove}
                   type="button"

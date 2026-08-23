@@ -229,7 +229,7 @@ export function ExtractDialog() {
 
   return (
     <Dialog onOpenChange={handleOpenChange} open={open}>
-      <DialogTrigger className="mt-3 flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-[11px] text-(--text-heading) uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)">
+      <DialogTrigger className="mt-3 flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-(--text-heading) text-[11px] uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)">
         <ImageIcon className="size-3.5" />
         {t("extract.open")}
       </DialogTrigger>
@@ -238,10 +238,10 @@ export function ExtractDialog() {
           would otherwise win inside the breakpoint. */}
       <DialogContent className="gap-0 rounded-dialog p-0 sm:max-w-180">
         <DialogHeader className="px-6 pt-6">
-          <DialogTitle className="font-heading text-[20px] text-(--text-heading) tracking-[-0.02em]">
+          <DialogTitle className="font-heading text-(--text-heading) text-[20px] tracking-[-0.02em]">
             {t("extract.title")}
           </DialogTitle>
-          <DialogDescription className="text-[12.5px] text-(--text-muted)">
+          <DialogDescription className="text-(--text-muted) text-[12.5px]">
             {t("extract.file-hint")}
           </DialogDescription>
         </DialogHeader>
@@ -278,7 +278,7 @@ export function ExtractDialog() {
                     />
                   ))}
                 </div>
-                <span className="text-[12.5px] text-(--text-muted)">
+                <span className="text-(--text-muted) text-[12.5px]">
                   {t("extract.hint")}
                 </span>
               </div>
@@ -307,14 +307,14 @@ export function ExtractDialog() {
           ) : null}
 
           {analyzed && candidates.length === 0 ? (
-            <p className="text-[13px] text-(--text-muted)">
+            <p className="text-(--text-muted) text-[13px]">
               {t("extract.none")}
             </p>
           ) : null}
 
           <div className="flex justify-end gap-2.5 border-(--border-subtle) border-t pt-4.5">
             <button
-              className="h-10.5 cursor-pointer rounded-full border border-(--border-strong) bg-(--surface-card) px-4.5 font-heading text-[12px] text-(--text-heading) uppercase tracking-[0.12em]"
+              className="h-10.5 cursor-pointer rounded-full border border-(--border-strong) bg-(--surface-card) px-4.5 font-heading text-(--text-heading) text-[12px] uppercase tracking-[0.12em]"
               onClick={handleCancel}
               type="button"
             >
@@ -388,7 +388,7 @@ function DropZone({
             />
           )}
         </span>
-        <span className="min-w-0 font-heading text-[14px] text-(--text-heading)">
+        <span className="min-w-0 font-heading text-(--text-heading) text-[14px]">
           {label}
         </span>
       </button>
@@ -446,21 +446,19 @@ function SlotRow({
         <span
           className={cn(
             "block size-6.5 rounded-lg border",
-            hex
-              ? "border-[rgba(18,33,67,.14)]"
-              : "border-(--border-strong)"
+            hex ? "border-[rgba(18,33,67,.14)]" : "border-(--border-strong)"
           )}
           style={{ background: hex ?? "transparent" }}
         />
         <span className="grid min-w-0 gap-0.5">
-          <span className="font-heading text-[13px] text-(--text-heading)">
+          <span className="font-heading text-(--text-heading) text-[13px]">
             {label}
           </span>
-          <span className="font-heading text-[10px] text-(--text-muted) uppercase tracking-[0.12em]">
+          <span className="font-heading text-(--text-muted) text-[10px] uppercase tracking-[0.12em]">
             {note}
           </span>
         </span>
-        <span className="font-mono text-[12.5px] text-(--text-muted)">
+        <span className="font-mono text-(--text-muted) text-[12.5px]">
           {value}
         </span>
       </button>

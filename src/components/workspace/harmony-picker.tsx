@@ -84,7 +84,7 @@ export function HarmonyPicker() {
           );
         })}
       </div>
-      <p className="mt-2.5 text-[12.5px] text-(--text-muted) leading-[1.55]">
+      <p className="mt-2.5 text-(--text-muted) text-[12.5px] leading-[1.55]">
         {harmonyCopy[active.harmony].hint}
       </p>
     </div>

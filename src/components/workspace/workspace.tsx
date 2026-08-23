@@ -87,14 +87,14 @@ export function Workspace() {
         <div className="sticky top-(--fw-header-height) z-30 border-(--border-subtle) border-b bg-(--surface-subtle) px-8 pt-6">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-5">
             <div className="flex min-w-0 flex-wrap items-center gap-3">
-              <span className="font-heading text-[23px] text-(--text-heading) tracking-[-0.02em]">
+              <span className="font-heading text-(--text-heading) text-[23px] tracking-[-0.02em]">
                 {roleNames[state.active] ?? roleLabels[state.active]}
               </span>
-              <span className="rounded-full bg-(--pink-100) px-3 py-1.5 font-heading text-[11px] text-(--fw-pink-ink) uppercase tracking-[0.14em]">
+              <span className="rounded-full bg-(--pink-100) px-3 py-1.5 font-heading text-(--fw-pink-ink) text-[11px] uppercase tracking-[0.14em]">
                 {t("toolbar.steps", { count: SCALE_KEYS.length })}
               </span>
               {active ? (
-                <span className="font-mono text-[12px] text-(--text-muted)">
+                <span className="font-mono text-(--text-muted) text-[12px]">
                   {formatColor(active.base, "oklch")}
                 </span>
               ) : null}

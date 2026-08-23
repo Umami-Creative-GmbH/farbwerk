@@ -69,9 +69,7 @@ function CampaignCard() {
   const { t } = useTranslate();
 
   return (
-    <article
-      className={`${CARD} relative bg-(--p-200) px-3.5 pt-3.5 pb-6.5`}
-    >
+    <article className={`${CARD} relative bg-(--p-200) px-3.5 pt-3.5 pb-6.5`}>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-50"
@@ -89,10 +87,10 @@ function CampaignCard() {
         <span className={`${PILL} bg-white/55 text-(--p-950)`}>
           {t("gallery.mkt.campaign-tag")}
         </span>
-        <h3 className="text-balance font-heading text-[30px] text-(--p-950) leading-[1.08] tracking-[-0.03em]">
+        <h3 className="text-balance font-heading text-(--p-950) text-[30px] leading-[1.08] tracking-[-0.03em]">
           {t("gallery.mkt.campaign-title")}
         </h3>
-        <p className={`${BODY} text-[13.5px] text-(--p-800)`}>
+        <p className={`${BODY} text-(--p-800) text-[13.5px]`}>
           {t("gallery.mkt.campaign-desc")}
         </p>
       </div>
@@ -173,10 +171,10 @@ function LifecycleCard() {
         <span className={`${EYEBROW} justify-self-start text-(--s-700)`}>
           {t("gallery.mkt.lifecycle-tag")}
         </span>
-        <h3 className="text-balance font-heading text-[32px] text-(--s-950) leading-[1.08] tracking-[-0.03em]">
+        <h3 className="text-balance font-heading text-(--s-950) text-[32px] leading-[1.08] tracking-[-0.03em]">
           {t("gallery.mkt.lifecycle-title")}
         </h3>
-        <p className="max-w-[46ch] text-pretty text-[14px] text-(--s-800) leading-[1.62]">
+        <p className="max-w-[46ch] text-pretty text-(--s-800) text-[14px] leading-[1.62]">
           {t("gallery.mkt.lifecycle-desc")}
         </p>
       </div>
@@ -193,7 +191,7 @@ function ProductCard() {
         <span className={`${EYEBROW} justify-self-start text-(--t-700)`}>
           {t("gallery.mkt.product-tag")}
         </span>
-        <h3 className="text-balance font-heading text-[27px] text-(--t-950) leading-[1.1] tracking-[-0.03em]">
+        <h3 className="text-balance font-heading text-(--t-950) text-[27px] leading-[1.1] tracking-[-0.03em]">
           {t("gallery.mkt.product-title")}
         </h3>
         <p className={`${BODY} text-(--t-800)`}>
@@ -262,9 +260,7 @@ function EventCard() {
         className="pointer-events-none absolute inset-0"
         style={EVENT_STRIPES}
       />
-      <span
-        className={`${EYEBROW} relative justify-self-start text-(--t-300)`}
-      >
+      <span className={`${EYEBROW} relative justify-self-start text-(--t-300)`}>
         {t("gallery.mkt.event-tag")}
       </span>
       <div className="relative grid gap-3">
@@ -290,15 +286,13 @@ function OfferCard() {
       <span className={`${EYEBROW} text-(--s-950) opacity-70`}>
         {t("gallery.mkt.offer-tag")}
       </span>
-      <h3 className="text-balance font-heading text-[40px] text-(--s-950) leading-[1.02] tracking-[-0.04em]">
+      <h3 className="text-balance font-heading text-(--s-950) text-[40px] leading-[1.02] tracking-[-0.04em]">
         {t("gallery.mkt.offer-title")}
       </h3>
       <p className={`${BODY} mt-1.5 text-(--s-950) opacity-75`}>
         {t("gallery.mkt.offer-desc")}
       </p>
-      <span
-        className={`${ACTION} mt-3.5 bg-(--s-950) text-(--s-100)`}
-      >
+      <span className={`${ACTION} mt-3.5 bg-(--s-950) text-(--s-100)`}>
         {t("gallery.newsletter.subscribe")}
       </span>
     </article>
@@ -312,7 +306,7 @@ function TestimonialCard() {
     <article
       className={`${CARD} grid content-between gap-4.5 border border-(--border-subtle) bg-(--surface-card) px-6 py-6.5`}
     >
-      <blockquote className="text-pretty font-heading text-[22px] text-(--fw-card-title) leading-[1.24] tracking-[-0.02em]">
+      <blockquote className="text-pretty font-heading text-(--fw-card-title) text-[22px] leading-[1.24] tracking-[-0.02em]">
         “{t("gallery.mkt.testimonial-title")}”
       </blockquote>
       <div className="grid grid-cols-[44px_1fr] items-center gap-3">
@@ -325,7 +319,7 @@ function TestimonialCard() {
           width={200}
         />
         <span className="grid gap-0.5">
-          <span className="text-[13px] text-(--fw-card-desc)">
+          <span className="text-(--fw-card-desc) text-[13px]">
             {t("gallery.mkt.testimonial-desc")}
           </span>
           <span className={`${EYEBROW} text-(--fw-accent-ink)`}>
@@ -353,7 +347,7 @@ export function MarketingView() {
         <OfferCard />
         <TestimonialCard />
       </div>
-      <p className="text-[12.5px] text-(--text-muted)">
+      <p className="text-(--text-muted) text-[12.5px]">
         {t("gallery.mkt.note")}
       </p>
     </>

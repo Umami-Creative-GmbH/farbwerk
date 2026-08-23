@@ -113,10 +113,10 @@ export function ExportDialog() {
           would otherwise win inside the breakpoint. */}
       <DialogContent className="gap-0 rounded-dialog p-0 sm:max-w-215">
         <DialogHeader className="flex-row items-baseline gap-3 px-6 pt-6">
-          <DialogTitle className="font-heading text-[20px] text-(--text-heading) tracking-[-0.02em]">
+          <DialogTitle className="font-heading text-(--text-heading) text-[20px] tracking-[-0.02em]">
             {t("export.title")}
           </DialogTitle>
-          <DialogDescription className="font-mono text-[12.5px] text-(--text-muted)">
+          <DialogDescription className="font-mono text-(--text-muted) text-[12.5px]">
             {t("export.description", { count: roles.length })}
           </DialogDescription>
         </DialogHeader>

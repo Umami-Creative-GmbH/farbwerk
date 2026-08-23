@@ -94,7 +94,7 @@ export function SavedPalettes() {
       </span>
 
       {palettes.length === 0 ? (
-        <p className="text-[13px] text-(--text-muted)">
+        <p className="text-(--text-muted) text-[13px]">
           {t("sidebar.saved-empty")}
         </p>
       ) : (
@@ -126,7 +126,7 @@ export function SavedPalettes() {
                   onClick={handleOpen}
                   type="button"
                 >
-                  <span className="truncate font-mono text-[12px] text-(--text-heading)">
+                  <span className="truncate font-mono text-(--text-heading) text-[12px]">
                     {entry.name}
                   </span>
                   <span className="flex overflow-hidden rounded-full">

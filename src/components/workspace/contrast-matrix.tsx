@@ -194,7 +194,7 @@ export function ContrastMatrixTab() {
           </RadioGroup>
         </fieldset>
 
-        <p className="border-(--border-subtle) border-t pt-4 text-[12.5px] text-(--text-muted) leading-[1.55]">
+        <p className="border-(--border-subtle) border-t pt-4 text-(--text-muted) text-[12.5px] leading-[1.55]">
           {note}
         </p>
       </aside>
@@ -205,14 +205,14 @@ export function ContrastMatrixTab() {
           <thead>
             <tr>
               <th
-                className="w-10.5 font-normal text-[10px] text-(--text-muted)"
+                className="w-10.5 font-normal text-(--text-muted) text-[10px]"
                 scope="col"
               >
                 <span className="sr-only">{t("matrix.text-step")}</span>
               </th>
               {SCALE_KEYS.map((key) => (
                 <th
-                  className="pb-1.5 font-normal text-[10px] text-(--text-muted)"
+                  className="pb-1.5 font-normal text-(--text-muted) text-[10px]"
                   key={key}
                   scope="col"
                 >
@@ -225,7 +225,7 @@ export function ContrastMatrixTab() {
             {cells.map((row, index) => (
               <tr key={SCALE_KEYS[index]}>
                 <th
-                  className="text-left font-normal text-[10px] text-(--text-muted)"
+                  className="text-left font-normal text-(--text-muted) text-[10px]"
                   scope="row"
                 >
                   {SCALE_KEYS[index]}
@@ -238,7 +238,7 @@ export function ContrastMatrixTab() {
                   if (!cell.passes) {
                     return (
                       <td
-                        className="h-9 rounded-[9px] bg-(--surface-muted) text-[10.5px] text-(--text-muted) opacity-60"
+                        className="h-9 rounded-[9px] bg-(--surface-muted) text-(--text-muted) text-[10.5px] opacity-60"
                         key={cell.background}
                       >
                         ·
