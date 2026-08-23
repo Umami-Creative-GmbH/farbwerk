@@ -1,7 +1,14 @@
-<img src="public/opengraph/farbwerk-github-1280x640-de.png" alt="Farbwerk — eine Farbe, eine ganze Tailwind-Skala" width="100%">
+<a href="https://farbwerk.umami-creative.de">
+  <img src="public/opengraph/farbwerk-github-1280x640-de.png" alt="Farbwerk — eine Farbe, eine ganze Tailwind-Skala" width="100%">
+</a>
 
 <p align="center">
   <strong>Deutsch</strong> · <a href="README-EN.md">English</a>
+</p>
+
+<p align="center">
+  <a href="https://farbwerk.umami-creative.de"><strong>farbwerk.umami-creative.de</strong></a><br>
+  <sub>Live ausprobieren — ohne Anmeldung, ohne Installation</sub>
 </p>
 
 # Farbwerk
@@ -57,7 +64,9 @@ bun i
 bun run dev
 ```
 
-Das war's. Die App läuft dann auf `http://localhost:3000`.
+Das war's. Die App läuft dann auf `http://localhost:3000`. Wer nur schnell
+Farben braucht, spart sich das und geht auf
+[farbwerk.umami-creative.de](https://farbwerk.umami-creative.de).
 
 | Befehl | Wofür |
 | --- | --- |
