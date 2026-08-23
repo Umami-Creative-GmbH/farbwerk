@@ -6,6 +6,7 @@
     "build": "vite build",
     "check": "ultracite check",
     "dev": "vite dev",
+    "doctor": "npx react-doctor@latest",
     "fix": "ultracite fix",
     "i18n:compare": "tolgee compare",
     "i18n:pull": "tolgee pull",
