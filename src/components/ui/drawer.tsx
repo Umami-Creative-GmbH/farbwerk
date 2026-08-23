@@ -1,21 +1,22 @@
 "use client";
 
 import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
-import * as React from "react";
+import type { ComponentProps } from "react";
+import { createContext, useContext, useMemo } from "react";
 
 import { cn } from "@/lib/utils";
 
-type DrawerContextProps = {
+interface DrawerContextProps {
   hasSnapPoints: boolean;
   modal: DrawerPrimitive.Root.Props["modal"];
   showSwipeHandle: boolean;
   swipeDirection: NonNullable<DrawerPrimitive.Root.Props["swipeDirection"]>;
-};
+}
 
-const DrawerContext = React.createContext<DrawerContextProps | null>(null);
+const DrawerContext = createContext<DrawerContextProps | null>(null);
 
 function useDrawer() {
-  const context = React.useContext(DrawerContext);
+  const context = useContext(DrawerContext);
 
   if (!context) {
     throw new Error("useDrawer must be used within a Drawer.");
@@ -33,8 +34,8 @@ function Drawer({
 }: DrawerPrimitive.Root.Props & {
   showSwipeHandle?: boolean;
 }) {
-  const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
-  const contextValue = React.useMemo(
+  const hasSnapPoints = (snapPoints?.length ?? 0) > 0;
+  const contextValue = useMemo(
     () => ({ hasSnapPoints, modal, showSwipeHandle, swipeDirection }),
     [hasSnapPoints, modal, showSwipeHandle, swipeDirection]
   );
@@ -80,10 +81,7 @@ function DrawerOverlay({
   );
 }
 
-function DrawerSwipeHandle({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function DrawerSwipeHandle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       aria-hidden="true"
@@ -149,7 +147,7 @@ function DrawerContent({
           data-swipe-axis={swipeAxis}
           {...props}
         >
-          {showSwipeHandle && <DrawerSwipeHandle />}
+          {showSwipeHandle ? <DrawerSwipeHandle /> : null}
           <DrawerPrimitive.Content
             className={cn(
               "flex min-h-0 flex-1 select-text flex-col overflow-hidden overscroll-contain rounded-[inherit] transition-opacity duration-300 ease-[cubic-bezier(0.45,1.005,0,1.005)] group-data-nested-drawer-open/drawer-popup:opacity-0"
@@ -164,7 +162,7 @@ function DrawerContent({
   );
 }
 
-function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DrawerHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
@@ -177,7 +175,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
+function DrawerFooter({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn("mt-auto flex shrink-0 flex-col gap-2 p-4 pt-0", className)}

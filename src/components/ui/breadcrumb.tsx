@@ -94,10 +94,7 @@ function BreadcrumbEllipsis({
   return (
     <span
       aria-hidden="true"
-      className={cn(
-        "flex size-5 items-center justify-center",
-        className
-      )}
+      className={cn("flex size-5 items-center justify-center", className)}
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       {...props}

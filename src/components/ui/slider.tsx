@@ -2,6 +2,26 @@ import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 
 import { cn } from "@/lib/utils";
 
+function resolveThumbValues({
+  value,
+  defaultValue,
+  min,
+  max,
+}: {
+  value: SliderPrimitive.Root.Props["value"];
+  defaultValue: SliderPrimitive.Root.Props["defaultValue"];
+  min: number;
+  max: number;
+}): readonly number[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (Array.isArray(defaultValue)) {
+    return defaultValue;
+  }
+  return [min, max];
+}
+
 function Slider({
   className,
   defaultValue,
@@ -10,11 +30,7 @@ function Slider({
   max = 100,
   ...props
 }: SliderPrimitive.Root.Props) {
-  const _values = Array.isArray(value)
-    ? value
-    : Array.isArray(defaultValue)
-      ? defaultValue
-      : [min, max];
+  const _values = resolveThumbValues({ defaultValue, max, min, value });
 
   return (
     <SliderPrimitive.Root
@@ -41,6 +57,7 @@ function Slider({
           <SliderPrimitive.Thumb
             className="relative block size-3 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 disabled:pointer-events-none disabled:opacity-50"
             data-slot="slider-thumb"
+            // biome-ignore lint/suspicious/noArrayIndexKey: a range thumb has no identity beyond its ordinal position, and the list is never reordered — only grown or shrunk from the end.
             key={index}
           />
         ))}

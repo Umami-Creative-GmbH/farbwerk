@@ -1,6 +1,12 @@
 "use client";
 
-import * as React from "react";
+import type {
+  ComponentProps,
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+} from "react";
+import { createContext, useContext, useId, useMemo } from "react";
 import type * as RechartsPrimitive from "recharts";
 
 import { useRecharts } from "@/components/ui/recharts";
@@ -16,22 +22,22 @@ type TooltipNameType = number | string;
 export type ChartConfig = Record<
   string,
   {
-    label?: React.ReactNode;
-    icon?: React.ComponentType;
+    label?: ReactNode;
+    icon?: ComponentType;
   } & (
     | { color?: string; theme?: never }
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
   )
 >;
 
-type ChartContextProps = {
+interface ChartContextProps {
   config: ChartConfig;
-};
+}
 
-const ChartContext = React.createContext<ChartContextProps | null>(null);
+const ChartContext = createContext<ChartContextProps | null>(null);
 
 function useChart() {
-  const context = React.useContext(ChartContext);
+  const context = useContext(ChartContext);
 
   if (!context) {
     throw new Error("useChart must be used within a <ChartContainer />");
@@ -47,9 +53,9 @@ function ChartContainer({
   config,
   initialDimension = INITIAL_DIMENSION,
   ...props
-}: React.ComponentProps<"div"> & {
+}: ComponentProps<"div"> & {
   config: ChartConfig;
-  children: React.ComponentProps<
+  children: ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
   initialDimension?: {
@@ -58,7 +64,7 @@ function ChartContainer({
   };
 }) {
   const { ResponsiveContainer } = useRecharts();
-  const uniqueId = React.useId();
+  const uniqueId = useId();
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
   return (
@@ -81,37 +87,41 @@ function ChartContainer({
   );
 }
 
+function buildChartStyles(
+  id: string,
+  colorConfig: [string, ChartConfig[string]][]
+) {
+  return Object.entries(THEMES)
+    .map(([theme, prefix]) => {
+      const lines: string[] = [];
+      for (const [key, itemConfig] of colorConfig) {
+        const color =
+          itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ??
+          itemConfig.color;
+        if (color) {
+          lines.push(`  --color-${key}: ${color};`);
+        }
+      }
+      const vars = lines.join("\n");
+      return `
+${prefix} [data-chart=${id}] {
+${vars}
+}
+`;
+    })
+    .join("\n");
+}
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme ?? config.color
+    ([, itemConfig]) => itemConfig.theme ?? itemConfig.color
   );
 
   if (!colorConfig.length) {
     return null;
   }
 
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-  .map(([key, itemConfig]) => {
-    const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ??
-      itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
-  })
-  .join("\n")}
-}
-`
-          )
-          .join("\n"),
-      }}
-    />
-  );
+  return <style>{buildChartStyles(id, colorConfig)}</style>;
 };
 
 function ChartTooltipContent({
@@ -128,8 +138,8 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<"div"> & {
+}: ComponentProps<typeof RechartsPrimitive.Tooltip> &
+  ComponentProps<"div"> & {
     hideLabel?: boolean;
     hideIndicator?: boolean;
     indicator?: "line" | "dot" | "dashed";
@@ -144,7 +154,7 @@ function ChartTooltipContent({
   >) {
   const { config } = useChart();
 
-  const tooltipLabel = React.useMemo(() => {
+  const tooltipLabel = useMemo(() => {
     if (hideLabel || !payload?.length) {
       return null;
     }
@@ -185,6 +195,10 @@ function ChartTooltipContent({
   }
 
   const nestLabel = payload.length === 1 && indicator !== "dot";
+  // The label sits above the list normally, or inline beside the single
+  // item when nested. Resolved here so JSX renders a plain node either way.
+  const stackedLabel = nestLabel ? null : tooltipLabel;
+  const inlineLabel = nestLabel ? tooltipLabel : null;
 
   return (
     <div
@@ -193,7 +207,7 @@ function ChartTooltipContent({
         className
       )}
     >
-      {nestLabel ? null : tooltipLabel}
+      {stackedLabel}
       <div className="grid gap-1.5">
         {payload
           .filter((item) => item.type !== "none")
@@ -233,7 +247,7 @@ function ChartTooltipContent({
                             {
                               "--color-bg": indicatorColor,
                               "--color-border": indicatorColor,
-                            } as React.CSSProperties
+                            } as CSSProperties
                           }
                         />
                       )
@@ -245,12 +259,12 @@ function ChartTooltipContent({
                       )}
                     >
                       <div className="grid gap-1.5">
-                        {nestLabel ? tooltipLabel : null}
+                        {inlineLabel}
                         <span className="text-muted-foreground">
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
-                      {item.value != null && (
+                      {item.value !== null && (
                         <span className="font-medium font-mono text-foreground tabular-nums">
                           {typeof item.value === "number"
                             ? item.value.toLocaleString()
@@ -274,7 +288,7 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}: React.ComponentProps<"div"> & {
+}: ComponentProps<"div"> & {
   hideIcon?: boolean;
   nameKey?: string;
 } & RechartsPrimitive.DefaultLegendContentProps) {
