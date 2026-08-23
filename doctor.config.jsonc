@@ -1,0 +1,79 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+
+  // Documented false positives, verified 2026-08-23 against react-doctor 0.9.12.
+  //
+  // Every entry below is a finding that was traced to source and found not to
+  // describe a real defect. Each is scoped to the narrowest file set that covers
+  // it via `ignore.overrides`, so the rule keeps running everywhere else — none
+  // of these is disabled globally.
+  //
+  // `overrides` matches files, not lines. A *new* violation of the same rule in
+  // the same file would also be hidden, so re-verify an entry when the file's
+  // role changes, and delete the entry outright if the code it describes goes away.
+  "ignore": {
+    "overrides": [
+      {
+        // no-prevent-default (lines 213, 237) — the two <form onSubmit> handlers
+        // are copy-pasted stock shadcn `dashboard-01` demo content, rendered in
+        // the widget gallery via src/components/gallery/dashboard-view.tsx.
+        //
+        // The "save" is `toast.promise(new Promise(resolve => setTimeout(resolve, 1000)))`
+        // — a one-second timer that shows "Saving…" then "Done". Nothing is sent
+        // anywhere: there is no endpoint, no mutation, no persistence. The rule's
+        // premise (a server mutation that should degrade without JS) does not hold,
+        // and the canonical recipe explicitly allows onSubmit + preventDefault for
+        // client-only flows.
+        //
+        // Converting to <form action={...}> would also regress the demo: React 19
+        // resets uncontrolled fields after an action completes, and these inputs
+        // use `defaultValue`, so an edited value would snap back on submit.
+        "files": ["src/components/data-table.tsx"],
+        "rules": ["react-doctor/no-prevent-default"]
+      },
+      {
+        // js-combine-iterations — data-table.tsx:461 (table columns in a dropdown,
+        // ~7 items, built only while the menu is open) and chart.tsx:198 / :295
+        // (recharts tooltip and legend payloads, typically 1-5 items, on hover).
+        //
+        // Two passes over a handful of items is not measurable, and the rule's own
+        // recipe requires a production profile showing the traversal is material
+        // before rewriting: "For ordinary collections, the readable chain is often
+        // the better tradeoff." No such profile exists, because there is nothing
+        // to profile at these sizes.
+        //
+        // Both files are vendored shadcn components. Rewriting them into reduce /
+        // for...of loops makes them diverge from upstream, so the next `shadcn add`
+        // clobbers the change or forces a manual merge — permanently, for no gain.
+        "files": [
+          "src/components/data-table.tsx",
+          "src/components/ui/chart.tsx"
+        ],
+        "rules": ["react-doctor/js-combine-iterations"]
+      },
+      {
+        // exhaustive-deps (line 42) — `useMemo(() => paletteScales(state), [rampKey])`
+        // reads `state` but re-runs on `rampKey`, which the rule reads as stale-prone.
+        //
+        // Traced: paletteScales -> scaleFor -> fieldsFor(state, role) -> buildScale.
+        // buildScale reads exactly base, chroma, hueShift, spread, anchor, overrides
+        // (gamut is not on RoleFields — it is a module constant, so not reactive).
+        // rampSignature calls the SAME fieldsFor, strips only `name`, and stringifies
+        // the rest. `name` never reaches buildScale's destructure, and `state.active`
+        // is never read by paletteScales.
+        //
+        // So rampKey is a strict superset of the memo's real inputs: there is no pair
+        // of renders where the scales differ but the signature matches. It cannot go
+        // stale. The deliberate narrowing is what keeps typing a role name from
+        // repainting the whole gallery.
+        //
+        // Fragile long-term, though: the guarantee holds only while paletteScales
+        // reads nothing outside `state.roles`. The real fix is to move `name` out of
+        // RoleFields into a separate `names` record, which would make `[state.roles]`
+        // an honest, complete dependency array and let this entry be deleted.
+        "files": ["src/components/palette/palette-provider.tsx"],
+        "rules": ["react-doctor/exhaustive-deps"]
+      }
+    ]
+  }
+}
