@@ -1,6 +1,14 @@
 {
   "name": "farbwerk",
-  "private": true,
+  "version": "1.0.0",
+  "private": false,
+  "homepage": "https://farbwerk.umami-creative.de/",
+  "license": "AGPL-3.0-or-later",
+  "author": {
+    "name": "Kai Hentschel",
+    "email": "kai@umami-creative.de",
+    "url": "https://github.com/KaiSoellch"
+  },
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -72,5 +80,11 @@
     "ultracite": "7.10.6",
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
+  },
+  "readme": "README.md",
+  "sponsor": {
+    "url": "https://umami-creative.de",
+    "type": "corporate",
+    "name": "Umami Creative GmbH"
   }
 }
