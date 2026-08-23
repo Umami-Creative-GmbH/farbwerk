@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardAction,
@@ -185,13 +185,23 @@ export function ChartAreaInteractive({
     XAxis,
   } = useRecharts();
   const isMobile = useIsMobile();
-  const [timeRange, setTimeRange] = React.useState("90d");
+  const [timeRange, setTimeRange] = useState("90d");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMobile) {
       setTimeRange("7d");
     }
   }, [isMobile]);
+
+  const handleToggleRange = useCallback((value: string[]) => {
+    setTimeRange(value[0] ?? "90d");
+  }, []);
+
+  const handleSelectRange = useCallback((value: string | null) => {
+    if (value !== null) {
+      setTimeRange(value);
+    }
+  }, []);
 
   const filteredData = chartData.filter((item) => {
     const date = new Date(item.date);
@@ -228,9 +238,7 @@ export function ChartAreaInteractive({
           <ToggleGroup
             className="@[767px]/card:flex hidden *:data-[slot=toggle-group-item]:px-4!"
             multiple={false}
-            onValueChange={(value) => {
-              setTimeRange(value[0] ?? "90d");
-            }}
+            onValueChange={handleToggleRange}
             value={timeRange ? [timeRange] : []}
             variant="outline"
           >
@@ -238,14 +246,7 @@ export function ChartAreaInteractive({
             <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
             <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
           </ToggleGroup>
-          <Select
-            onValueChange={(value) => {
-              if (value !== null) {
-                setTimeRange(value);
-              }
-            }}
-            value={timeRange}
-          >
+          <Select onValueChange={handleSelectRange} value={timeRange}>
             <SelectTrigger
               aria-label="Select a value"
               className="flex @[767px]/card:hidden w-40 **:data-[slot=select-value]:truncate"

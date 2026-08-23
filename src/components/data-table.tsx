@@ -49,7 +49,7 @@ import {
   PlusIcon,
   TrendingUpIcon,
 } from "lucide-react";
-import * as React from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
@@ -147,6 +147,114 @@ function DragHandle({ id }: { id: number }) {
     </Button>
   );
 }
+type TableItem = z.infer<typeof schema>;
+
+function RowSelectCheckbox({ row }: { row: Row<typeof features, TableItem> }) {
+  const handleChange = useCallback(
+    (value: boolean) => row.toggleSelected(!!value),
+    [row]
+  );
+  return (
+    <div className="flex items-center justify-center">
+      <Checkbox
+        aria-label="Select row"
+        checked={row.getIsSelected()}
+        onCheckedChange={handleChange}
+      />
+    </div>
+  );
+}
+
+// Typed by the handful of methods the cell actually calls, so the extracted
+// components do not have to name TanStack's internal table type.
+interface SelectAllTable {
+  getIsAllPageRowsSelected: () => boolean;
+  getIsSomePageRowsSelected: () => boolean;
+  toggleAllPageRowsSelected: (value: boolean) => void;
+}
+
+interface HideableColumn {
+  getIsVisible: () => boolean;
+  id: string;
+  toggleVisibility: (value: boolean) => void;
+}
+
+function ColumnVisibilityItem({ column }: { column: HideableColumn }) {
+  const handleChange = useCallback(
+    (value: boolean) => column.toggleVisibility(!!value),
+    [column]
+  );
+  return (
+    <DropdownMenuCheckboxItem
+      checked={column.getIsVisible()}
+      className="capitalize"
+      onCheckedChange={handleChange}
+    >
+      {column.id}
+    </DropdownMenuCheckboxItem>
+  );
+}
+
+function SelectAllCheckbox({ table }: { table: SelectAllTable }) {
+  const handleChange = useCallback(
+    (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+    [table]
+  );
+  return (
+    <div className="flex items-center justify-center">
+      <Checkbox
+        aria-label="Select all"
+        checked={table.getIsAllPageRowsSelected()}
+        indeterminate={
+          table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()
+        }
+        onCheckedChange={handleChange}
+      />
+    </div>
+  );
+}
+
+const SAVE_DELAY_MS = 1000;
+
+function EditableNumberCell({
+  item,
+  field,
+  label,
+}: {
+  item: TableItem;
+  field: "limit" | "target";
+  label: string;
+}) {
+  const handleSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      toast.promise(
+        new Promise((resolve) => setTimeout(resolve, SAVE_DELAY_MS)),
+        {
+          error: "Error",
+          loading: `Saving ${item.header}`,
+          success: "Done",
+        }
+      );
+    },
+    [item.header]
+  );
+
+  const inputId = `${item.id}-${field}`;
+  return (
+    <form onSubmit={handleSubmit}>
+      <Label className="sr-only" htmlFor={inputId}>
+        {label}
+      </Label>
+      <Input
+        className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
+        defaultValue={item[field]}
+        id={inputId}
+      />
+    </form>
+  );
+}
+
 const columns = columnHelper.columns([
   columnHelper.display({
     cell: ({ row }) => <DragHandle id={row.original.id} />,
@@ -154,30 +262,10 @@ const columns = columnHelper.columns([
     id: "drag",
   }),
   columnHelper.display({
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          aria-label="Select row"
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-        />
-      </div>
-    ),
+    cell: ({ row }) => <RowSelectCheckbox row={row} />,
     enableHiding: false,
     enableSorting: false,
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          aria-label="Select all"
-          checked={table.getIsAllPageRowsSelected()}
-          indeterminate={
-            table.getIsSomePageRowsSelected() &&
-            !table.getIsAllPageRowsSelected()
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        />
-      </div>
-    ),
+    header: ({ table }) => <SelectAllCheckbox table={table} />,
     id: "select",
   }),
   columnHelper.accessor("header", {
@@ -210,49 +298,13 @@ const columns = columnHelper.columns([
   }),
   columnHelper.accessor("target", {
     cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            error: "Error",
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-          });
-        }}
-      >
-        <Label className="sr-only" htmlFor={`${row.original.id}-target`}>
-          Target
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
-          defaultValue={row.original.target}
-          id={`${row.original.id}-target`}
-        />
-      </form>
+      <EditableNumberCell field="target" item={row.original} label="Target" />
     ),
     header: () => <div className="w-full text-right">Target</div>,
   }),
   columnHelper.accessor("limit", {
     cell: ({ row }) => (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-            error: "Error",
-            loading: `Saving ${row.original.header}`,
-            success: "Done",
-          });
-        }}
-      >
-        <Label className="sr-only" htmlFor={`${row.original.id}-limit`}>
-          Limit
-        </Label>
-        <Input
-          className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
-          defaultValue={row.original.limit}
-          id={`${row.original.id}-limit`}
-        />
-      </form>
+      <EditableNumberCell field="limit" item={row.original} label="Limit" />
     ),
     header: () => <div className="w-full text-right">Limit</div>,
   }),
@@ -348,30 +400,30 @@ function DraggableRow({
     </TableRow>
   );
 }
+const formatMonthTick = (value: string) => value.slice(0, 3);
+
 export function DataTable({
   data: initialData,
 }: {
   data: z.infer<typeof schema>[];
 }) {
-  const [data, setData] = React.useState(() => initialData);
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = useState(() => initialData);
+  const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<ColumnVisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({
+    useState<ColumnVisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
   });
-  const sortableId = React.useId();
+  const sortableId = useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
   );
-  const dataIds = React.useMemo<UniqueIdentifier[]>(
+  const dataIds = useMemo<UniqueIdentifier[]>(
     () => data?.map(({ id }) => id) || [],
     [data]
   );
@@ -394,16 +446,35 @@ export function DataTable({
       sorting,
     },
   });
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (active && over && active.id !== over.id) {
-      setData((data) => {
-        const oldIndex = dataIds.indexOf(active.id);
-        const newIndex = dataIds.indexOf(over.id);
-        return arrayMove(data, oldIndex, newIndex);
-      });
-    }
-  }
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (active && over && active.id !== over.id) {
+        setData((currentData) => {
+          const oldIndex = dataIds.indexOf(active.id);
+          const newIndex = dataIds.indexOf(over.id);
+          return arrayMove(currentData, oldIndex, newIndex);
+        });
+      }
+    },
+    [dataIds]
+  );
+
+  const handlePageSizeChange = useCallback(
+    (value: string | null) => {
+      if (value !== null) {
+        table.setPageSize(Number(value));
+      }
+    },
+    [table]
+  );
+  const goToFirstPage = useCallback(() => table.setPageIndex(0), [table]);
+  const goToPreviousPage = useCallback(() => table.previousPage(), [table]);
+  const goToNextPage = useCallback(() => table.nextPage(), [table]);
+  const goToLastPage = useCallback(
+    () => table.setPageIndex(table.getPageCount() - 1),
+    [table]
+  );
   return (
     <Tabs
       className="w-full flex-col justify-start gap-6"
@@ -466,16 +537,7 @@ export function DataTable({
                     column.getCanHide()
                 )
                 .map((column) => (
-                  <DropdownMenuCheckboxItem
-                    checked={column.getIsVisible()}
-                    className="capitalize"
-                    key={column.id}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
+                  <ColumnVisibilityItem column={column} key={column.id} />
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -550,9 +612,7 @@ export function DataTable({
                   label: `${pageSize}`,
                   value: `${pageSize}`,
                 }))}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value));
-                }}
+                onValueChange={handlePageSizeChange}
                 value={`${table.state.pagination.pageSize}`}
               >
                 <SelectTrigger className="w-20" id="rows-per-page" size="sm">
@@ -577,7 +637,7 @@ export function DataTable({
               <Button
                 className="hidden h-8 w-8 p-0 lg:flex"
                 disabled={!table.getCanPreviousPage()}
-                onClick={() => table.setPageIndex(0)}
+                onClick={goToFirstPage}
                 variant="outline"
               >
                 <span className="sr-only">Go to first page</span>
@@ -586,7 +646,7 @@ export function DataTable({
               <Button
                 className="size-8"
                 disabled={!table.getCanPreviousPage()}
-                onClick={() => table.previousPage()}
+                onClick={goToPreviousPage}
                 size="icon"
                 variant="outline"
               >
@@ -596,7 +656,7 @@ export function DataTable({
               <Button
                 className="size-8"
                 disabled={!table.getCanNextPage()}
-                onClick={() => table.nextPage()}
+                onClick={goToNextPage}
                 size="icon"
                 variant="outline"
               >
@@ -606,7 +666,7 @@ export function DataTable({
               <Button
                 className="hidden size-8 lg:flex"
                 disabled={!table.getCanNextPage()}
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                onClick={goToLastPage}
                 size="icon"
                 variant="outline"
               >
@@ -722,7 +782,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                     axisLine={false}
                     dataKey="month"
                     hide
-                    tickFormatter={(value) => value.slice(0, 3)}
+                    tickFormatter={formatMonthTick}
                     tickLine={false}
                     tickMargin={8}
                   />
