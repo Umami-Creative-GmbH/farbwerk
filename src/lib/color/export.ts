@@ -7,7 +7,8 @@
  */
 import { formatColor } from "./convert";
 import { slugifyColorName } from "./name";
-import { type ColorNotation, type ColorScale, SCALE_KEYS } from "./types";
+import { SCALE_KEYS } from "./types";
+import type { ColorNotation, ColorScale } from "./types";
 
 export const EXPORT_FORMATS = [
   { label: "Tailwind 4", value: "tw4" },
@@ -70,8 +71,8 @@ const CSS_COMMENT_CLOSE = /\*\//g;
  */
 function commentSafe(name: string): string {
   return name
-    .replace(WHITESPACE_RUN, " ")
-    .replace(CSS_COMMENT_CLOSE, "")
+    .replaceAll(WHITESPACE_RUN, " ")
+    .replaceAll(CSS_COMMENT_CLOSE, "")
     .trim();
 }
 

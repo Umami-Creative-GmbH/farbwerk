@@ -13,6 +13,7 @@
  */
 
 import { useTranslate } from "@tolgee/react";
+
 import dashboardData from "@/app/dashboard/data.json";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { DataTable } from "@/components/data-table";
@@ -117,7 +118,7 @@ function PricingRow() {
       <CardContent className="grid gap-4 md:grid-cols-3">
         {PLANS.map((plan) => (
           <Card
-            className="data-[featured=true]:border-primary data-[featured=true]:ring-1 data-[featured=true]:ring-primary"
+            className="data-[featured=true]:border-primary data-[featured=true]:ring-primary data-[featured=true]:ring-1"
             data-featured={plan.featured}
             key={plan.id}
           >

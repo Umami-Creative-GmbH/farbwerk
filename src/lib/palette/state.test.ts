@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
+
 import { exportPalette } from "@/lib/color/export";
+
 import {
   exportRoles,
   initialPaletteState,
-  type PaletteAction,
-  type PaletteState,
   paletteReducer,
   rampSignature,
 } from "./state";
+import type { PaletteAction, PaletteState } from "./state";
 
 function withSecondary(): PaletteState {
   return paletteReducer(initialPaletteState(), {
@@ -56,7 +57,7 @@ describe("generate", () => {
   });
 });
 
-describe("exportRoles", () => {
+describe(exportRoles, () => {
   it("prefers the resolved name over the role", () => {
     const roles = exportRoles(initialPaletteState(), {
       primary: "Wizard Blue",
@@ -167,7 +168,7 @@ describe("applyExtracted", () => {
   });
 });
 
-describe("rampSignature", () => {
+describe(rampSignature, () => {
   it("ignores the fields no color is built from", () => {
     const state = withSecondary();
     const renamed = paletteReducer(state, {

@@ -9,6 +9,7 @@
 import { useTranslate } from "@tolgee/react";
 import { ShuffleIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+
 import { PaletteGallery } from "@/components/gallery/palette-gallery";
 import { usePalette } from "@/components/palette/palette-context";
 import { ScaleStrip } from "@/components/palette/scale-strip";
@@ -16,8 +17,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRoleNames } from "@/hooks/use-role-names";
 import { useRoleLabels } from "@/i18n/labels";
 import { formatColor } from "@/lib/color/convert";
-import { SCALE_KEYS, type ScaleKey } from "@/lib/color/types";
+import { SCALE_KEYS } from "@/lib/color/types";
+import type { ScaleKey } from "@/lib/color/types";
 import { randomBase } from "@/lib/palette/state";
+
 import { ACCENT_BUTTON, ACTION_BUTTON } from "./chrome-styles";
 import { ColorInfoTab } from "./color-info";
 import { ContrastMatrixTab } from "./contrast-matrix";
@@ -84,17 +87,17 @@ export function Workspace() {
   return (
     <div className="flex min-w-0 flex-col">
       <Tabs className="gap-0" defaultValue="preview" onValueChange={undefined}>
-        <div className="sticky top-(--fw-header-height) z-30 border-(--border-subtle) border-b bg-(--surface-subtle) px-8 pt-6">
+        <div className="sticky top-(--fw-header-height) z-30 border-b border-(--border-subtle) bg-(--surface-subtle) px-8 pt-6">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-5">
             <div className="flex min-w-0 flex-wrap items-center gap-3">
-              <span className="font-heading text-(--text-heading) text-[23px] tracking-[-0.02em]">
+              <span className="font-heading text-[23px] tracking-[-0.02em] text-(--text-heading)">
                 {roleNames[state.active] ?? roleLabels[state.active]}
               </span>
-              <span className="rounded-full bg-(--pink-100) px-3 py-1.5 font-heading text-(--fw-pink-ink) text-[11px] uppercase tracking-[0.14em]">
+              <span className="font-heading rounded-full bg-(--pink-100) px-3 py-1.5 text-[11px] tracking-[0.14em] text-(--fw-pink-ink) uppercase">
                 {t("toolbar.steps", { count: SCALE_KEYS.length })}
               </span>
               {active ? (
-                <span className="font-mono text-(--text-muted) text-[12px]">
+                <span className="font-mono text-[12px] text-(--text-muted)">
                   {formatColor(active.base, "oklch")}
                 </span>
               ) : null}

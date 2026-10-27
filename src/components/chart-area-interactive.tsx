@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+
 import {
   Card,
   CardAction,
@@ -9,11 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 import { useRecharts } from "@/components/ui/recharts";
 import {
   Select,
@@ -229,14 +227,14 @@ export function ChartAreaInteractive({
       <CardHeader>
         <CardTitle>Total Visitors</CardTitle>
         <CardDescription>
-          <span className="@[540px]/card:block hidden">
+          <span className="hidden @[540px]/card:block">
             Total for the last 3 months
           </span>
           <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
-            className="@[767px]/card:flex hidden *:data-[slot=toggle-group-item]:px-4!"
+            className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
             multiple={false}
             onValueChange={handleToggleRange}
             value={timeRange ? [timeRange] : []}
@@ -249,7 +247,7 @@ export function ChartAreaInteractive({
           <Select onValueChange={handleSelectRange} value={timeRange}>
             <SelectTrigger
               aria-label="Select a value"
-              className="flex @[767px]/card:hidden w-40 **:data-[slot=select-value]:truncate"
+              className="flex w-40 **:data-[slot=select-value]:truncate @[767px]/card:hidden"
               size="sm"
             >
               <SelectValue placeholder="Last 3 months" />
@@ -293,7 +291,7 @@ export function ChartAreaInteractive({
                 <stop
                   offset="5%"
                   stopColor="var(--color-desktop)"
-                  stopOpacity={1.0}
+                  stopOpacity={1}
                 />
                 <stop
                   offset="95%"

@@ -7,11 +7,14 @@
  * reads without a label competing for the space.
  */
 import { useTranslate } from "@tolgee/react";
-import { type MouseEvent, useCallback } from "react";
+import { useCallback } from "react";
+import type { MouseEvent } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useColorNames } from "@/hooks/use-color-names";
 import { readableInk } from "@/lib/color/contrast";
-import { SCALE_KEYS, type ScaleKey } from "@/lib/color/types";
+import { SCALE_KEYS } from "@/lib/color/types";
+import type { ScaleKey } from "@/lib/color/types";
 import { cn } from "@/lib/utils";
 
 export interface ScaleStripProps {
@@ -80,7 +83,7 @@ export function ScaleStrip({ selected, onSelect, className }: ScaleStripProps) {
               }}
             />
             <span className="grid w-full gap-0.75">
-              <span className="font-heading font-semibold text-[12px] tracking-[0.04em]">
+              <span className="font-heading text-[12px] font-semibold tracking-[0.04em]">
                 {key}
               </span>
               <span className="font-mono text-[10.5px] uppercase opacity-80">

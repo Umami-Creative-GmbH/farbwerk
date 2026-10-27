@@ -4,6 +4,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { TolgeeProvider, useTranslate } from "@tolgee/react";
 import { ThemeProvider } from "next-themes";
 import { useState } from "react";
+
 import { Toaster } from "@/components/ui/sonner";
 import { getTolgee } from "@/i18n/tolgee";
 import { staticData } from "@/i18n/translations";

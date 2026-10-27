@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import {
   apcaContrast,
   contrastMatrix,
@@ -11,7 +12,7 @@ import {
 import { buildScale } from "./scale";
 import { SCALE_KEYS } from "./types";
 
-describe("wcagContrast", () => {
+describe(wcagContrast, () => {
   it("returns the known extremes", () => {
     expect(wcagContrast("#000000", "#ffffff")).toBeCloseTo(21, 5);
     expect(wcagContrast("#0078d2", "#0078d2")).toBeCloseTo(1, 5);
@@ -32,7 +33,7 @@ describe("wcagContrast", () => {
   });
 });
 
-describe("apcaContrast", () => {
+describe(apcaContrast, () => {
   it("matches the reference Lc values for black and white", () => {
     expect(apcaContrast("#000000", "#ffffff")).toBeCloseTo(106.04, 2);
     expect(apcaContrast("#ffffff", "#000000")).toBeCloseTo(-107.88, 2);
@@ -61,7 +62,7 @@ describe("thresholds", () => {
   });
 });
 
-describe("readableInk", () => {
+describe(readableInk, () => {
   it("picks dark ink on light surfaces and white on dark ones", () => {
     expect(readableInk("#ffffff")).toBe("#0b1428");
     expect(readableInk("#f5f9ff")).toBe("#0b1428");
@@ -70,7 +71,7 @@ describe("readableInk", () => {
   });
 });
 
-describe("contrastMatrix", () => {
+describe(contrastMatrix, () => {
   const scale = buildScale({ base: "#0078d2" });
 
   it("is 11 by 11 with a blank diagonal", () => {

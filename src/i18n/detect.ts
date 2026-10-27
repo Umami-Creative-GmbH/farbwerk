@@ -1,6 +1,7 @@
 import { createIsomorphicFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { detectLanguage } from "@tolgee/react";
+
 import type { Locale } from "./config";
 import { defaultLocale, isLocale, locales } from "./config";
 
@@ -58,8 +59,7 @@ function matchLocale(preferred: string[]): Locale {
  * navigations to `/` it reads the browser's language preferences.
  */
 export const detectLocale = createIsomorphicFn()
-  .server(
-    (): Locale =>
-      matchLocale(parseAcceptLanguage(getRequestHeader("accept-language")))
+  .server((): Locale =>
+    matchLocale(parseAcceptLanguage(getRequestHeader("accept-language")))
   )
   .client((): Locale => matchLocale([...navigator.languages]));

@@ -1,7 +1,9 @@
 import type { TolgeeStaticData } from "@tolgee/react";
-import { type Locale, localeParents } from "./config";
-import de from "./de.json";
+
+import { localeParents } from "./config";
+import type { Locale } from "./config";
 import deFrk from "./de-frk.json";
+import de from "./de.json";
 import en from "./en.json";
 import es from "./es.json";
 import fr from "./fr.json";

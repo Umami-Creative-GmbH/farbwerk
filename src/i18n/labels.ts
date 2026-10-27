@@ -15,6 +15,7 @@
  * reason and in the same shape.
  */
 import { useTranslate } from "@tolgee/react";
+
 import type { HarmonySetting } from "@/lib/color/harmony";
 import type { LinkedRole, ScaleRole } from "@/lib/color/types";
 

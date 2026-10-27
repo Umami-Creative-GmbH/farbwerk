@@ -1,5 +1,6 @@
 import { colornames } from "color-name-list";
 import { describe, expect, it } from "vitest";
+
 import { createColorNamer, slugifyColorName } from "./name";
 import { buildScale } from "./scale";
 import { SCALE_KEYS } from "./types";
@@ -11,7 +12,7 @@ const INVALID_HEX = /Not a valid hex/;
 const namer = createColorNamer(colornames);
 const nearestColorName = namer.name;
 
-describe("createColorNamer", () => {
+describe(createColorNamer, () => {
   it("finds an exact catalogue match at distance 0", () => {
     const match = nearestColorName("#ff0000");
     expect(match.name).toBe("Red");
@@ -49,7 +50,7 @@ describe("createColorNamer", () => {
   });
 });
 
-describe("slugifyColorName", () => {
+describe(slugifyColorName, () => {
   it("produces export-safe scale names", () => {
     expect(slugifyColorName("Azure Radiance")).toBe("azure-radiance");
     expect(slugifyColorName("100 Mph")).toBe("100-mph");

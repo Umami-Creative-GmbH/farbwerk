@@ -10,11 +10,13 @@ import { useTranslate } from "@tolgee/react";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useSavedPalettes } from "@/hooks/use-saved-palettes";
 import type { ScaleKey } from "@/lib/color/types";
 import { paletteScales } from "@/lib/palette/state";
 import { cn } from "@/lib/utils";
+
 import { FIELD_INPUT, SECTION_LABEL } from "./chrome-styles";
 
 /** The steps the little preview bar shows. */
@@ -94,7 +96,7 @@ export function SavedPalettes() {
       </span>
 
       {palettes.length === 0 ? (
-        <p className="text-(--text-muted) text-[13px]">
+        <p className="text-[13px] text-(--text-muted)">
           {t("sidebar.saved-empty")}
         </p>
       ) : (
@@ -126,7 +128,7 @@ export function SavedPalettes() {
                   onClick={handleOpen}
                   type="button"
                 >
-                  <span className="truncate font-mono text-(--text-heading) text-[12px]">
+                  <span className="truncate font-mono text-[12px] text-(--text-heading)">
                     {entry.name}
                   </span>
                   <span className="flex overflow-hidden rounded-full">

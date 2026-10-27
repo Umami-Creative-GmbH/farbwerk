@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTranslate } from "@tolgee/react";
 import { ChevronDownIcon } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { HEADER_CONTROL } from "@/components/workspace/chrome-styles";
-import { type Locale, localeNames, locales } from "@/i18n/config";
+import { localeNames, locales } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import { FLAG_HEIGHT, FLAG_WIDTH, localeEmoji, localeFlag } from "@/i18n/flags";
 import { useLocale } from "@/i18n/use-locale";
 import { cn } from "@/lib/utils";
@@ -64,7 +66,7 @@ export function LanguageSwitcher() {
         aria-label={t("language-switcher.label")}
         className={cn(
           HEADER_CONTROL,
-          "h-9.5 gap-2.5 px-3.5 font-heading text-[12px] uppercase tracking-widest"
+          "font-heading h-9.5 gap-2.5 px-3.5 text-[12px] tracking-widest uppercase"
         )}
       >
         <LocaleFlag locale={activeLocale} />
@@ -89,7 +91,7 @@ export function LanguageSwitcher() {
               <Link
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
-                  "grid w-full grid-cols-[22px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-2.5 py-2.5 font-heading text-[13px]",
+                  "font-heading grid w-full grid-cols-[22px_minmax(0,1fr)_auto] items-center gap-2.5 rounded-[10px] px-2.5 py-2.5 text-[13px]",
                   isActive && "bg-(--surface-muted) font-medium"
                 )}
                 hrefLang={locale}

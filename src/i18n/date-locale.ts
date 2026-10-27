@@ -1,4 +1,5 @@
 import { de, enGB, es, fr, it } from "date-fns/locale";
+
 import type { Locale as AppLocale } from "./config";
 
 /**

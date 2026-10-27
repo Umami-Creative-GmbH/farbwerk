@@ -8,8 +8,10 @@
  * - WCAG 2.1 relative-luminance ratio, symmetric, 1–21.
  */
 import { contrastAPCA, contrastWCAG21 } from "colorjs.io/fn";
+
 import { parseHexColor } from "./convert";
-import { type ColorScale, SCALE_KEYS, type ScaleKey } from "./types";
+import { SCALE_KEYS } from "./types";
+import type { ColorScale, ScaleKey } from "./types";
 
 export type ContrastAlgorithm = "apca" | "wcag";
 

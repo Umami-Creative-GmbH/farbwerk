@@ -8,10 +8,10 @@ That software license does not grant permission to use the Farbwerk trademarks, 
 
 You may:
 
-* refer to the original project as **Farbwerk**;
-* state that your software is “based on Farbwerk,” “a fork of Farbwerk,” or otherwise accurately describe its relationship to the original project;
-* link to the official Farbwerk repository or website;
-* use the Farbwerk name when discussing, reviewing, documenting, or reporting on the project.
+- refer to the original project as **Farbwerk**;
+- state that your software is “based on Farbwerk,” “a fork of Farbwerk,” or otherwise accurately describe its relationship to the original project;
+- link to the official Farbwerk repository or website;
+- use the Farbwerk name when discussing, reviewing, documenting, or reporting on the project.
 
 ## Forks and Modified Versions
 
@@ -29,10 +29,10 @@ For example:
 
 Without prior written permission, you may not:
 
-* use the Farbwerk name as the primary name of a modified or derivative product;
-* use the Farbwerk logo or visual branding for a modified or derivative product;
-* imply that a fork, service, product, or organization is officially endorsed by or affiliated with Farbwerk;
-* use Farbwerk branding in a way that is misleading about the origin or authorship of the software.
+- use the Farbwerk name as the primary name of a modified or derivative product;
+- use the Farbwerk logo or visual branding for a modified or derivative product;
+- imply that a fork, service, product, or organization is officially endorsed by or affiliated with Farbwerk;
+- use Farbwerk branding in a way that is misleading about the origin or authorship of the software.
 
 ## No Effect on the Software License
 

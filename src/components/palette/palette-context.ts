@@ -1,4 +1,5 @@
 import { createContext, use } from "react";
+
 import type { PaletteScales } from "@/lib/color/tokens";
 import type { ColorScale, ScaleKey, ScaleRole } from "@/lib/color/types";
 import type {

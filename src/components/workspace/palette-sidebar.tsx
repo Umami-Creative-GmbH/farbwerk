@@ -12,18 +12,17 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useRoleNames } from "@/hooks/use-role-names";
 import { useRoleLabels } from "@/i18n/labels";
-import {
-  type AnchorSetting,
-  CHROMA_RANGE,
-  HUE_SHIFT_RANGE,
-  SPREAD_RANGE,
-} from "@/lib/color/scale";
-import { SCALE_KEYS, type ScaleKey } from "@/lib/color/types";
+import { CHROMA_RANGE, HUE_SHIFT_RANGE, SPREAD_RANGE } from "@/lib/color/scale";
+import type { AnchorSetting } from "@/lib/color/scale";
+import { SCALE_KEYS } from "@/lib/color/types";
+import type { ScaleKey } from "@/lib/color/types";
 import type { RampControl } from "@/lib/palette/state";
 import { cn } from "@/lib/utils";
+
 import {
   FIELD_INPUT,
   PILL,
@@ -143,7 +142,7 @@ export function PaletteSidebar() {
     : t("sidebar.anchor-pinned");
 
   return (
-    <aside className="scrollbar-gutter-stable grid content-start gap-6 border-(--border-subtle) bg-(--surface-card) px-6 pt-6.5 pb-8 lg:sticky lg:top-(--fw-header-height) lg:h-[calc(100vh-var(--fw-header-height))] lg:overflow-y-auto lg:border-r">
+    <aside className="grid scrollbar-gutter-stable content-start gap-6 border-(--border-subtle) bg-(--surface-card) px-6 pt-6.5 pb-8 lg:sticky lg:top-(--fw-header-height) lg:h-[calc(100vh-var(--fw-header-height))] lg:overflow-y-auto lg:border-r">
       <RoleList />
 
       <div>
@@ -163,7 +162,7 @@ export function PaletteSidebar() {
           The name lookup is debounced and asynchronous, so unmounting this
           while it resolves made every control below it jump on each new color.
         */}
-        <p className="mt-2 min-h-[1.5em] text-(--text-muted) text-[12.5px] leading-normal">
+        <p className="mt-2 min-h-[1.5em] text-[12.5px] leading-normal text-(--text-muted)">
           {active.name.trim()
             ? null
             : t("sidebar.nearest-name", { name: resolvedName ?? "" })}
@@ -199,7 +198,7 @@ export function PaletteSidebar() {
           <span className={SECTION_LABEL}>{t("sidebar.anchor-step")}</span>
           {/* fw-pink-ink, not pink-500: the accent needs to lift off the dark
               surface as well as sit on the light one. */}
-          <span className="font-mono text-(--fw-pink-ink) text-[11px]">
+          <span className="font-mono text-[11px] text-(--fw-pink-ink)">
             {anchorLabel} {anchorStep}
           </span>
         </div>
@@ -232,7 +231,7 @@ export function PaletteSidebar() {
             </button>
           ))}
         </div>
-        <p className="mt-2.5 text-(--text-muted) text-[12.5px] leading-[1.55]">
+        <p className="mt-2.5 text-[12.5px] leading-[1.55] text-(--text-muted)">
           {t("sidebar.anchor-auto", { step: detectedStep })}
         </p>
       </div>
@@ -248,9 +247,9 @@ export function PaletteSidebar() {
         ))}
       </div>
 
-      <div className="grid gap-3 border-(--border-subtle) border-t pt-5">
+      <div className="grid gap-3 border-t border-(--border-subtle) pt-5">
         <button
-          className="h-11 cursor-pointer rounded-full border border-transparent bg-(--surface-muted) font-heading text-(--slate-600) text-[12px] uppercase tracking-[0.12em] transition-colors duration-150 ease-out hover:text-(--navy-800) disabled:opacity-50"
+          className="font-heading h-11 cursor-pointer rounded-full border border-transparent bg-(--surface-muted) text-[12px] tracking-[0.12em] text-(--slate-600) uppercase transition-colors duration-150 ease-out hover:text-(--navy-800) disabled:opacity-50"
           disabled={editedCount === 0}
           onClick={handleResetEdits}
           type="button"
@@ -289,7 +288,7 @@ function SliderRow({ slider, value, onChange }: SliderRowProps) {
         <label className={SECTION_LABEL} htmlFor={`slider-${slider.control}`}>
           {copy.label}
         </label>
-        <span className="font-mono text-(--text-heading) text-[11px] tabular-nums">
+        <span className="font-mono text-[11px] text-(--text-heading) tabular-nums">
           {isHue
             ? `${value > 0 ? "+" : ""}${value.toFixed(HUE_DIGITS)}°`
             : value.toFixed(RATIO_DIGITS)}
@@ -305,7 +304,7 @@ function SliderRow({ slider, value, onChange }: SliderRowProps) {
         type="range"
         value={value}
       />
-      <p className="mt-2 text-(--text-muted) text-[12.5px] leading-[1.55]">
+      <p className="mt-2 text-[12.5px] leading-[1.55] text-(--text-muted)">
         {copy.hint}
       </p>
     </div>

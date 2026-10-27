@@ -4,6 +4,7 @@
 import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
 import { toast } from "sonner";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useRoleNames } from "@/hooks/use-role-names";
 import { useSavedPalettes } from "@/hooks/use-saved-palettes";

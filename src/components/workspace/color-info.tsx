@@ -10,13 +10,16 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useCopy } from "@/hooks/use-copy";
 import { apcaContrast } from "@/lib/color/contrast";
 import { formatColor } from "@/lib/color/convert";
 import { STEP_TAGS } from "@/lib/color/scale";
-import { SCALE_KEYS, type ScaleKey } from "@/lib/color/types";
+import { SCALE_KEYS } from "@/lib/color/types";
+import type { ScaleKey } from "@/lib/color/types";
 import { cn } from "@/lib/utils";
+
 import { SECTION_LABEL } from "./chrome-styles";
 
 /** The two surfaces the design system actually puts text on. */
@@ -107,7 +110,7 @@ export function ColorInfoTab() {
         >
           {HEADERS.map((header) => (
             <span
-              className="border-(--border-subtle) border-b px-3 py-2"
+              className="border-b border-(--border-subtle) px-3 py-2"
               key={header}
             >
               {headerLabels[header]}
@@ -126,7 +129,7 @@ export function ColorInfoTab() {
               type="button"
             >
               <span
-                className="size-6 rounded-[4px] border border-border"
+                className="border-border size-6 rounded-[4px] border"
                 style={{ background: row.hex }}
               />
             </button>
@@ -171,7 +174,7 @@ export function ColorInfoTab() {
             </button>
             <div
               className={cn(
-                "flex items-center gap-1.5 border-border border-b px-3",
+                "border-border flex items-center gap-1.5 border-b px-3",
                 ROW_HEIGHT
               )}
             >

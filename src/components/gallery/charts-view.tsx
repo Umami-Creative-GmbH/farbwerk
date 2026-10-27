@@ -9,6 +9,7 @@
  * and a scatter.
  */
 import { useTranslate } from "@tolgee/react";
+
 import {
   Card,
   CardContent,
@@ -17,11 +18,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  type ChartConfig,
   ChartContainer,
   ChartLegendContent,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 import { useRecharts } from "@/components/ui/recharts";
 
 const CHART_BOX = "min-h-48 w-full";

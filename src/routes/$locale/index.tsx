@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+
 import { MobileNotice } from "@/components/mobile-notice";
 import { PaletteProvider } from "@/components/palette/palette-provider";
 import { AppFooter, AppHeader } from "@/components/workspace/app-chrome";

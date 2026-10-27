@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { initialPaletteState } from "./state";
-import { loadPalettes, type SavedPalette, savePalette } from "./storage";
+import { loadPalettes, savePalette } from "./storage";
+import type { SavedPalette } from "./storage";
 
 const STORAGE_KEY = "farbwerk-palettes:v1";
 const LEGACY_STORAGE_KEY = "farbwerk-palettes";

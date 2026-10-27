@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { EXPORT_FORMATS, type ExportRole, exportPalette } from "./export";
+
+import { EXPORT_FORMATS, exportPalette } from "./export";
+import type { ExportRole } from "./export";
 import { buildScale } from "./scale";
 import { SCALE_KEYS } from "./types";
 
@@ -13,7 +15,7 @@ const EMPTY_PALETTE = /no scales/;
 const TRAILING_BLANK_LINE = /\n\n\s*$/;
 const CSS_COMMENT_CLOSE = /\*\//g;
 
-describe("exportPalette", () => {
+describe(exportPalette, () => {
   it("defaults to a Tailwind 4 theme block in hex", () => {
     const out = exportPalette(SINGLE);
     expect(out).toContain('@import "tailwindcss";');

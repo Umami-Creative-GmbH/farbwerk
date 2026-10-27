@@ -7,14 +7,15 @@
  * state.
  */
 import { useCallback, useEffect, useSyncExternalStore } from "react";
+
 import type { PaletteState } from "@/lib/palette/state";
 import {
   deletePalette,
   loadPalettes,
   renamePalette,
-  type SavedPalette,
   savePalette,
 } from "@/lib/palette/storage";
+import type { SavedPalette } from "@/lib/palette/storage";
 
 const EMPTY: SavedPalette[] = [];
 

@@ -19,6 +19,7 @@
  */
 import { useTranslate } from "@tolgee/react";
 import type { CSSProperties } from "react";
+
 import { SCALE_KEYS } from "@/lib/color/types";
 
 /**
@@ -87,10 +88,10 @@ function CampaignCard() {
         <span className={`${PILL} bg-white/55 text-(--p-950)`}>
           {t("gallery.mkt.campaign-tag")}
         </span>
-        <h3 className="text-balance font-heading text-(--p-950) text-[30px] leading-[1.08] tracking-[-0.03em]">
+        <h3 className="font-heading text-[30px] leading-[1.08] tracking-[-0.03em] text-balance text-(--p-950)">
           {t("gallery.mkt.campaign-title")}
         </h3>
-        <p className={`${BODY} text-(--p-800) text-[13.5px]`}>
+        <p className={`${BODY} text-[13.5px] text-(--p-800)`}>
           {t("gallery.mkt.campaign-desc")}
         </p>
       </div>
@@ -116,7 +117,7 @@ function GradientsCard() {
         <span className={`${PILL} bg-(--s-400) text-(--s-950)`}>
           {t("gallery.mkt.gradients-tag")}
         </span>
-        <h3 className="text-balance font-heading text-[26px] text-white leading-[1.12] tracking-[-0.02em]">
+        <h3 className="font-heading text-[26px] leading-[1.12] tracking-[-0.02em] text-balance text-white">
           {t("gallery.mkt.gradients-title")}
         </h3>
         <p className={`${BODY} text-white/80`}>
@@ -139,11 +140,11 @@ function StudioCard() {
         {t("gallery.mkt.studio-tag")}
       </span>
       {/* The count the copy refers to — read off the ramp, not typed in. */}
-      <span className="font-mono text-[76px] text-white/90 leading-none">
+      <span className="font-mono text-[76px] leading-none text-white/90">
         {SCALE_KEYS.length}
       </span>
       <div className="grid gap-2">
-        <h3 className="text-balance font-heading text-[24px] text-white leading-[1.12] tracking-[-0.02em]">
+        <h3 className="font-heading text-[24px] leading-[1.12] tracking-[-0.02em] text-balance text-white">
           {t("gallery.mkt.studio-title")}
         </h3>
         <p className={`${BODY} text-white/80`}>
@@ -171,10 +172,10 @@ function LifecycleCard() {
         <span className={`${EYEBROW} justify-self-start text-(--s-700)`}>
           {t("gallery.mkt.lifecycle-tag")}
         </span>
-        <h3 className="text-balance font-heading text-(--s-950) text-[32px] leading-[1.08] tracking-[-0.03em]">
+        <h3 className="font-heading text-[32px] leading-[1.08] tracking-[-0.03em] text-balance text-(--s-950)">
           {t("gallery.mkt.lifecycle-title")}
         </h3>
-        <p className="max-w-[46ch] text-pretty text-(--s-800) text-[14px] leading-[1.62]">
+        <p className="max-w-[46ch] text-[14px] leading-[1.62] text-pretty text-(--s-800)">
           {t("gallery.mkt.lifecycle-desc")}
         </p>
       </div>
@@ -191,7 +192,7 @@ function ProductCard() {
         <span className={`${EYEBROW} justify-self-start text-(--t-700)`}>
           {t("gallery.mkt.product-tag")}
         </span>
-        <h3 className="text-balance font-heading text-(--t-950) text-[27px] leading-[1.1] tracking-[-0.03em]">
+        <h3 className="font-heading text-[27px] leading-[1.1] tracking-[-0.03em] text-balance text-(--t-950)">
           {t("gallery.mkt.product-title")}
         </h3>
         <p className={`${BODY} text-(--t-800)`}>
@@ -234,10 +235,10 @@ function SocialCard() {
         style={SOCIAL_SCRIM}
       />
       <div className="relative grid gap-2 p-6">
-        <span className="font-mono text-[11px] text-white/75 uppercase tracking-[0.14em]">
+        <span className="font-mono text-[11px] tracking-[0.14em] text-white/75 uppercase">
           {t("gallery.mkt.social-tag")}
         </span>
-        <h3 className="text-balance font-heading text-[25px] text-white leading-[1.12] tracking-[-0.02em]">
+        <h3 className="font-heading text-[25px] leading-[1.12] tracking-[-0.02em] text-balance text-white">
           {t("gallery.mkt.social-title")}
         </h3>
         <p className={`${BODY} text-white/75`}>
@@ -264,7 +265,7 @@ function EventCard() {
         {t("gallery.mkt.event-tag")}
       </span>
       <div className="relative grid gap-3">
-        <h3 className="text-balance font-heading text-[28px] text-white leading-[1.1] tracking-[-0.03em]">
+        <h3 className="font-heading text-[28px] leading-[1.1] tracking-[-0.03em] text-balance text-white">
           {t("gallery.mkt.event-title")}
         </h3>
         <span className="h-1 w-17 rounded-full bg-(--s-400)" />
@@ -286,7 +287,7 @@ function OfferCard() {
       <span className={`${EYEBROW} text-(--s-950) opacity-70`}>
         {t("gallery.mkt.offer-tag")}
       </span>
-      <h3 className="text-balance font-heading text-(--s-950) text-[40px] leading-[1.02] tracking-[-0.04em]">
+      <h3 className="font-heading text-[40px] leading-[1.02] tracking-[-0.04em] text-balance text-(--s-950)">
         {t("gallery.mkt.offer-title")}
       </h3>
       <p className={`${BODY} mt-1.5 text-(--s-950) opacity-75`}>
@@ -306,7 +307,7 @@ function TestimonialCard() {
     <article
       className={`${CARD} grid content-between gap-4.5 border border-(--border-subtle) bg-(--surface-card) px-6 py-6.5`}
     >
-      <blockquote className="text-pretty font-heading text-(--fw-card-title) text-[22px] leading-[1.24] tracking-[-0.02em]">
+      <blockquote className="font-heading text-[22px] leading-[1.24] tracking-[-0.02em] text-pretty text-(--fw-card-title)">
         “{t("gallery.mkt.testimonial-title")}”
       </blockquote>
       <div className="grid grid-cols-[44px_1fr] items-center gap-3">
@@ -319,7 +320,7 @@ function TestimonialCard() {
           width={200}
         />
         <span className="grid gap-0.5">
-          <span className="text-(--fw-card-desc) text-[13px]">
+          <span className="text-[13px] text-(--fw-card-desc)">
             {t("gallery.mkt.testimonial-desc")}
           </span>
           <span className={`${EYEBROW} text-(--fw-accent-ink)`}>
@@ -347,7 +348,7 @@ export function MarketingView() {
         <OfferCard />
         <TestimonialCard />
       </div>
-      <p className="text-(--text-muted) text-[12.5px]">
+      <p className="text-[12.5px] text-(--text-muted)">
         {t("gallery.mkt.note")}
       </p>
     </>

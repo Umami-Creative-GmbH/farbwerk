@@ -13,7 +13,7 @@ import {
   rgbToHex,
 } from "./convert";
 
-describe("normalizeHex", () => {
+describe(normalizeHex, () => {
   it("expands shorthand and lowercases", () => {
     expect(normalizeHex("#08D")).toBe("#0088dd");
     expect(normalizeHex("0078D2")).toBe("#0078d2");
@@ -27,7 +27,7 @@ describe("normalizeHex", () => {
   });
 });
 
-describe("hexToOklch", () => {
+describe(hexToOklch, () => {
   it("converts to the expected OKLCH triple", () => {
     const { l, c, h } = hexToOklch("#0078d2");
     expect(l).toBeCloseTo(0.566, 3);
@@ -76,7 +76,7 @@ describe("rgb", () => {
   });
 });
 
-describe("formatColor", () => {
+describe(formatColor, () => {
   it("renders every notation", () => {
     expect(formatColor("#0078d2", "hex")).toBe("#0078d2");
     expect(formatColor("#0078d2", "rgb")).toBe("rgb(0 120 210)");

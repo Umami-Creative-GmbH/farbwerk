@@ -9,6 +9,7 @@
 import { useTranslate } from "@tolgee/react";
 import { Colorful } from "@uiw/react-color";
 import { useCallback } from "react";
+
 import {
   Popover,
   PopoverContent,
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { normalizeHex } from "@/lib/color/convert";
 import { cn } from "@/lib/utils";
+
 import { FIELD_INPUT } from "./chrome-styles";
 
 const PICKER_WIDTH = 232;
@@ -91,7 +93,7 @@ export function ColorPickerField({ value, onChange }: ColorPickerFieldProps) {
     <div className="flex items-center gap-2.5">
       {/* Radius matches FIELD_INPUT beside it, so the pair reads as one control. */}
       <ColorSwatchPicker
-        className="h-11 w-13 rounded-input"
+        className="rounded-input h-11 w-13"
         label={t("sidebar.pick-base")}
         onChange={onChange}
         value={value}

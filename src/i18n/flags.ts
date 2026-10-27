@@ -3,6 +3,7 @@ import esFlag from "flag-icons/flags/4x3/es.svg";
 import frFlag from "flag-icons/flags/4x3/fr.svg";
 import gbFlag from "flag-icons/flags/4x3/gb.svg";
 import itFlag from "flag-icons/flags/4x3/it.svg";
+
 import type { Locale } from "./config";
 
 /**

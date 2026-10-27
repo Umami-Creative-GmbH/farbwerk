@@ -29,7 +29,7 @@
         // resets uncontrolled fields after an action completes, and these inputs
         // use `defaultValue`, so an edited value would snap back on submit.
         "files": ["src/components/data-table.tsx"],
-        "rules": ["react-doctor/no-prevent-default"]
+        "rules": ["react-doctor/no-prevent-default"],
       },
       {
         // js-combine-iterations — data-table.tsx:461 (table columns in a dropdown,
@@ -47,9 +47,9 @@
         // clobbers the change or forces a manual merge — permanently, for no gain.
         "files": [
           "src/components/data-table.tsx",
-          "src/components/ui/chart.tsx"
+          "src/components/ui/chart.tsx",
         ],
-        "rules": ["react-doctor/js-combine-iterations"]
+        "rules": ["react-doctor/js-combine-iterations"],
       },
       {
         // exhaustive-deps (line 42) — `useMemo(() => paletteScales(state), [rampKey])`
@@ -81,7 +81,7 @@
         // optimization. It still cannot serve stale colors, but the RoleFields
         // refactor above would buy the whole component back. Worth doing.
         "files": ["src/components/palette/palette-provider.tsx"],
-        "rules": ["react-doctor/exhaustive-deps"]
+        "rules": ["react-doctor/exhaustive-deps"],
       },
       {
         // jsx-no-constructed-context-values — chart.tsx:65 `value={{ config }}` and
@@ -110,9 +110,9 @@
         // react-compiler-no-manual-memoization rule.
         "files": [
           "src/components/ui/chart.tsx",
-          "src/components/ui/toggle-group.tsx"
+          "src/components/ui/toggle-group.tsx",
         ],
-        "rules": ["react-doctor/jsx-no-constructed-context-values"]
+        "rules": ["react-doctor/jsx-no-constructed-context-values"],
       },
       {
         // rerender-memo-before-early-return — chart.tsx:147, the `tooltipLabel`
@@ -130,7 +130,7 @@
         // React Compiler also compiles this file cleanly (4 cache regions, 0 bailouts),
         // so the memo is preserved rather than skipped.
         "files": ["src/components/ui/chart.tsx"],
-        "rules": ["react-doctor/rerender-memo-before-early-return"]
+        "rules": ["react-doctor/rerender-memo-before-early-return"],
       },
       {
         // no-fetch-in-effect — the debounced `/api/color-name` lookup.
@@ -153,7 +153,7 @@
         // syntactic — it matches `fetch` anywhere inside useEffect — so no amount
         // of correctness here clears it.
         "files": ["src/hooks/use-color-names.ts"],
-        "rules": ["react-doctor/no-fetch-in-effect"]
+        "rules": ["react-doctor/no-fetch-in-effect"],
       },
       {
         // deslop/unused-file — tolgee.config.cjs is NOT unreachable; deleting it
@@ -168,8 +168,8 @@
         // The file also loads .env.local for the CLI, which `bun run` does not
         // forward on its own — so it carries behaviour, not just settings.
         "files": ["tolgee.config.cjs"],
-        "rules": ["deslop/unused-file"]
-      }
-    ]
-  }
+        "rules": ["deslop/unused-file"],
+      },
+    ],
+  },
 }

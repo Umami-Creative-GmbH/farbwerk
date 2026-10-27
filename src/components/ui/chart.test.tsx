@@ -2,16 +2,17 @@
 import { cleanup, render } from "@testing-library/react";
 import type * as React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import {
-  type ChartConfig,
   ChartContainer,
   ChartLegendContent,
   ChartTooltipContent,
 } from "./chart";
+import type { ChartConfig } from "./chart";
 
 // ResponsiveContainer measures its parent, which is always 0x0 under jsdom, so
 // it would render nothing at all. These tests only need the chart context.
-vi.mock("@/components/ui/recharts", () => {
+vi.mock(import("@/components/ui/recharts"), () => {
   // Declared in the factory, which runs once, so the component type stays
   // stable across renders. A fresh type each render would remount the subtree
   // and destroy the very node identity these tests check.

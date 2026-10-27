@@ -9,6 +9,7 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { HeartIcon } from "lucide-react";
+
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -45,14 +46,14 @@ export function AppHeader() {
           </a>
           <span aria-hidden="true" className="block h-8.5 w-px bg-white/22" />
           <span className="flex min-w-0 items-baseline gap-2">
-            <span className="font-heading font-semibold text-[21px] text-white tracking-[-0.02em]">
+            <span className="font-heading text-[21px] font-semibold tracking-[-0.02em] text-white">
               {t("app.brand")}
             </span>
             <span
               aria-hidden="true"
               className="inline-block size-1.75 rounded-[2px] bg-(--pink-500)"
             />
-            <span className="ml-2 whitespace-nowrap font-heading text-(--text-on-inverse-muted) text-[11px] uppercase tracking-[0.16em]">
+            <span className="font-heading ml-2 text-[11px] tracking-[0.16em] whitespace-nowrap text-(--text-on-inverse-muted) uppercase">
               {t("home.eyebrow")}
             </span>
           </span>
@@ -76,7 +77,7 @@ export function AppFooter() {
   const { t } = useTranslate();
 
   return (
-    <footer className="relative bg-(--navy-800) px-8 py-7 text-(--text-on-inverse-muted) text-[13px]">
+    <footer className="relative bg-(--navy-800) px-8 py-7 text-[13px] text-(--text-on-inverse-muted)">
       {/* The rainbow hairline bookends the page: base of the header, top of
           the footer. */}
       <div
@@ -100,7 +101,7 @@ export function AppFooter() {
             {t("app.footer.by")}
           </a>
         </span>
-        <span className="flex gap-6 font-heading text-[11px] uppercase tracking-[0.16em]">
+        <span className="font-heading flex gap-6 text-[11px] tracking-[0.16em] uppercase">
           {/* The legal pages live on the agency site, not in this app. */}
           <a
             className="text-inherit hover:text-white"

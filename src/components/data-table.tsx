@@ -1,14 +1,13 @@
 import {
   closestCenter,
   DndContext,
-  type DragEndEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
-  type UniqueIdentifier,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   arrayMove,
@@ -18,8 +17,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
-  type ColumnFiltersState,
-  type ColumnVisibilityState,
   columnFilteringFeature,
   columnVisibilityFeature,
   createColumnHelper,
@@ -27,13 +24,17 @@ import {
   createPaginatedRowModel,
   createSortedRowModel,
   FlexRender,
-  type Row,
   rowPaginationFeature,
   rowSelectionFeature,
   rowSortingFeature,
-  type SortingState,
   tableFeatures,
   useTable,
+} from "@tanstack/react-table";
+import type {
+  ColumnFiltersState,
+  ColumnVisibilityState,
+  Row,
+  SortingState,
 } from "@tanstack/react-table";
 import {
   ChevronDownIcon,
@@ -52,13 +53,11 @@ import {
 import { useCallback, useId, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Drawer,
@@ -138,11 +137,11 @@ function DragHandle({ id }: { id: number }) {
     <Button
       {...attributes}
       {...listeners}
-      className="size-7 text-muted-foreground hover:bg-transparent"
+      className="text-muted-foreground size-7 hover:bg-transparent"
       size="icon"
       variant="ghost"
     >
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
+      <GripVerticalIcon className="text-muted-foreground size-3" />
       <span className="sr-only">Drag to reorder</span>
     </Button>
   );
@@ -247,7 +246,7 @@ function EditableNumberCell({
         {label}
       </Label>
       <Input
-        className="h-8 w-16 border-transparent bg-transparent text-right shadow-none hover:bg-input/30 focus-visible:border dark:hover:bg-input/30"
+        className="hover:bg-input/30 dark:hover:bg-input/30 h-8 w-16 border-transparent bg-transparent text-right shadow-none focus-visible:border"
         defaultValue={item[field]}
         id={inputId}
       />
@@ -276,7 +275,7 @@ const columns = columnHelper.columns([
   columnHelper.accessor("type", {
     cell: ({ row }) => (
       <div className="w-32">
-        <Badge className="px-1.5 text-muted-foreground" variant="outline">
+        <Badge className="text-muted-foreground px-1.5" variant="outline">
           {row.original.type}
         </Badge>
       </div>
@@ -285,7 +284,7 @@ const columns = columnHelper.columns([
   }),
   columnHelper.accessor("status", {
     cell: ({ row }) => (
-      <Badge className="px-1.5 text-muted-foreground" variant="outline">
+      <Badge className="text-muted-foreground px-1.5" variant="outline">
         {row.original.status === "Done" ? (
           <CircleCheckIcon className="fill-green-500" />
         ) : (
@@ -352,7 +351,7 @@ const columns = columnHelper.columns([
         <DropdownMenuTrigger
           render={
             <Button
-              className="flex size-8 text-muted-foreground data-open:bg-muted"
+              className="text-muted-foreground data-open:bg-muted flex size-8"
               size="icon"
               variant="ghost"
             />
@@ -494,7 +493,7 @@ export function DataTable({
           ]}
         >
           <SelectTrigger
-            className="flex @4xl/main:hidden w-fit"
+            className="flex w-fit @4xl/main:hidden"
             id="view-selector"
             size="sm"
           >
@@ -509,7 +508,7 @@ export function DataTable({
             </SelectGroup>
           </SelectContent>
         </Select>
-        <TabsList className="@4xl/main:flex hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1">
+        <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
           <TabsTrigger value="outline">Outline</TabsTrigger>
           <TabsTrigger value="past-performance">
             Past Performance <Badge variant="secondary">3</Badge>
@@ -533,8 +532,7 @@ export function DataTable({
                 .getAllColumns()
                 .filter(
                   (column) =>
-                    typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide()
+                    column.accessorFn !== undefined && column.getCanHide()
                 )
                 .map((column) => (
                   <ColumnVisibilityItem column={column} key={column.id} />
@@ -560,7 +558,7 @@ export function DataTable({
             sensors={sensors}
           >
             <Table>
-              <TableHeader className="sticky top-0 z-10 bg-muted">
+              <TableHeader className="bg-muted sticky top-0 z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
@@ -598,13 +596,13 @@ export function DataTable({
           </DndContext>
         </div>
         <div className="flex items-center justify-between px-4">
-          <div className="hidden flex-1 text-muted-foreground text-sm lg:flex">
+          <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
           <div className="flex w-full items-center gap-8 lg:w-fit">
             <div className="hidden items-center gap-2 lg:flex">
-              <Label className="font-medium text-sm" htmlFor="rows-per-page">
+              <Label className="text-sm font-medium" htmlFor="rows-per-page">
                 Rows per page
               </Label>
               <Select
@@ -629,7 +627,7 @@ export function DataTable({
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex w-fit items-center justify-center font-medium text-sm">
+            <div className="flex w-fit items-center justify-center text-sm font-medium">
               Page {table.state.pagination.pageIndex + 1} of{" "}
               {table.getPageCount()}
             </div>
@@ -751,7 +749,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
       <DrawerTrigger
         render={
           <Button
-            className="w-fit px-0 text-left text-foreground"
+            className="text-foreground w-fit px-0 text-left"
             variant="link"
           />
         }
@@ -810,7 +808,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               </ChartContainer>
               <Separator />
               <div className="grid gap-2">
-                <div className="flex gap-2 font-medium leading-none">
+                <div className="flex gap-2 leading-none font-medium">
                   Trending up by 5.2% this month{" "}
                   <TrendingUpIcon className="size-4" />
                 </div>

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { wcagContrast } from "./contrast";
 import { buildScale } from "./scale";
 import { galleryVars, paletteVars, themeVars } from "./tokens";
@@ -9,7 +10,7 @@ const VAR_REFERENCE = /^var\((--[a-z]-\d+)\)$/;
 const primary = buildScale({ base: "#0078d2" });
 const secondary = buildScale({ base: "#e60096" });
 
-describe("paletteVars", () => {
+describe(paletteVars, () => {
   it("emits every step of every role", () => {
     const vars = paletteVars({ primary, secondary });
     for (const key of SCALE_KEYS) {
@@ -25,7 +26,7 @@ describe("paletteVars", () => {
   });
 });
 
-describe("themeVars", () => {
+describe(themeVars, () => {
   it("points shadcn tokens at the palette rather than hardcoding hex", () => {
     const vars = themeVars({ primary, secondary });
     expect(vars["--primary"]).toBe("var(--p-600)");
@@ -70,7 +71,7 @@ describe("themeVars", () => {
   });
 });
 
-describe("galleryVars", () => {
+describe(galleryVars, () => {
   it("merges both layers so the wrapper can resolve every var()", () => {
     const vars = galleryVars({ primary, secondary });
     expect(vars["--p-500"]).toBe(primary[500]);

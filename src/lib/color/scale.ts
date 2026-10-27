@@ -7,17 +7,13 @@
  */
 import {
   DEFAULT_GAMUT_METHOD,
-  type GamutMethod,
   hexToOklch,
   normalizeHex,
   oklchToHex,
 } from "./convert";
-import {
-  type ColorScale,
-  type Oklch,
-  SCALE_KEYS,
-  type ScaleKey,
-} from "./types";
+import type { GamutMethod } from "./convert";
+import { SCALE_KEYS } from "./types";
+import type { ColorScale, Oklch, ScaleKey } from "./types";
 
 /** Target OKLCH lightness per step — the shape of a Tailwind ramp. */
 export const LIGHTNESS_TARGETS: Record<ScaleKey, number> = {

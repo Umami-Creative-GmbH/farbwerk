@@ -1,6 +1,7 @@
 import { FormatIcu } from "@tolgee/format-icu";
 import type { TolgeeInstance } from "@tolgee/react";
 import { DevTools, Tolgee } from "@tolgee/react";
+
 import { defaultLocale, locales } from "./config";
 import { staticData } from "./translations";
 

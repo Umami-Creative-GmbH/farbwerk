@@ -8,7 +8,9 @@
  */
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { type ColorNamer, createColorNamer } from "@/lib/color/name";
+
+import { createColorNamer } from "@/lib/color/name";
+import type { ColorNamer } from "@/lib/color/name";
 
 const HEX = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 const MAX_BATCH = 64;

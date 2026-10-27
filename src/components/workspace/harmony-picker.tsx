@@ -10,16 +10,14 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useHarmonyCopy } from "@/i18n/labels";
-import {
-  HARMONY_RULES,
-  type HarmonyRule,
-  type HarmonySetting,
-  harmonizeBase,
-} from "@/lib/color/harmony";
+import { HARMONY_RULES, harmonizeBase } from "@/lib/color/harmony";
+import type { HarmonyRule, HarmonySetting } from "@/lib/color/harmony";
 import type { LinkedRole } from "@/lib/color/types";
 import { cn } from "@/lib/utils";
+
 import { PILL, PILL_ACTIVE, PILL_IDLE, SECTION_LABEL } from "./chrome-styles";
 
 export function HarmonyPicker() {
@@ -84,7 +82,7 @@ export function HarmonyPicker() {
           );
         })}
       </div>
-      <p className="mt-2.5 text-(--text-muted) text-[12.5px] leading-[1.55]">
+      <p className="mt-2.5 text-[12.5px] leading-[1.55] text-(--text-muted)">
         {harmonyCopy[active.harmony].hint}
       </p>
     </div>

@@ -15,19 +15,21 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { useCallback, useMemo, useState } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCopy } from "@/hooks/use-copy";
 import {
   APCA_THRESHOLDS,
-  type ContrastAlgorithm,
   contrastMatrix,
   DEFAULT_APCA_THRESHOLD,
   DEFAULT_WCAG_THRESHOLD,
   WCAG_THRESHOLDS,
 } from "@/lib/color/contrast";
+import type { ContrastAlgorithm } from "@/lib/color/contrast";
 import { SCALE_KEYS } from "@/lib/color/types";
 import { cn } from "@/lib/utils";
+
 import { SECTION_LABEL } from "./chrome-styles";
 
 /** Sentinel for the "All" option — show every pair, threshold off. */
@@ -135,7 +137,7 @@ export function ContrastMatrixTab() {
 
   return (
     <div className="grid items-start lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)]">
-      <aside className="grid min-w-0 content-start gap-6 py-6 lg:border-(--border-subtle) lg:border-r lg:pr-5">
+      <aside className="grid min-w-0 content-start gap-6 py-6 lg:border-r lg:border-(--border-subtle) lg:pr-5">
         <fieldset>
           <legend className={SECTION_LABEL}>{t("matrix.guidelines")}</legend>
           <RadioGroup
@@ -194,7 +196,7 @@ export function ContrastMatrixTab() {
           </RadioGroup>
         </fieldset>
 
-        <p className="border-(--border-subtle) border-t pt-4 text-(--text-muted) text-[12.5px] leading-[1.55]">
+        <p className="border-t border-(--border-subtle) pt-4 text-[12.5px] leading-[1.55] text-(--text-muted)">
           {note}
         </p>
       </aside>
@@ -205,14 +207,14 @@ export function ContrastMatrixTab() {
           <thead>
             <tr>
               <th
-                className="w-10.5 font-normal text-(--text-muted) text-[10px]"
+                className="w-10.5 text-[10px] font-normal text-(--text-muted)"
                 scope="col"
               >
                 <span className="sr-only">{t("matrix.text-step")}</span>
               </th>
               {SCALE_KEYS.map((key) => (
                 <th
-                  className="pb-1.5 font-normal text-(--text-muted) text-[10px]"
+                  className="pb-1.5 text-[10px] font-normal text-(--text-muted)"
                   key={key}
                   scope="col"
                 >
@@ -225,7 +227,7 @@ export function ContrastMatrixTab() {
             {cells.map((row, index) => (
               <tr key={SCALE_KEYS[index]}>
                 <th
-                  className="text-left font-normal text-(--text-muted) text-[10px]"
+                  className="text-left text-[10px] font-normal text-(--text-muted)"
                   scope="row"
                 >
                   {SCALE_KEYS[index]}
@@ -238,7 +240,7 @@ export function ContrastMatrixTab() {
                   if (!cell.passes) {
                     return (
                       <td
-                        className="h-9 rounded-[9px] bg-(--surface-muted) text-(--text-muted) text-[10.5px] opacity-60"
+                        className="h-9 rounded-[9px] bg-(--surface-muted) text-[10.5px] text-(--text-muted) opacity-60"
                         key={cell.background}
                       >
                         ·

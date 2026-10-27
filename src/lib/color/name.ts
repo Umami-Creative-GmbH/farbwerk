@@ -8,7 +8,9 @@
  *
  * `nearest-color` does the actual lookup — naive nearest-neighbour in RGB space.
  */
-import nearestColor, { type NearestColorMatcher } from "nearest-color";
+import nearestColor from "nearest-color";
+import type { NearestColorMatcher } from "nearest-color";
+
 import { normalizeHex } from "./convert";
 
 export interface ColorNameEntry {
@@ -34,7 +36,10 @@ const EDGE_DASHES = /^-+|-+$/g;
 
 /** `Azure Radiance` → `azure-radiance`, matching the export naming rule. */
 export function slugifyColorName(name: string): string {
-  return name.toLowerCase().replace(NON_SLUG, "-").replace(EDGE_DASHES, "");
+  return name
+    .toLowerCase()
+    .replaceAll(NON_SLUG, "-")
+    .replaceAll(EDGE_DASHES, "");
 }
 
 export interface ColorNamer {

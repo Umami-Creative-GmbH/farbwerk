@@ -71,5 +71,3 @@ const server = Bun.serve({
 process.stdout.write(
   `farbwerk listening on http://${server.hostname}:${server.port}\n`
 );
-
-export {};

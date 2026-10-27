@@ -1,4 +1,5 @@
 import { useParams } from "@tanstack/react-router";
+
 import type { Locale } from "./config";
 import { defaultLocale, isLocale } from "./config";
 

@@ -17,31 +17,18 @@
 
 ## Worum es geht
 
-Jedes Projekt fängt gleich an: Es gibt genau eine Markenfarbe. Ein Hex-Code aus
-dem Styleguide. Und dann sitzt man da und würfelt sich elf Tailwind-Stufen
-zusammen, bis 300 und 400 verdächtig ähnlich aussehen und der Button-Text auf
-500 zwar hübsch ist, aber leider unlesbar.
+Jedes Projekt fängt gleich an: Es gibt genau eine Markenfarbe. Ein Hex-Code aus dem Styleguide. Und dann sitzt man da und würfelt sich elf Tailwind-Stufen zusammen, bis 300 und 400 verdächtig ähnlich aussehen und der Button-Text auf 500 zwar hübsch ist, aber leider unlesbar.
 
 Farbwerk nimmt Ihnen genau diesen Nachmittag ab. Farbe einfügen, fertig:
 
-- **Alle elf Stufen** von 50 bis 950, berechnet in OKLCH — also so, wie das
-  Auge Helligkeit tatsächlich wahrnimmt, und nicht so, wie sRGB das gerne
-  behauptet.
-- **Zweite und dritte Farbe** über acht Harmonieregeln — komplementär,
-  triadisch, analog und so weiter. Ändern Sie die Hauptfarbe, ziehen alle
-  anderen mit.
-- **Kontrast wird geprüft**, jedes Paar, nach APCA und WCAG 2. Bevor es das
-  Audit tut.
-- **Eine Galerie echter Komponenten** — Dashboard, Charts, Formulare, Landing
-  Page — die sich sofort in Ihrer Palette neu einfärbt. Man sieht die Farben
-  also arbeiten, statt nur elf Kacheln zu bewundern.
-- **Farben aus einem Bild ziehen**: Logo reinwerfen, Farben rausholen. Das Bild
-  bleibt dabei im Browser und wird nirgendwohin hochgeladen.
-- **Export** in sieben Formate (Tailwind 3 und 4, CSS, SCSS, SVG, Tokens Studio,
-  W3C Design Tokens) in vier Notationen. Copy, paste, weiterarbeiten.
+- **Alle elf Stufen** von 50 bis 950, berechnet in OKLCH — also so, wie das Auge Helligkeit tatsächlich wahrnimmt, und nicht so, wie sRGB das gerne behauptet.
+- **Zweite und dritte Farbe** über acht Harmonieregeln — komplementär, triadisch, analog und so weiter. Ändern Sie die Hauptfarbe, ziehen alle anderen mit.
+- **Kontrast wird geprüft**, jedes Paar, nach APCA und WCAG 2. Bevor es das Audit tut.
+- **Eine Galerie echter Komponenten** — Dashboard, Charts, Formulare, Landing Page — die sich sofort in Ihrer Palette neu einfärbt. Man sieht die Farben also arbeiten, statt nur elf Kacheln zu bewundern.
+- **Farben aus einem Bild ziehen**: Logo reinwerfen, Farben rausholen. Das Bild bleibt dabei im Browser und wird nirgendwohin hochgeladen.
+- **Export** in sieben Formate (Tailwind 3 und 4, CSS, SCSS, SVG, Tokens Studio, W3C Design Tokens) in vier Notationen. Copy, paste, weiterarbeiten.
 
-Kurz: das Werkzeug, mit dem man vom Kunden-Hex zur fertigen Palette kommt,
-ohne unterwegs die Zugänglichkeit zu verlieren.
+Kurz: das Werkzeug, mit dem man vom Kunden-Hex zur fertigen Palette kommt, ohne unterwegs die Zugänglichkeit zu verlieren.
 
 ## Sprachen
 
@@ -49,13 +36,10 @@ Farbwerk spricht **Deutsch, Englisch, Französisch, Spanisch und Italienisch**.
 
 Und dann sind da noch zwei, die es fachlich nicht gebraucht hätte:
 
-- **Fränkisch** (`de-frk`) — weil eine Palette hier zu Recht „Balettn“ heißt und
-  der Zufallsgenerator schlicht „Glickssach“ macht.
-- **Klingonisch** (`tlh`) — weil `rItlh tlhegh chenmoHwI'` einfach der bessere
-  Titel für einen Skalengenerator ist.
+- **Fränkisch** (`de-frk`) — weil eine Palette hier zu Recht „Balettn“ heißt und der Zufallsgenerator schlicht „Glickssach“ macht.
+- **Klingonisch** (`tlh`) — weil `rItlh tlhegh chenmoHwI'` einfach der bessere Titel für einen Skalengenerator ist.
 
-Beide sind ernst gemeint übersetzt, nur eben nicht ernst zu nehmen. Wer eine
-Stelle findet, die noch Hochdeutsch ist: Pull Request willkommen.
+Beide sind ernst gemeint übersetzt, nur eben nicht ernst zu nehmen. Wer eine Stelle findet, die noch Hochdeutsch ist: Pull Request willkommen.
 
 ## Loslegen
 
@@ -64,51 +48,38 @@ bun i
 bun run dev
 ```
 
-Das war's. Die App läuft dann auf `http://localhost:3000`. Wer nur schnell
-Farben braucht, spart sich das und geht auf
-[farbwerk.umami-creative.de](https://farbwerk.umami-creative.de).
+Das war's. Die App läuft dann auf `http://localhost:3000`. Wer nur schnell Farben braucht, spart sich das und geht auf [farbwerk.umami-creative.de](https://farbwerk.umami-creative.de).
 
-| Befehl | Wofür |
-| --- | --- |
-| `bun run dev` | Entwicklungsserver |
-| `bun run build` | Produktions-Build |
-| `bun run test` | Tests |
+| Befehl          | Wofür                           |
+| --------------- | ------------------------------- |
+| `bun run dev`   | Entwicklungsserver              |
+| `bun run build` | Produktions-Build               |
+| `bun run test`  | Tests                           |
 | `bun run check` | Linting und Formatierung prüfen |
-| `bun run fix` | Beides automatisch korrigieren |
+| `bun run fix`   | Beides automatisch korrigieren  |
 
-Gebaut mit TanStack Start, React, Tailwind v4 und shadcn/ui. Wer wissen will,
-wie die Skalen entstehen, warum die Basisfarbe *nicht* auf Stufe 500 gezwungen
-wird und wie sich die Galerie neu einfärbt: [docs/internals.md](docs/internals.md).
+Gebaut mit TanStack Start, React, Tailwind v4 und shadcn/ui. Wer wissen will, wie die Skalen entstehen, warum die Basisfarbe _nicht_ auf Stufe 500 gezwungen wird und wie sich die Galerie neu einfärbt: [docs/internals.md](docs/internals.md).
 
 ---
 
 ## Lizenz
 
-Farbwerk ist freie und Open-Source-Software unter der **GNU Affero General
-Public License v3.0**.
+Farbwerk ist freie und Open-Source-Software unter der **GNU Affero General Public License v3.0**.
 
-Sie dürfen Farbwerk nach den Bedingungen der AGPLv3 nutzen, untersuchen,
-verändern, verbreiten und kommerziell einsetzen.
+Sie dürfen Farbwerk nach den Bedingungen der AGPLv3 nutzen, untersuchen, verändern, verbreiten und kommerziell einsetzen.
 
-Wenn Sie eine veränderte Version von Farbwerk verbreiten oder eine veränderte
-Version betreiben, mit der Nutzende über ein Netzwerk interagieren können,
-müssen Sie diesen Nutzenden den entsprechenden Quellcode unter der AGPLv3
-bereitstellen.
+Wenn Sie eine veränderte Version von Farbwerk verbreiten oder eine veränderte Version betreiben, mit der Nutzende über ein Netzwerk interagieren können, müssen Sie diesen Nutzenden den entsprechenden Quellcode unter der AGPLv3 bereitstellen.
 
 Die vollständigen Lizenzbedingungen finden Sie in [LICENSE.md](LICENSE.md).
 
-Copyright (C) 2026 Umami Creative GmbH. Alle Rechte vorbehalten, soweit sie
-nicht durch die AGPLv3 eingeräumt werden.
+Copyright (C) 2026 Umami Creative GmbH. Alle Rechte vorbehalten, soweit sie nicht durch die AGPLv3 eingeräumt werden.
 
 ### Markenrecht
 
-Der Name Farbwerk, das Logo und andere Projektkennzeichen sind nicht unter der
-AGPLv3 lizenziert.
+Der Name Farbwerk, das Logo und andere Projektkennzeichen sind nicht unter der AGPLv3 lizenziert.
 
 Weitere Details enthält die [Markenrichtlinie](TRADEMARKS.md).
 
-Forks und veränderte Versionen dürfen angeben, auf Farbwerk zu basieren. Sie
-dürfen jedoch nicht den Eindruck erwecken, das offizielle Farbwerk-Projekt zu
-sein oder von den Farbwerk-Verantwortlichen unterstützt zu werden.
+Forks und veränderte Versionen dürfen angeben, auf Farbwerk zu basieren. Sie dürfen jedoch nicht den Eindruck erwecken, das offizielle Farbwerk-Projekt zu sein oder von den Farbwerk-Verantwortlichen unterstützt zu werden.
 
 Ein Projekt der [Umami Creative GmbH](https://umami-creative.de).

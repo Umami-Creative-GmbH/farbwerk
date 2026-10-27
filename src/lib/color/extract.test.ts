@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { hexToOklch, hexToRgb } from "./convert";
 import { extractPalette, MAX_EXTRACTED } from "./extract";
 
@@ -32,7 +33,7 @@ function hueGap(a: string, b: string): number {
 
 const HUE_TOLERANCE = 8;
 
-describe("extractPalette", () => {
+describe(extractPalette, () => {
   it("returns nothing when there are too few usable pixels", () => {
     expect(extractPalette(pixels([{ count: 2, hex: "#0078d2" }]))).toEqual([]);
     expect(extractPalette(new Uint8ClampedArray())).toEqual([]);

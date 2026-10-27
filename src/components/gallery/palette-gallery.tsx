@@ -11,13 +11,9 @@
  * surface competing with the cards it contains.
  */
 import { useTranslate } from "@tolgee/react";
-import {
-  type CSSProperties,
-  Suspense,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { Suspense, useCallback, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -26,8 +22,10 @@ import {
   PILL_IDLE,
 } from "@/components/workspace/chrome-styles";
 import { useIsDark } from "@/hooks/use-is-dark";
-import { galleryVars, type ThemeMode } from "@/lib/color/tokens";
+import { galleryVars } from "@/lib/color/tokens";
+import type { ThemeMode } from "@/lib/color/tokens";
 import { cn } from "@/lib/utils";
+
 import { ChartsView } from "./charts-view";
 import { ComponentsView } from "./components-view";
 import { DashboardView } from "./dashboard-view";
@@ -75,7 +73,7 @@ const CARD_GRID = [
  * column flow and a caption underneath, so the shared grid would fight it.
  */
 const BLOCK_STACK = "flex flex-col gap-5";
-const STACKED: readonly SubView[] = ["dashboard", "marketing"];
+const STACKED: readonly SubView[] = new Set(["dashboard", "marketing"]);
 
 /**
  * The card chrome from the design, applied to every shadcn card in the gallery.
@@ -148,7 +146,7 @@ export function PaletteGallery({ mode, className }: PaletteGalleryProps) {
             aria-pressed={view === item}
             className={cn(
               PILL,
-              "px-4 py-2 uppercase tracking-[0.12em]",
+              "px-4 py-2 tracking-[0.12em] uppercase",
               view === item ? PILL_ACTIVE : PILL_IDLE
             )}
             data-view={item}
@@ -162,17 +160,14 @@ export function PaletteGallery({ mode, className }: PaletteGalleryProps) {
       </fieldset>
 
       <div
-        className={cn(
-          STACKED.includes(view) ? BLOCK_STACK : CARD_GRID,
-          CARD_CHROME
-        )}
+        className={cn(STACKED.has(view) ? BLOCK_STACK : CARD_GRID, CARD_CHROME)}
       >
         {/*
           The dashboard and the charts pull recharts in on demand, so the first
           switch to either one suspends while that chunk downloads. Everything
           after it is served from the resolved module and renders straight away.
         */}
-        <Suspense fallback={<Skeleton className="h-64 w-full rounded-card" />}>
+        <Suspense fallback={<Skeleton className="rounded-card h-64 w-full" />}>
           {view === "components" ? <ComponentsView /> : null}
           {view === "dashboard" ? <DashboardView /> : null}
           {view === "charts" ? <ChartsView /> : null}

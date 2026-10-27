@@ -7,15 +7,15 @@ import {
 } from "lucide-react";
 import type { ComponentProps } from "react";
 import { useEffect, useRef } from "react";
-import {
-  type ChevronProps,
-  type DayButton,
-  DayPicker,
-  getDefaultClassNames,
-  type Locale,
-  type RootProps,
-  type WeekNumberProps,
+import { DayPicker, getDefaultClassNames } from "react-day-picker";
+import type {
+  ChevronProps,
+  DayButton,
+  Locale,
+  RootProps,
+  WeekNumberProps,
 } from "react-day-picker";
+
 import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
@@ -80,23 +80,23 @@ function Calendar({
       classNames={{
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) select-none p-0 aria-disabled:opacity-50",
+          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_next
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) select-none p-0 aria-disabled:opacity-50",
+          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_previous
         ),
         caption_label: cn(
-          "select-none font-medium",
+          "font-medium select-none",
           captionLayout === "label"
             ? "text-sm"
-            : "flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
+            : "[&>svg]:text-muted-foreground flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5",
           defaultClassNames.caption_label
         ),
         day: cn(
-          "group/day relative aspect-square h-full w-full select-none rounded-(--cell-radius) p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)",
+          "group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)",
           props.showWeekNumber
             ? "[&:nth-child(2)[data-selected=true]_button]:rounded-l-(--cell-radius)"
             : "[&:first-child[data-selected=true]_button]:rounded-l-(--cell-radius)",
@@ -107,7 +107,7 @@ function Calendar({
           defaultClassNames.disabled
         ),
         dropdown: cn(
-          "absolute inset-0 bg-popover opacity-0",
+          "bg-popover absolute inset-0 opacity-0",
           defaultClassNames.dropdown
         ),
         dropdown_root: cn(
@@ -115,7 +115,7 @@ function Calendar({
           defaultClassNames.dropdown_root
         ),
         dropdowns: cn(
-          "flex h-(--cell-size) w-full items-center justify-center gap-1.5 font-medium text-sm",
+          "flex h-(--cell-size) w-full items-center justify-center gap-1.5 text-sm font-medium",
           defaultClassNames.dropdowns
         ),
         hidden: cn("invisible", defaultClassNames.hidden),
@@ -135,22 +135,22 @@ function Calendar({
         ),
         outside: cn("text-muted-foreground", defaultClassNames.outside),
         range_end: cn(
-          "relative isolate z-0 rounded-r-(--cell-radius) bg-muted after:absolute after:inset-y-0 after:left-0 after:w-4 after:bg-muted",
+          "bg-muted after:bg-muted relative isolate z-0 rounded-r-(--cell-radius) after:absolute after:inset-y-0 after:left-0 after:w-4",
           defaultClassNames.range_end
         ),
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_start: cn(
-          "relative isolate z-0 rounded-l-(--cell-radius) bg-muted after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-muted",
+          "bg-muted after:bg-muted relative isolate z-0 rounded-l-(--cell-radius) after:absolute after:inset-y-0 after:right-0 after:w-4",
           defaultClassNames.range_start
         ),
         root: cn("w-fit", defaultClassNames.root),
         today: cn(
-          "rounded-(--cell-radius) bg-muted text-foreground",
+          "bg-muted text-foreground rounded-(--cell-radius)",
           defaultClassNames.today
         ),
         week: cn("mt-2 flex w-full", defaultClassNames.week),
         week_number: cn(
-          "select-none text-[0.8rem] text-muted-foreground",
+          "text-muted-foreground text-[0.8rem] select-none",
           defaultClassNames.week_number
         ),
         week_number_header: cn(
@@ -158,7 +158,7 @@ function Calendar({
           defaultClassNames.week_number_header
         ),
         weekday: cn(
-          "flex-1 select-none rounded-(--cell-radius) font-normal text-[0.8rem] text-muted-foreground",
+          "text-muted-foreground flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal select-none",
           defaultClassNames.weekday
         ),
         weekdays: cn("flex", defaultClassNames.weekdays),
@@ -201,7 +201,7 @@ function CalendarDayButton({
   return (
     <Button
       className={cn(
-        "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 font-normal leading-none data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-(--cell-radius) data-[range-start=true]:rounded-l-(--cell-radius) data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
+        "data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-foreground relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 leading-none font-normal group-data-[focused=true]/day:ring-[3px] data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-(--cell-radius) data-[range-start=true]:rounded-l-(--cell-radius) [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className
       )}

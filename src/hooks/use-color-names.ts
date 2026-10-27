@@ -6,6 +6,7 @@
  * a request per frame, and a color that has been named once never asks again.
  */
 import { useEffect, useState } from "react";
+
 import type { ColorNameMatch } from "@/lib/color/name";
 
 const SETTLE_MS = 200;

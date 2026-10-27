@@ -1,4 +1,6 @@
-import { type ReactNode, useMemo, useReducer } from "react";
+import { useMemo, useReducer } from "react";
+import type { ReactNode } from "react";
+
 import { detectAnchorStep, resolveAnchorStep } from "@/lib/color/scale";
 import type { ColorScale } from "@/lib/color/types";
 import {
@@ -11,7 +13,9 @@ import {
   paletteScales,
   rampSignature,
 } from "@/lib/palette/state";
-import { PaletteContext, type PaletteContextValue } from "./palette-context";
+
+import { PaletteContext } from "./palette-context";
+import type { PaletteContextValue } from "./palette-context";
 
 export interface PaletteProviderProps {
   /** Initial base color, matching the prototype's `defaultBase` prop. */

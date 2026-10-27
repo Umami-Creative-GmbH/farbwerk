@@ -12,7 +12,6 @@ import {
   inGamut,
   OKLab,
   OKLCH,
-  type PlainColorObject,
   parse,
   serialize,
   sRGB,
@@ -20,6 +19,8 @@ import {
   to,
   toGamut,
 } from "colorjs.io/fn";
+import type { PlainColorObject } from "colorjs.io/fn";
+
 import type { ColorNotation, Oklch, Rgb } from "./types";
 
 ColorSpace.register(sRGB_Linear);
@@ -69,7 +70,7 @@ export function normalizeHex(input: string): string | null {
   if (digits.length !== SHORTHAND_LENGTH) {
     return `#${digits}`;
   }
-  return `#${digits.replace(/./g, "$&$&")}`;
+  return `#${digits.replaceAll(/./g, "$&$&")}`;
 }
 
 /** Parse a hex string into a colorjs color object in sRGB. */

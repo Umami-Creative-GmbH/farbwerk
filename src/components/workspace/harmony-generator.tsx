@@ -11,15 +11,16 @@
 import { useTranslate } from "@tolgee/react";
 import { ChevronDownIcon } from "lucide-react";
 import { useCallback, useState } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useHarmonyCopy } from "@/i18n/labels";
 import { hexToOklch } from "@/lib/color/convert";
 import {
   HARMONY_RULES,
-  type HarmonyRule,
   harmonyAngles,
   harmonyPreview,
 } from "@/lib/color/harmony";
+import type { HarmonyRule } from "@/lib/color/harmony";
 import { cn } from "@/lib/utils";
 
 const WHEEL_SIZE = 30;
@@ -86,7 +87,7 @@ export function HarmonyGenerator() {
     <div>
       <button
         aria-expanded={open}
-        className="flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) font-heading text-(--text-heading) text-[11px] uppercase tracking-[0.12em] transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)"
+        className="font-heading flex h-10.5 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-(--border-strong) bg-(--surface-card) text-[11px] tracking-[0.12em] text-(--text-heading) uppercase transition-[color,background-color,border-color] duration-150 ease-out hover:border-(--fw-active-bg) hover:bg-(--fw-active-bg) hover:text-(--fw-active-fg)"
         onClick={toggle}
         type="button"
       >
@@ -129,10 +130,10 @@ export function HarmonyGenerator() {
                 ))}
               </span>
               <span className="grid min-w-0 gap-0.5">
-                <span className="font-heading text-(--text-heading) text-[12.5px]">
+                <span className="font-heading text-[12.5px] text-(--text-heading)">
                   {harmonyCopy[rule].name}
                 </span>
-                <span className="text-(--text-muted) text-[11.5px] leading-[1.35]">
+                <span className="text-[11.5px] leading-[1.35] text-(--text-muted)">
                   {harmonyCopy[rule].hint}
                 </span>
               </span>

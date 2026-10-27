@@ -9,12 +9,15 @@
 import { useTranslate } from "@tolgee/react";
 import { RotateCcwIcon, XIcon } from "lucide-react";
 import { useCallback, useMemo } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { STEP_TAGS } from "@/lib/color/scale";
-import { SCALE_KEYS, type ScaleKey } from "@/lib/color/types";
+import { SCALE_KEYS } from "@/lib/color/types";
+import type { ScaleKey } from "@/lib/color/types";
+
 import { ColorSwatchPicker } from "./color-picker-field";
 
 export function ScaleEditorTab() {
@@ -72,7 +75,7 @@ export function ScaleEditorTab() {
           const isEdited = Boolean(overrides[step]);
           return (
             <li
-              className="flex items-center gap-3 rounded-lg border border-border p-3"
+              className="border-border flex items-center gap-3 rounded-lg border p-3"
               key={step}
             >
               <ColorSwatchPicker
@@ -87,7 +90,7 @@ export function ScaleEditorTab() {
                   htmlFor={`edit-step-${step}`}
                 >
                   {step}
-                  <span className="font-sans text-muted-foreground">
+                  <span className="text-muted-foreground font-sans">
                     {STEP_TAGS[step]}
                   </span>
                   {isEdited ? (
@@ -96,7 +99,7 @@ export function ScaleEditorTab() {
                     </Badge>
                   ) : null}
                 </Label>
-                <span className="truncate font-mono text-muted-foreground text-xs uppercase">
+                <span className="text-muted-foreground truncate font-mono text-xs uppercase">
                   {scale[step]}
                 </span>
               </div>

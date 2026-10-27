@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { hexToOklch } from "./convert";
 import {
   HARMONY_OFFSETS,
@@ -18,7 +19,7 @@ const PRIMARY_HUE = hexToOklch(PRIMARY).h;
 const HUE_TOLERANCE = 4;
 const LIGHTNESS_TOLERANCE = 0.01;
 
-describe("harmonizeBase", () => {
+describe(harmonizeBase, () => {
   it("rotates the hue by the rule's offset and keeps lightness", () => {
     for (const rule of HARMONY_RULES) {
       if (rule === "mono") {
@@ -53,7 +54,7 @@ describe("harmonizeBase", () => {
   });
 });
 
-describe("resolveRoleBase", () => {
+describe(resolveRoleBase, () => {
   it("derives linked roles at read time from the current primary", () => {
     const stale = "#123456";
     const derived = resolveRoleBase({

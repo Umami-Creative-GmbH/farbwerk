@@ -7,12 +7,14 @@
  */
 import { useTranslate } from "@tolgee/react";
 import { useCallback } from "react";
+
 import { usePalette } from "@/components/palette/palette-context";
 import { useRoleNames } from "@/hooks/use-role-names";
 import { useAddRoleLabels, useRoleLabels } from "@/i18n/labels";
 import type { LinkedRole, ScaleRole } from "@/lib/color/types";
 import { anchorStepFor, SCALE_ROLES } from "@/lib/palette/state";
 import { cn } from "@/lib/utils";
+
 import { SECTION_LABEL } from "./chrome-styles";
 
 const HEADER_ACTION =
@@ -89,7 +91,7 @@ export function RoleList() {
               <button
                 aria-current={isActive}
                 className={cn(
-                  "grid cursor-pointer grid-cols-[16px_1fr_auto] items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left font-heading text-[13px] transition-[color,background-color,border-color] duration-150 ease-out",
+                  "font-heading grid cursor-pointer grid-cols-[16px_1fr_auto] items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left text-[13px] transition-[color,background-color,border-color] duration-150 ease-out",
                   isActive
                     ? "border-(--fw-active-bg) bg-(--fw-active-bg) text-(--fw-active-fg)"
                     : "border-(--border-subtle) bg-(--surface-card) text-(--text-body) hover:border-(--border-strong)"
@@ -111,7 +113,7 @@ export function RoleList() {
                   <span className="truncate">
                     {roleNames[role] ?? roleLabels[role]}
                   </span>
-                  <span className="font-heading text-[10px] uppercase tracking-[0.12em] opacity-60">
+                  <span className="font-heading text-[10px] tracking-[0.12em] uppercase opacity-60">
                     {roleLabels[role]}
                   </span>
                 </span>
@@ -123,7 +125,7 @@ export function RoleList() {
               {role === "primary" ? null : (
                 <button
                   aria-label={t("role.remove")}
-                  className="flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-card) font-heading text-(--slate-500) text-[14px] leading-none transition-colors duration-150 ease-out hover:border-(--pink-500) hover:text-(--pink-500)"
+                  className="font-heading flex size-6.5 cursor-pointer items-center justify-center rounded-full border border-(--border-subtle) bg-(--surface-card) text-[14px] leading-none text-(--slate-500) transition-colors duration-150 ease-out hover:border-(--pink-500) hover:text-(--pink-500)"
                   data-role={role}
                   onClick={handleRemove}
                   type="button"

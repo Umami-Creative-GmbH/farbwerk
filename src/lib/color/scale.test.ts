@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+
 import { hexToOklch } from "./convert";
 import {
   buildScale,
@@ -11,7 +12,7 @@ import { SCALE_KEYS } from "./types";
 const HEX = /^#[0-9a-f]{6}$/;
 const INVALID_BASE = /Not a valid base color/;
 
-describe("detectAnchorStep", () => {
+describe(detectAnchorStep, () => {
   it("picks the step whose canonical lightness is closest", () => {
     expect(detectAnchorStep("#0078d2")).toBe(600);
     expect(detectAnchorStep("#f5f9ff")).toBe(50);
@@ -29,7 +30,7 @@ describe("detectAnchorStep", () => {
   });
 });
 
-describe("buildScale", () => {
+describe(buildScale, () => {
   it("emits all 11 steps as 6-digit hex", () => {
     const scale = buildScale({ base: "#0078d2" });
     expect(Object.keys(scale)).toHaveLength(SCALE_KEYS.length);

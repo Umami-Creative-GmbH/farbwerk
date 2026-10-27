@@ -75,7 +75,7 @@ const SIMILAR_HUE_GAP = 22;
 const SIMILAR_LIGHTNESS_GAP = 0.18;
 
 const SRGB_MAX = 255;
-const GAMMA_THRESHOLD = 0.040_45;
+const GAMMA_THRESHOLD = 0.04045;
 const GAMMA_SLOPE = 12.92;
 const GAMMA_OFFSET = 0.055;
 const GAMMA_SCALE = 1.055;
@@ -100,19 +100,16 @@ function srgbToOklab(red: number, green: number, blue: number): LabPoint {
   const b = linearize(blue);
 
   const long =
-    (0.412_221_470_8 * r + 0.536_332_536_3 * g + 0.051_445_992_9 * b) **
-    CUBE_ROOT;
+    (0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b) ** CUBE_ROOT;
   const medium =
-    (0.211_903_498_2 * r + 0.680_699_545_1 * g + 0.107_396_956_6 * b) **
-    CUBE_ROOT;
+    (0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b) ** CUBE_ROOT;
   const short =
-    (0.088_302_461_9 * r + 0.281_718_837_6 * g + 0.629_978_700_5 * b) **
-    CUBE_ROOT;
+    (0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b) ** CUBE_ROOT;
 
   return [
-    0.210_454_255_3 * long + 0.793_617_785 * medium - 0.004_072_046_8 * short,
-    1.977_998_495_1 * long - 2.428_592_205 * medium + 0.450_593_709_9 * short,
-    0.025_904_037_1 * long + 0.782_771_766_2 * medium - 0.808_675_766 * short,
+    0.2104542553 * long + 0.793617785 * medium - 0.0040720468 * short,
+    1.9779984951 * long - 2.428592205 * medium + 0.4505937099 * short,
+    0.0259040371 * long + 0.7827717662 * medium - 0.808675766 * short,
   ];
 }
 

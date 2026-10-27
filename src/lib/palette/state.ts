@@ -8,17 +8,10 @@
  */
 import { normalizeHex, oklchToHex } from "@/lib/color/convert";
 import type { ExportRole } from "@/lib/color/export";
-import {
-  type HarmonyRule,
-  type HarmonySetting,
-  newRoleBase,
-  resolveRoleBase,
-} from "@/lib/color/harmony";
-import {
-  type AnchorSetting,
-  buildScale,
-  resolveAnchorStep,
-} from "@/lib/color/scale";
+import { newRoleBase, resolveRoleBase } from "@/lib/color/harmony";
+import type { HarmonyRule, HarmonySetting } from "@/lib/color/harmony";
+import { buildScale, resolveAnchorStep } from "@/lib/color/scale";
+import type { AnchorSetting } from "@/lib/color/scale";
 import type { PaletteScales } from "@/lib/color/tokens";
 import type {
   ColorScale,
@@ -352,41 +345,57 @@ export function paletteReducer(
   action: PaletteAction
 ): PaletteState {
   switch (action.type) {
-    case "setActive":
+    case "setActive": {
       return state.roles[action.role]
         ? { ...state, active: action.role }
         : state;
-    case "setName":
+    }
+    case "setName": {
       return updateActive(state, { name: action.name });
-    case "setBase":
+    }
+    case "setBase": {
       // Typing a hex breaks the link to primary — the role is now the user's.
       return updateActive(state, { base: action.base, harmony: "manual" });
-    case "setControl":
+    }
+    case "setControl": {
       return updateActive(state, { [action.control]: action.value });
-    case "setAnchor":
+    }
+    case "setAnchor": {
       return updateActive(state, { anchor: action.anchor });
-    case "setHarmony":
+    }
+    case "setHarmony": {
       return updateActive(state, { harmony: action.harmony });
-    case "setOverride":
+    }
+    case "setOverride": {
       return setOverride(state, action.step, action.hex);
-    case "resetOverrides":
+    }
+    case "resetOverrides": {
       return updateActive(state, { overrides: {} });
-    case "addRole":
+    }
+    case "addRole": {
       return addRole(state, action.role);
-    case "removeRole":
+    }
+    case "removeRole": {
       return removeRole(state, action.role);
-    case "makePrimary":
+    }
+    case "makePrimary": {
       return makePrimary(state, action.role);
-    case "randomize":
+    }
+    case "randomize": {
       return withRandomBase(state, action.base);
-    case "loadState":
+    }
+    case "loadState": {
       return action.state;
-    case "generate":
+    }
+    case "generate": {
       return generate(state, action.rule);
-    case "applyExtracted":
+    }
+    case "applyExtracted": {
       return applyExtracted(state, action.picks);
-    default:
+    }
+    default: {
       return state;
+    }
   }
 }
 

@@ -20,6 +20,7 @@ import {
   TriangleAlertIcon,
 } from "lucide-react";
 import { useState } from "react";
+
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Avatar,
@@ -253,7 +254,7 @@ function ChecklistCard() {
             <li className="flex items-center gap-3" key={task.id}>
               <Checkbox defaultChecked={task.done} id={`task-${task.id}`} />
               <Label
-                className="font-normal text-sm data-[done=true]:text-muted-foreground data-[done=true]:line-through"
+                className="data-[done=true]:text-muted-foreground text-sm font-normal data-[done=true]:line-through"
                 data-done={task.done}
                 htmlFor={`task-${task.id}`}
               >
@@ -323,7 +324,7 @@ function CategoryListCard() {
         <ul className="flex flex-col">
           {CATEGORIES.map((category) => (
             <li
-              className="flex items-center gap-3 border-border border-b py-3 last:border-0"
+              className="border-border flex items-center gap-3 border-b py-3 last:border-0"
               key={category.id}
             >
               <span
